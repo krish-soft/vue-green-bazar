@@ -21,7 +21,13 @@
     <!-- MENU -->
     <div class="flex-fill overflow-auto py-2">
       <ul class="nav nav-pills flex-column gap-1 px-2">
-        <SidebarItem v-for="item in menu" :key="item.label" :item="item" :collapsed="collapsed" />
+        <SidebarItem
+    v-for="(item, i) in menu"
+    :key="i"
+    :item="item"
+    :collapsed="collapsed"
+    :level="0"
+  />
       </ul>
     </div>
   </aside>

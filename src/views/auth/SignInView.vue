@@ -35,7 +35,7 @@
 import { onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
 
-import BaseContainer from "@/components/cards/BaseContainer.vue";
+import BaseContainer from "@/components/common/cards/BaseContainer.vue";
 import { useUIStore } from "@/utils/stores/uiStore";
 import { useAuthStore } from "@/utils/stores/authStore";
 import apiRouteService from "@/services/apiRoutes/apiRouteService";

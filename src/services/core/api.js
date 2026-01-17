@@ -101,12 +101,19 @@ export const Api = {
   /* ---------- ADMIN (DEFAULT) ---------- */
 
   admin: {
-    get: (url, opts) => request(adminApi, "get", url, opts),
-    post: (url, opts) => request(adminApi, "post", url, opts),
-    put: (url, opts) => request(adminApi, "put", url, opts),
-    delete: (url, opts) => request(adminApi, "delete", url, opts),
+    get: (url, opts = {}) =>
+      request(adminApi, "get", url, { ...opts, auth: true }),
 
-    upload(url, { files, data = {}, headers = {}, auth = false } = {}) {
+    post: (url, opts = {}) =>
+      request(adminApi, "post", url, { ...opts, auth: true }),
+
+    put: (url, opts = {}) =>
+      request(adminApi, "put", url, { ...opts, auth: true }),
+
+    delete: (url, opts = {}) =>
+      request(adminApi, "delete", url, { ...opts, auth: true }),
+
+    upload(url, { files, data = {}, headers = {}, auth = true } = {}) {
       const formData = new FormData();
 
       if (Array.isArray(files)) {
@@ -127,6 +134,7 @@ export const Api = {
     download(url, opts = {}) {
       return request(adminApi, "get", url, {
         ...opts,
+        auth: true,
         responseType: "blob",
       });
     },

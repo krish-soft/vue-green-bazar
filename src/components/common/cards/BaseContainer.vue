@@ -2,7 +2,7 @@
   <transition name="fade-scale" appear>
     <div class="card base-card shadow-sm">
       <!-- Header -->
-      <div class="card-header" v-if="heading || subHeading || $slots.headingButtons">
+      <div class="card-header" v-if="heading || subHeading || $slots.headerActions">
         <div class="row align-items-center">
           <div class="col-md-6 text-start">
             <h5 class="mb-0" v-if="heading">{{ heading }}</h5>
@@ -12,7 +12,7 @@
           </div>
 
           <div class="col-md-6 text-end">
-            <slot name="headingButtons"></slot>
+            <slot name="headerActions"></slot>
           </div>
         </div>
       </div>

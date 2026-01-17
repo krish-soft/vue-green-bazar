@@ -13,7 +13,7 @@
     <!-- CONTENT + FOOTER WRAPPER -->
     <div class="d-flex flex-column min-vh-100" :class="contentClass" style="padding-top:56px;">
       <!-- Main Content -->
-      <main class="container-fluid flex-fill">
+      <main class="container-fluid flex-fill mt-3">
         <router-view />
       </main>
 
@@ -37,7 +37,7 @@ import { useUIStore } from "@/utils/stores/uiStore";
 
 import TopBarView from "@/components/layout/TopBarView.vue";
 import SideBarMenuView from "@/components/layout/SideBarMenuView.vue";
-import AlertMessages from "@/components/alerts/AlertMessages.vue";
+import AlertMessages from "@/components/common/alerts/AlertMessages.vue";
 
 const uiStore = useUIStore();
 

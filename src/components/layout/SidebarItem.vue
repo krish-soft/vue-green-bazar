@@ -1,26 +1,53 @@
 <template>
-    <li class="nav-item">
-        <!-- LINK -->
-        <RouterLink v-if="item.to" class="nav-link d-flex align-items-center gap-2" :class="linkClass" :to="item.to">
-            <i v-if="item.icon" :class="item.icon"></i>
-            <span v-if="!collapsed">{{ item.label }}</span>
-        </RouterLink>
+  <li class="nav-item">
+    <!-- LINK -->
+    <RouterLink
+      v-if="item.to"
+      class="nav-link d-flex align-items-center gap-2"
+      :class="linkClass"
+      :to="item.to"
+    >
+      <i v-if="item.icon" :class="item.icon"></i>
+      <span v-if="!collapsed">{{ item.label }}</span>
+    </RouterLink>
 
-        <!-- PARENT -->
-        <div v-else>
-            <a class="nav-link d-flex align-items-center gap-2" :class="{ active: isActive }" role="button"
-                @click.prevent="toggleOpen">
-                <i v-if="item.icon" :class="item.icon"></i>
-                <span v-if="!collapsed">{{ item.label }}</span>
-                <i v-if="!collapsed" class="fas fa-chevron-down ms-auto small" :class="{ rotate: isOpen }"></i>
-            </a>
+    <!-- PARENT -->
+    <div v-else>
+      <a
+        class="nav-link d-flex align-items-center gap-2 "
+        :class="{ active: isActive }"
+        role="button"
+        @click.prevent="toggleOpen"
+      >
+        <i v-if="item.icon" :class="item.icon"></i>
+        <span v-if="!collapsed">{{ item.label }}</span>
+        <i
+          v-if="!collapsed"
+          class="fas fa-chevron-down ms-auto small"
+          :class="{ rotate: isOpen }"
+        ></i>
+      </a>
 
-            <ul class="nav flex-column ps-3" v-show="isOpen">
-                <SidebarItem v-for="(child, i) in item.children" :key="i" :item="child" :collapsed="collapsed" />
-            </ul>
-        </div>
-    </li>
+      <ul class="nav flex-column ps-3 " v-show="isOpen">
+        <SidebarItem
+          v-for="(child, i) in item.children"
+          :key="i"
+          :item="child"
+          :collapsed="collapsed"
+          :level="level + 1"
+        />
+      </ul>
+    </div>
+  </li>
+
+  <!-- ✅ DIVIDER AFTER TOP-LEVEL ITEM -->
+  <li
+    v-if="level === 0 && !collapsed"
+    class="sidebar-main-divider"
+  ></li>
 </template>
+
+
 
 <script setup>
 import { computed, ref, watch } from "vue";
@@ -29,8 +56,12 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 
 const props = defineProps({
-    item: Object,
-    collapsed: Boolean
+  item: Object,
+  collapsed: Boolean,
+  level: {
+    type: Number,
+    default: 0, // 👈 top level
+  },
 });
 
 /* -----------------------
@@ -113,6 +144,23 @@ const linkClass = computed(() => ({
 
 
 <style scoped>
+
+    /* ===============================
+   SECTION DIVIDER (AFTER PARENT)
+=============================== */
+.sidebar-section-divider {
+  height: 1px;
+  margin: 6px 0 6px 28px; /* align under text, not icon */
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.sidebar-main-divider {
+  list-style: none;
+  height: 1px;
+  margin: 3px 0 3px 0;
+  background: rgba(255, 255, 255, 0.15);
+}
+
 /* ===============================
    BASE NAV LINK (YOUR OLD WORKING LOOK)
 =============================== */

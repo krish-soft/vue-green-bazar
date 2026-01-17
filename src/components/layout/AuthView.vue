@@ -36,7 +36,7 @@ import { useUserStore } from "@/utils/stores/userStore";
 import { useRouter } from "vue-router";
 import { watch } from "vue";
 
-import BaseContainer from "@/components/cards/BaseContainer.vue";
+import BaseContainer from "@/components/common/cards/BaseContainer.vue";
 
 const router = useRouter();
 
