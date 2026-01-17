@@ -363,3 +363,88 @@ input[type="number"]::-webkit-outer-spin-button {
     border-radius: 0.375rem;
   }
 }
+
+/* ======================================================
+   DATATABLE v2 PAGINATION – POLISHED ADMIN UI
+   ====================================================== */
+
+.dt-paging {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Pagination container */
+.dt-paging .pagination {
+  gap: 6px;
+  margin-bottom: 0;
+}
+
+/* Base button */
+.dt-paging .dt-paging-button.page-item > button.page-link {
+  min-width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 0.85rem;
+  font-weight: 500;
+
+  color: #1b4332;
+  background-color: #ffffff;
+  border: 1px solid #1b4332;
+  border-radius: 8px;
+
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+/* Hover (numbers + arrows) */
+.dt-paging
+  .dt-paging-button.page-item:not(.active):not(.disabled)
+  > button.page-link:hover {
+  color: #ffffff;
+  background-color: #12522f;
+  border-color: #12522f;
+}
+
+/* Active page */
+.dt-paging .dt-paging-button.page-item.active > button.page-link {
+  color: #ffffff;
+  background-color: #1b4332;
+  border-color: #1b4332;
+  cursor: default;
+}
+
+/* Disabled buttons */
+.dt-paging .dt-paging-button.page-item.disabled > button.page-link {
+  color: #adb5bd;
+  background-color: #f1f3f5;
+  border-color: #dee2e6;
+  cursor: not-allowed;
+}
+
+/* First / Last slightly muted */
+.dt-paging .dt-paging-button.page-item > button.page-link.first,
+.dt-paging .dt-paging-button.page-item > button.page-link.last {
+  font-weight: 600;
+}
+
+/* Remove focus ring */
+.dt-paging .dt-paging-button.page-item > button.page-link:focus,
+.dt-paging .dt-paging-button.page-item > button.page-link:active {
+  box-shadow: none;
+  outline: none;
+}
+
+/* Mobile compact */
+@media (max-width: 576px) {
+  .dt-paging .dt-paging-button.page-item > button.page-link {
+    min-width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
+  }
+}

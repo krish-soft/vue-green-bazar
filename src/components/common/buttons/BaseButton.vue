@@ -105,6 +105,11 @@ const iconOnlyClass = computed(() =>
 /* ===============================
    SIZES
 =============================== */
+.btn-xs {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+
 .btn-sm {
   padding: 0.35rem 0.75rem;
   font-size: 0.85rem;
@@ -123,9 +128,9 @@ const iconOnlyClass = computed(() =>
 }
 
 .btn-icon-only {
-  padding: 0.55rem;
-  width: 38px;
-  height: 38px;
+  padding: 0.25rem;
+  width: 32px;
+  height: 32px;
 }
 
 .btn-icon-only .btn-icon {
