@@ -1,0 +1,356 @@
+/* ======================================================
+   THEME VARIABLES (SINGLE SOURCE OF TRUTH)
+   ====================================================== */
+/* 🌾 Farmer / Agriculture Admin Theme */
+:root {
+  /* Layout */
+  --topbar-height: 56px;
+  --base-font-size: 14px;
+
+  /* Brand / Farmer colors */
+  --color-primary: #2d6a4f; /* main green */
+  --color-primary-hover: #40916c; /* hover green */
+  --color-primary-active: #1b4332; /* dark active */
+
+  /* Backgrounds */
+  --bg-app: #f8f9fa;
+  --bg-card: #ffffff;
+  --bg-navbar: #1b4332; /* dark farmer green */
+  --bg-footer: #ffffff;
+
+  /* Text */
+  --text-main: #212529;
+  --text-muted: #6c757d;
+  --text-inverse: #ffffff;
+
+  /* Borders */
+  --border-light: #dee2e6;
+}
+
+/* ======================================================
+   GLOBAL RESET & FOUNDATION
+   ====================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--base-font-size);
+  font-weight: 400;
+  line-height: 1.5;
+
+  color: var(--text-main);
+  background-color: var(--bg-app);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  overflow-x: hidden;
+  overflow-y: auto; /* prevent horizontal scroll */
+}
+
+/* Vue root */
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ======================================================
+   APP LAYOUT (FIXED HEADER + STICKY FOOTER)
+   ====================================================== */
+
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main content (router-view lives here) */
+.app-content {
+  flex: 1;
+  padding-top: var(--topbar-height); /* compensate fixed navbar */
+  /* overflow-y: auto; */
+  background-color: var(--bg-app);
+}
+
+/* Footer */
+.app-footer {
+  flex-shrink: 0;
+  background-color: var(--bg-footer);
+  border-top: 1px solid var(--border-light);
+  font-size: 0.8rem;
+}
+
+/* ======================================================
+   TYPOGRAPHY STANDARDIZATION
+   ====================================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+}
+
+p {
+  margin-bottom: 0.75rem;
+  color: #495057;
+}
+
+small {
+  font-size: 0.85em;
+}
+
+/* ======================================================
+   GLOBAL LINKS
+   ====================================================== */
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  /* text-decoration: underline; */
+  cursor: pointer;
+}
+
+/* ======================================================
+   DROPDOWN MENUS
+   ====================================================== */
+
+.dropdown-menu {
+  font-size: 0.875rem;
+  border-radius: 0.375rem;
+  border: 1px solid var(--border-light);
+}
+
+.dropdown-item {
+  font-size: 0.875rem;
+}
+
+.dropdown-item:hover {
+  background-color: #f1f3f5;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+  background-color: #e9ecef;
+  color: #212529;
+}
+
+.dropdown-item.router-link-active,
+.dropdown-item.router-link-exact-active {
+  background-color: rgba(45, 106, 79, 0.25);
+  color: #1b4332;
+  font-weight: 500;
+}
+
+/* ======================================================
+   FORMS & INPUTS (ADMIN FRIENDLY)
+   ====================================================== */
+
+input,
+textarea,
+select,
+button {
+  font-size: 0.875rem;
+}
+
+.form-control,
+.form-select {
+  font-size: 0.875rem;
+  border-radius: 0.375rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+  box-shadow: none;
+  border-color: var(--color-primary);
+}
+
+/* Remove number input arrows */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* ======================================================
+   BUTTONS
+   ====================================================== */
+
+.btn {
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+}
+
+.btn-success {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-success:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+/* ======================================================
+   TABLES (ADMIN SAFE)
+   ====================================================== */
+
+.table {
+  font-size: 0.875rem;
+}
+
+.table thead th {
+  font-weight: 600;
+  background-color: #f1f3f5;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(45, 106, 79, 0.08);
+}
+
+/* ======================================================
+   MODALS & OVERFLOW FIXES
+   ====================================================== */
+
+.modal-open {
+  padding-right: 0 !important;
+}
+
+/* ======================================================
+   UTILITIES
+   ====================================================== */
+
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+.text-dark-orange {
+  color: #fd7e14;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.no-select {
+  user-select: none;
+}
+
+/* ======================================================
+   TRANSITIONS (SUBTLE)
+   ====================================================== */
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.15s ease-in-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* ======================================================
+   NAVBAR (FARMER ADMIN – FINAL, CLEAN)
+   ====================================================== */
+
+.navbar {
+  height: var(--topbar-height);
+  background-color: var(--bg-navbar) !important;
+  font-size: 0.875rem;
+}
+
+/* Brand */
+.navbar-brand {
+  font-weight: 600;
+  color: #ffffff !important;
+}
+
+/* ======================================================
+   BASE NAV LINKS
+   ====================================================== */
+
+.navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.75);
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.6rem;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* Hover */
+.navbar-nav .nav-link:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ======================================================
+   ACTIVE STATES (CHILD + PARENT)
+   ====================================================== */
+
+/* Exact active (Home, exact routes) */
+.navbar-nav .nav-link.router-link-exact-active {
+  color: #ffffff;
+  background-color: var(--color-primary);
+  font-weight: 500;
+}
+
+/* Dropdown item active */
+.dropdown-item.router-link-active,
+.dropdown-item.router-link-exact-active {
+  background-color: rgba(45, 106, 79, 0.15);
+  font-weight: 500;
+}
+
+/* Parent dropdown active */
+.navbar-nav .nav-item.active > .nav-link {
+  color: #ffffff;
+  background-color: var(--color-primary);
+  font-weight: 500;
+}
+
+/* ======================================================
+   MOBILE NAVBAR FIX
+   ====================================================== */
+
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    background-color: var(--bg-navbar);
+    padding: 0.5rem;
+    border-radius: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .navbar-nav {
+    width: 100%;
+  }
+
+  .navbar-nav .nav-link {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    margin-bottom: 0.25rem;
+    border-radius: 0.375rem;
+  }
+}
