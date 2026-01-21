@@ -42,10 +42,23 @@ function request(
     console.groupEnd();
   }
 
-  const requestCall =
-    method === "get"
-      ? apiInstance[method](url, config)
-      : apiInstance[method](url, data, config);
+  // const requestCall =
+  //   method === "get"
+  //     ? apiInstance[method](url, config)
+  //     : apiInstance[method](url, data, config);
+
+  let requestCall;
+
+  if (method === "get") {
+    requestCall = apiInstance.get(url, config);
+  } else if (method === "delete") {
+    requestCall = apiInstance.delete(url, {
+      ...config,
+      data, // ✅ THIS FIXES AUTH
+    });
+  } else {
+    requestCall = apiInstance[method](url, data, config);
+  }
 
   return requestCall
     .then((res) => {
@@ -61,8 +74,8 @@ function request(
 
       // Handle Unauthenticated globally
       if (
-        response?.actionCode === 1100 ||
-        response?.message?.includes("Unauthenticated.")
+        response?.actionCode === 1100
+        //  || response?.message?.includes("Unauthenticated.")
       ) {
         const uiStore = useUIStore();
         uiStore.errorMessages = [
