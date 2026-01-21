@@ -78,6 +78,8 @@ onMounted(async () => {
 
     //   // ✅ pass ID WITHOUT #
     //   initBootstrapDatatable("datatable");
+    }else {
+        uiStore.errorMessages= resp.message ;
     }
   } finally {
     uiStore.isLoading = false;

@@ -64,8 +64,8 @@ const logout = async () => {
     } catch (_) {
         // ignore API error
     } finally {
-        authStore.resetAuthTokenData();
-        userStore.removeUserMetaData();
+        authStore.forceLogout();        
+
         router.push({ name: "signin" });
     }
 

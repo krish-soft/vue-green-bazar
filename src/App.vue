@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Sidebar -->
-    <SideBarMenuView />
+    <SideBarMenuView v-if="authStore.isLoggedIn"/>
 
     <!-- Top Bar -->
     <TopBarView :isLoading="uiStore.isLoading" />
@@ -34,18 +34,25 @@
 <script setup>
 import { computed } from "vue";
 import { useUIStore } from "@/utils/stores/uiStore";
+import { useAuthStore } from "@/utils/stores/authStore";
 
 import TopBarView from "@/components/layout/TopBarView.vue";
 import SideBarMenuView from "@/components/layout/SideBarMenuView.vue";
 import AlertMessages from "@/components/common/alerts/AlertMessages.vue";
 
 const uiStore = useUIStore();
+const authStore = useAuthStore();
 
-const contentClass = computed(() =>
-  uiStore.sidebarCollapsed
+const contentClass = computed(() => {
+  if (!authStore.isLoggedIn) {
+    return ""; // guest view → no margin
+  }
+
+  return uiStore.sidebarCollapsed
     ? "ms-sidebar-collapsed"
-    : "ms-sidebar-expanded"
-);
+    : "ms-sidebar-expanded";
+});
+
 </script>
 
 

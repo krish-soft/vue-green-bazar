@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import { localStorageManager } from "@/utils/localStorageManager";
+import { useUserStore } from "@/utils/stores/userStore";
+
 
 const STORAGE_KEY = "_aD_";
 const _hydrated = ref(false);
@@ -107,6 +109,13 @@ export const useAuthStore = defineStore("auth", () => {
     return token.value;
   }
 
+  async function forceLogout() {
+    const userStore = await useUserStore(); // ✅ SAFE here
+
+    resetAuthTokenData();
+    userStore.resetUser();
+  }
+
   return {
     // state
     token,
@@ -122,5 +131,7 @@ export const useAuthStore = defineStore("auth", () => {
 
     hydrate,
     _hydrated,
+
+    forceLogout,
   };
 });

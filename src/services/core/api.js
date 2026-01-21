@@ -2,6 +2,10 @@
 import adminApi from "./adminApi";
 import publicApi from "./publicApi";
 import { attachAuth, handleError } from "./helpers";
+import router from "@/router";
+
+import { useAuthStore } from "@/utils/stores/authStore";
+import { useUIStore } from "@/utils/stores/uiStore";
 
 const API_DEBUG = true; // ❗ set false in production
 
@@ -53,7 +57,27 @@ function request(
         console.groupEnd();
       }
 
-      return res.data;
+      var response = res.data;
+
+      // Handle Unauthenticated globally
+      if (
+        response?.actionCode === 1100 ||
+        response?.message?.includes("Unauthenticated.")
+      ) {
+        const uiStore = useUIStore();
+        uiStore.errorMessages = [
+          response?.message,
+          "Your session has expired. Please log in again.",
+        ];
+
+        const authStore = useAuthStore();
+        authStore.forceLogout();
+
+        router.replace({ name: "signin" });
+        return Promise.reject(response);
+      }
+
+      return response;
     })
     .catch((error) => {
       // ❌ ERROR DEBUG

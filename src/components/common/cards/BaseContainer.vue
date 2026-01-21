@@ -5,7 +5,7 @@
       <div class="card-header" v-if="heading || subHeading || $slots.headerActions">
         <div class="row align-items-center">
           <div class="col-md-6 text-start">
-            <h5 class="mb-0" v-if="heading">{{ heading }}</h5>
+            <h3 class="mb-0" v-if="heading">{{ heading }}</h3>
             <small v-if="subHeading" class="text-muted">
               {{ subHeading }}
             </small>
