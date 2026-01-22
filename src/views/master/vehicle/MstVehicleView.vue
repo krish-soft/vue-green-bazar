@@ -9,64 +9,64 @@
     <template #body>
       <div class="table-responsive">
         <table
-          id="datatable"
-          class="table table-hover table-striped table-bordered align-middle"
+            id="datatable"
+            class="table table-hover table-striped table-bordered align-middle"
         >
           <thead class="table-dark">
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Code</th>
-              <th>Description</th>
-              <th>Body</th>
-              <th>Fuel</th>
-              <th>Capacity Class</th>
-              <th>Max. Weight (kg)</th>
-              <th>Max. Volume (cft)</th>
-              <th>Max. Crates</th>
-              <th>Notes</th>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Code</th>
+            <th>Description</th>
+            <th>Body</th>
+            <th>Fuel</th>
+            <th>Capacity Class</th>
+            <th>Max. Weight (kg)</th>
+            <th>Max. Volume (cft)</th>
+            <th>Max. Crates</th>
+            <th>Notes</th>
 
-              <th>Status</th>
-              <th class="text-center">Action</th>
-            </tr>
+            <th>Status</th>
+            <th class="text-center">Action</th>
+          </tr>
           </thead>
 
           <tbody v-if="mListData.length">
-            <tr v-for="(row, i) in mListData" :key="row.id">
-              <td>{{ i + 1 }}</td>
-              <td>{{ row.vehicle_name }}</td>
-              <td>{{ row.vehicle_code }}</td>
-              <td>{{ row.description }}</td>
-              <td>{{ row.body_type }}</td>
-              <td>{{ row.fuel_type }}</td>
-              <td>{{ row.capacity_class }}</td>
-              <td>{{ row.max_weight_kg }}</td>
-              <td>{{ row.max_volume_cft }}</td>
-              <td>{{ row.max_crates }}</td>
-              <td>{{ row.notes }}</td>
-              <td>
+          <tr v-for="(row, i) in mListData" :key="row.id">
+            <td>{{ i + 1 }}</td>
+            <td>{{ row.vehicle_name }}</td>
+            <td>{{ row.vehicle_code }}</td>
+            <td>{{ row.description }}</td>
+            <td>{{ row.body_type }}</td>
+            <td>{{ row.fuel_type }}</td>
+            <td>{{ row.capacity_class }}</td>
+            <td>{{ row.max_weight_kg }}</td>
+            <td>{{ row.max_volume_cft }}</td>
+            <td>{{ row.max_crates }}</td>
+            <td>{{ row.notes }}</td>
+            <td>
                 <span
-                  class="badge px-3"
-                  :class="row.is_active ? 'bg-success' : 'bg-danger'"
+                    class="badge px-3"
+                    :class="row.is_active ? 'bg-success' : 'bg-danger'"
                 >
                   {{ row.is_active ? "Active" : "Inactive" }}
                 </span>
-              </td>
-              <td class="text-center">
-                <BaseButton
+            </td>
+            <td class="text-center">
+              <BaseButton
                   iconOnly
                   variant="primary me-2"
                   icon="fas fa-edit"
                   @click="openEdit(row)"
-                />
-                <BaseButton
+              />
+              <BaseButton
                   iconOnly
                   variant="danger"
                   icon="fas fa-trash"
                   @click="deleteUnit(row.id)"
-                />
-              </td>
-            </tr>
+              />
+            </td>
+          </tr>
           </tbody>
         </table>
       </div>
@@ -85,88 +85,88 @@
       <div class="row">
         <div class="col-md-6">
           <BaseInput
-            label="Vehicle Name"
-            v-model="form.vehicle_name"
-            placeholder="Enter vehicle name"
-            required
+              label="Vehicle Name"
+              v-model="form.vehicle_name"
+              placeholder="Enter vehicle name"
+              required
           />
         </div>
         <div class="col-md-6">
           <BaseInput
-            label="Vehicle Code"
-            v-model="form.vehicle_code"
-            placeholder="Enter vehicle code"
-            required
-          />
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <BaseInput
-            label="Body Type"
-            v-model="form.body_type"
-            placeholder="Enter body type"
-            required
-          />
-        </div>
-        <div class="col-md-6">
-          <BaseInput
-            label="Fuel Type"
-            v-model="form.fuel_type"
-            placeholder="Enter fuel type"
+              label="Vehicle Code"
+              v-model="form.vehicle_code"
+              placeholder="Enter vehicle code"
+              required
           />
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
           <BaseInput
-            label="Capacity Class"
-            v-model="form.capacity_class"
-            placeholder="Enter capacity class"
-            required
+              label="Body Type"
+              v-model="form.body_type"
+              placeholder="Enter body type"
+              required
           />
         </div>
         <div class="col-md-6">
           <BaseInput
-            label="Max. Weight (kg)"
-            type="number"
-            step="0.5"
-            v-model="form.max_weight_kg"
-            placeholder="Enter maximum weight in kg"
-            required
+              label="Fuel Type"
+              v-model="form.fuel_type"
+              placeholder="Enter fuel type"
           />
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
           <BaseInput
-            label="Max. Volume (cft)"
-            type="number"
-            step="0.5"
-            v-model="form.max_volume_cft"
-            placeholder="Enter maximum volume in cft"
-            required
+              label="Capacity Class"
+              v-model="form.capacity_class"
+              placeholder="Enter capacity class"
+              required
           />
         </div>
         <div class="col-md-6">
           <BaseInput
-            label="Max. Crates"
-            type="number"
-            v-model="form.max_crates"
-            placeholder="Enter maximum number of crates"
-            required
+              label="Max. Weight (kg)"
+              type="number"
+              step="0.5"
+              v-model="form.max_weight_kg"
+              placeholder="Enter maximum weight in kg"
+              required
           />
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
           <BaseInput
-            label="Description"
-            type="textarea"
-            v-model="form.description"
-            placeholder="Enter vehicle description"
-            rows="3"
-            required
+              label="Max. Volume (cft)"
+              type="number"
+              step="0.5"
+              v-model="form.max_volume_cft"
+              placeholder="Enter maximum volume in cft"
+              required
+          />
+        </div>
+        <div class="col-md-6">
+          <BaseInput
+              label="Max. Crates"
+              type="number"
+              v-model="form.max_crates"
+              placeholder="Enter maximum number of crates"
+              required
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <BaseInput
+              label="Description"
+              type="textarea"
+              v-model="form.description"
+              placeholder="Enter vehicle description"
+              rows="3"
+              required
           />
         </div>
         <div class="col-md-6">
@@ -182,9 +182,9 @@
               </span>
 
               <div
-                class="status-toggle"
-                :class="{ active: form.is_active }"
-                @click="form.is_active = !form.is_active"
+                  class="status-toggle"
+                  :class="{ active: form.is_active }"
+                  @click="form.is_active = !form.is_active"
               >
                 <span class="toggle-knob"></span>
               </div>
@@ -201,10 +201,10 @@
       </BaseButton>
 
       <BaseButton
-        type="submit"
-        variant="primary"
-        :loading="uiStore.isLoading"
-        form="vehicleForm"
+          type="submit"
+          variant="primary"
+          :loading="uiStore.isLoading"
+          form="vehicleForm"
       >
         Save
       </BaseButton>
@@ -213,16 +213,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import {ref, onMounted} from "vue";
 
 import BaseContainer from "@/components/common/cards/BaseContainer.vue";
 import BaseButton from "@/components/common/buttons/BaseButton.vue";
 import BaseModal from "@/components/common/modal/BaseModal.vue";
 
-import apiRouteService from "@/core/services/apiRoutes/apiRouteService.js";
-import { useUIStore } from "@/core/utils/stores/uiStore";
-import { showConfirmDialog } from "@/core/utils/uiHelpers/swalUtils.js";
+import {useUIStore} from "@/core/utils/stores/uiStore";
+import {showConfirmDialog} from "@/core/utils/uiHelpers/swalUtils.js";
 import BaseInput from "@/components/common/inputs/BaseInput.vue";
+import {fetchVehicles, createVehicle, updateVehicle, deleteVehicle} from "@/core/repos/admin/master/masterRepos.js";
 
 /* ---------------- STATE ---------------- */
 const uiStore = useUIStore();
@@ -276,10 +276,7 @@ onMounted(loadList);
 
 /* ---------------- API ---------------- */
 async function loadList() {
-  uiStore.isLoading = true;
-  const resp = await apiRouteService.getMstVehicleList();
-  if (resp?.isSuccess) mListData.value = resp.data;
-  uiStore.isLoading = false;
+  mListData.value = await fetchVehicles();
 }
 
 /* ---------------- MODAL ---------------- */
@@ -291,7 +288,7 @@ function openAdd() {
 
 function openEdit(row) {
   isEdit.value = true;
-  form.value = { ...row };
+  form.value = {...row};
   vehicleModal.value.show();
 }
 
@@ -306,41 +303,27 @@ async function submitForm() {
 
   uiStore.isLoading = true;
 
-  const resp = isEdit.value
-    ? await apiRouteService.updateMstVehicle(form.value.id, form.value)
-    : await apiRouteService.createMstVehicle(form.value);
+  await (isEdit.value
+      ? updateVehicle(form.value.id, form.value)
+      : createVehicle(form.value));
 
-  uiStore.isLoading = false;
-
-  if (resp?.isSuccess) {
-    uiStore.successMessage = resp.message;
-    closeModal();
-    mListData.value = [];
-    loadList();
-  } else {
-    uiStore.errorMessages = [resp?.message];
-  }
+  closeModal();
+  mListData.value = [];
+  loadList();
 }
 
 /* ---------------- DELETE ---------------- */
 async function deleteUnit(id) {
   const confirmed = await showConfirmDialog(
-    "Delete Vehicle",
-    "Are you sure you want to delete this vehicle?",
+      "Delete Vehicle",
+      "Are you sure you want to delete this vehicle?",
   );
 
   if (!confirmed) return;
 
-  uiStore.isLoading = true;
-  const resp = await apiRouteService.deleteMstVehicle(id);
-  uiStore.isLoading = false;
-
-  if (resp?.isSuccess) {
-    uiStore.successMessage = resp.message;
-    mListData.value = []; // Clear the list to force reload
-    loadList();
-  } else {
-    uiStore.errorMessages = [resp?.message];
-  }
+  await deleteVehicle(id);
+  closeModal();
+  mListData.value = []; // Clear the list to force reload
+  loadList();
 }
 </script>
