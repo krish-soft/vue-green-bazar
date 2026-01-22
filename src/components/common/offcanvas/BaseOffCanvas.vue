@@ -1,8 +1,8 @@
 <template>
   <div
-    class="offcanvas offcanvas-end"
-    tabindex="-1"
-    ref="offcanvasEl"
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      ref="offcanvasEl"
   >
     <!-- HEADER -->
     <div class="offcanvas-header border-bottom">
@@ -26,16 +26,19 @@
 </template>
 
 <script setup>
-import { ref, onMounted, defineExpose } from "vue";
+import { ref, onMounted } from "vue";
 import { Offcanvas } from "bootstrap";
 
+/* props */
 const props = defineProps({
   icon: { type: String, default: "" },
 });
 
+/* refs */
 const offcanvasEl = ref(null);
 let instance = null;
 
+/* lifecycle */
 onMounted(() => {
   instance = new Offcanvas(offcanvasEl.value, {
     backdrop: true,
@@ -43,8 +46,10 @@ onMounted(() => {
   });
 });
 
-const show = () => instance.show();
-const hide = () => instance.hide();
+/* methods */
+const show = () => instance?.show();
+const hide = () => instance?.hide();
 
+/* expose to parent */
 defineExpose({ show, hide });
 </script>

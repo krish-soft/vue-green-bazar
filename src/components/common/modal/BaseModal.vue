@@ -1,8 +1,8 @@
 <template>
   <div class="modal fade" ref="modalEl" tabindex="-1">
     <div
-      class="modal-dialog modal-dialog-centered"
-      :class="[size, scrollable && 'modal-dialog-scrollable']"
+        class="modal-dialog modal-dialog-centered"
+        :class="[size, scrollable && 'modal-dialog-scrollable']"
     >
       <div class="modal-content shadow-sm rounded-3">
         <!-- HEADER -->
@@ -29,28 +29,32 @@
 </template>
 
 <script setup>
-import { ref, onMounted, defineExpose } from "vue";
+import { ref, onMounted } from "vue";
 import { Modal } from "bootstrap";
 
+/* props */
 const props = defineProps({
-  size: { type: String, default: "modal-md" }, // modal-sm | modal-md | modal-lg | modal-xl
+  size: { type: String, default: "modal-md" },
   icon: { type: String, default: "" },
   scrollable: { type: Boolean, default: false },
 });
 
+/* refs */
 const modalEl = ref(null);
 let instance = null;
 
+/* lifecycle */
 onMounted(() => {
   instance = new Modal(modalEl.value, {
-  backdrop: true,   // ✅ THIS IS WHE
+    backdrop: true,
     keyboard: false,
-   
   });
 });
 
-const show = () => instance.show();
-const hide = () => instance.hide();
+/* methods */
+const show = () => instance?.show();
+const hide = () => instance?.hide();
 
+/* expose to parent */
 defineExpose({ show, hide });
 </script>
