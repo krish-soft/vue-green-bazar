@@ -2,7 +2,7 @@
     <div class="dropdown">
         <!-- Trigger -->
         <button class="btn btn-link nav-link dropdown-toggle text-white" data-bs-toggle="dropdown"
-            aria-expanded="false">
+            aria-expanded="true">
             <i class="fas fa-user-circle fs-5"></i>
         </button>
 

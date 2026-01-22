@@ -15,7 +15,7 @@
         id="datatable"
         class="table table-hover table-striped table-bordered align-middle"
       >
-        <thead class="table-light">
+        <thead class="table-dark">
           <tr>
             <th>#</th>
             <th>Name</th>
