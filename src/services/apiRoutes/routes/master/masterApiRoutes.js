@@ -57,8 +57,64 @@ const masterApiRoutes = {
     return Api.admin.delete(`/master/mstVehicle/${id}`);
   }, // Delete
 
+  //////////////////
+  // mstState //
+  //////////////////
+  getMstStateList() {
+    return Api.admin.get("/master/mstState");
+  }, // List
+  createMstState(data) {
+    return Api.admin.post("/master/mstState", { data });
+  }, // Create
+  updateMstState(id, data) {
+    return Api.admin.put(`/master/mstState/${id}`, { data });
+  }, // Update
+  deleteMstState(id) {
+    return Api.admin.delete(`/master/mstState/${id}`);
+  }, // Delete
 
+  //////////////////
+  // mstZone //
+  //////////////////
+  
+  getMstZoneList() {
+    return Api.admin.get("/master/mstZone");
+  }, // List
+  createMstZone(data) {
+    return Api.admin.post("/master/mstZone", { data });
+  }, // Create
+  updateMstZone(id, data) {
+    return Api.admin.put(`/master/mstZone/${id}`, { data });
+  }, // Update
 
+  deleteMstZone(id) {
+    return Api.admin.delete(`/master/mstZone/${id}`);
+  }, // Delete
+
+  //////////////////
+  // mstDepot //
+  //////////////////
+  getMstDepotList() {
+    return Api.admin.get("/master/mstDepot");
+  }, // List
+  createMstDepot(data) {
+    return Api.admin.post("/master/mstDepot", { data });
+  }, // Create
+  updateMstDepot(id, data) {
+    return Api.admin.put(`/master/mstDepot/${id}`, { data });
+  }, // Update
+
+  deleteMstDepot(id) {
+    return Api.admin.delete(`/master/mstDepot/${id}`);
+  }, // Delete
+
+  addDepotAddress(id, data) {
+    return Api.admin.post(`/master/mstDepot/addAddress/${id}`, { data });
+  }, // Add Address
+
+  updateDepotAddress(depotId, data) {
+    return Api.admin.put(`/master/mstDepot/${depotId}/updateAddress`, { data });
+  }, // Update Address
 
   //
 };
