@@ -42,7 +42,7 @@ import "./assets/main.css";
 /* ===============================
    DATATABLE AUTO INIT
 =============================== */
-import { registerDatatableAutoInit } from "@/utils/datatableAutoInit";
+import { registerDatatableAutoInit } from "@/core/utils/uiHelpers/datatableAutoInit.js";
 
 const app = createApp(App);
 

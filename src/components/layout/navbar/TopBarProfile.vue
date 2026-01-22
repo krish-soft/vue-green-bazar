@@ -39,10 +39,10 @@
 <script setup>
 import { useRouter } from "vue-router";
 
-import { useAuthStore } from "@/utils/stores/authStore";
-import { useUserStore } from "@/utils/stores/userStore";
-import { useUIStore } from "@/utils/stores/uiStore";
-import apiRouteService from "@/services/apiRoutes/apiRouteService";
+import { useAuthStore } from "@/core/utils/stores/authStore";
+import { useUserStore } from "@/core/utils/stores/userStore";
+import { useUIStore } from "@/core/utils/stores/uiStore";
+import apiRouteService from "@/core/services/apiRoutes/apiRouteService.js";
 
 const authStore = useAuthStore();
 const userStore = useUserStore();

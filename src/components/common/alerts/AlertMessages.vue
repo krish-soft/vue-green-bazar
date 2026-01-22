@@ -77,7 +77,7 @@
 
 <script>
 import { ref, watch } from "vue";
-import { useErrorStore } from "@/utils/stores/errorStore"; // Import Pinia store
+import { useErrorStore } from "@/core/utils/stores/errorStore"; // Import Pinia store
 
 export default {
   props: {

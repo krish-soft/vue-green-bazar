@@ -33,8 +33,8 @@
 
 <script setup>
 import { computed } from "vue";
-import { useUIStore } from "@/utils/stores/uiStore";
-import { useAuthStore } from "@/utils/stores/authStore";
+import { useUIStore } from "@/core/utils/stores/uiStore";
+import { useAuthStore } from "@/core/utils/stores/authStore";
 
 import TopBarView from "@/components/layout/TopBarView.vue";
 import SideBarMenuView from "@/components/layout/SideBarMenuView.vue";

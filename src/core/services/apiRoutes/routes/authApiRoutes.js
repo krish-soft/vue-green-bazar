@@ -1,6 +1,6 @@
 // src/services/api/routes/authApiRoutes.js
 
-import { Api } from "@/services/core/api";
+import { Api } from "@/core/services/api/api.js";
 
 
 const authApiRoutes = {

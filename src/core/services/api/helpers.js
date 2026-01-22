@@ -1,7 +1,7 @@
 // src/services/api/helpers.js
-import { useAuthStore } from "@/utils/stores/authStore";
-import router from "@/router";
-import { envConfig } from "@/config/env";
+import { useAuthStore } from "@/core/utils/stores/authStore.js";
+import router from "@/router/index.js";
+import { envConfig } from "@/core/config/env.js";
 
 /* =====================================================
  | Attach Auth Token (SAFE MERGE)

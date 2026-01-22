@@ -1,6 +1,6 @@
 // src/services/api/adminApi.js
 import axios from "axios";
-import { envConfig } from "@/config/env";
+import { envConfig } from "@/core/config/env.js";
 
 const adminApi = axios.create({
   baseURL: envConfig.apiBaseAdminUrl,

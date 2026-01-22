@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref, computed, watch } from "vue";
-import { localStorageManager } from "@/utils/localStorageManager";
+import { localStorageManager } from "@/core/utils/localStorageManager.js";
 
 const STORAGE_KEY = "_uD_";
 

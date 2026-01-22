@@ -31,8 +31,8 @@
 
 <script setup>
 import { storeToRefs } from "pinia";
-import { useAuthStore } from "@/utils/stores/authStore";
-import { useUserStore } from "@/utils/stores/userStore";
+import { useAuthStore } from "@/core/utils/stores/authStore";
+import { useUserStore } from "@/core/utils/stores/userStore";
 import { useRouter } from "vue-router";
 import { watch } from "vue";
 

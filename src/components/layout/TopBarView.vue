@@ -43,8 +43,8 @@
 
 <script setup>
 import { computed, ref } from "vue";
-import { useAuthStore } from "@/utils/stores/authStore";
-import { useUIStore } from "@/utils/stores/uiStore";
+import { useAuthStore } from "@/core/utils/stores/authStore";
+import { useUIStore } from "@/core/utils/stores/uiStore";
 
 import TopBarMenu from "./navbar/TopBarMenu.vue";
 import TopBarProfile from "./navbar/TopBarProfile.vue";

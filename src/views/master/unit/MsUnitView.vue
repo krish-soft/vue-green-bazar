@@ -154,9 +154,9 @@ import BaseContainer from "@/components/common/cards/BaseContainer.vue";
 import BaseButton from "@/components/common/buttons/BaseButton.vue";
 import BaseModal from "@/components/common/modal/BaseModal.vue";
 
-import apiRouteService from "@/services/apiRoutes/apiRouteService";
-import { useUIStore } from "@/utils/stores/uiStore";
-import { showConfirmDialog } from "@/utils/swalUtils";
+import apiRouteService from "@/core/services/apiRoutes/apiRouteService.js";
+import { useUIStore } from "@/core/utils/stores/uiStore";
+import { showConfirmDialog } from "@/core/utils/uiHelpers/swalUtils.js";
 
 /* ---------------- STATE ---------------- */
 const uiStore = useUIStore();

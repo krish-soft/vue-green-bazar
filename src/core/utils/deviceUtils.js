@@ -1,4 +1,4 @@
-import { localStorageManager } from "./localStorageManager";
+import { localStorageManager } from "./localStorageManager.js";
 
 // deviceUtils.js
 const DEVICE_KEY = "_dID_";

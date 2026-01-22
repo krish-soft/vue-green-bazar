@@ -35,11 +35,11 @@
 
 <script setup>
 import { computed } from "vue";
-import { useUserStore } from "@/utils/stores/userStore";
-import { useUIStore } from "@/utils/stores/uiStore";
+import { useUserStore } from "@/core/utils/stores/userStore";
+import { useUIStore } from "@/core/utils/stores/uiStore";
 
-import { sideMenu } from "@/utils/menus/sideMenu";
-import { filterSideMenu } from "@/utils/menus/filterSideMenu";
+import { sideMenu } from "@/core/utils/menus/sideMenu";
+import { filterSideMenu } from "@/core/utils/menus/filterSideMenu";
 
 import SidebarItem from "./SidebarItem.vue";
 

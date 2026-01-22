@@ -36,11 +36,11 @@ import { onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
 
 import BaseContainer from "@/components/common/cards/BaseContainer.vue";
-import { useUIStore } from "@/utils/stores/uiStore";
-import { useAuthStore } from "@/utils/stores/authStore";
-import apiRouteService from "@/services/apiRoutes/apiRouteService";
-import { useUserStore } from "@/utils/stores/userStore";
-import { getDeviceId } from "@/utils/deviceUtils";
+import { useUIStore } from "@/core/utils/stores/uiStore";
+import { useAuthStore } from "@/core/utils/stores/authStore";
+import apiRouteService from "@/core/services/apiRoutes/apiRouteService.js";
+import { useUserStore } from "@/core/utils/stores/userStore";
+import { getDeviceId } from "@/core/utils/deviceUtils.js";
 /* -----------------------
  | STORES
  ----------------------- */

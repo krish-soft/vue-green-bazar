@@ -1,11 +1,11 @@
 // src/services/api/index.js
-import adminApi from "./adminApi";
-import publicApi from "./publicApi";
-import { attachAuth, handleError } from "./helpers";
-import router from "@/router";
+import adminApi from "./adminApi.js";
+import publicApi from "./publicApi.js";
+import { attachAuth, handleError } from "./helpers.js";
+import router from "@/router/index.js";
 
-import { useAuthStore } from "@/utils/stores/authStore";
-import { useUIStore } from "@/utils/stores/uiStore";
+import { useAuthStore } from "@/core/utils/stores/authStore.js";
+import { useUIStore } from "@/core/utils/stores/uiStore.js";
 
 const API_DEBUG = true; // ❗ set false in production
 
