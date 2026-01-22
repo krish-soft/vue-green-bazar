@@ -26,11 +26,23 @@ export const withUI = async (
         if (showSuccessMessage) {
             uiStore.successMessage = resp.message || "";
         }
-        return resp.data ?? [];
+        return resp.data ?? true;
     }
 
     // ❌ Errors always override
-    uiStore.resetMessages();
-    uiStore.errorMessages = [resp?.message || "Something went wrong"];
-    return [];
+    // uiStore.resetMessages();
+    /* ✅ FIX: HANDLE VALIDATION ERRORS PROPERLY */
+    if (typeof resp?.message === "string") {
+        uiStore.errorMessages = resp.message
+            .split(";")
+            .map(m => m.trim())
+            .filter(Boolean);
+    } else if (Array.isArray(resp?.message)) {
+        uiStore.errorMessages = resp.message;
+    } else {
+        uiStore.errorMessages = ["Something went wrong"];
+    }
+
+    // Return empty array on error for consistency
+    return null;
 };

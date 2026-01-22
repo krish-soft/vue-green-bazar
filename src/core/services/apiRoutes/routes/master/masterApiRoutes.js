@@ -7,8 +7,8 @@ const masterApiRoutes = {
   // MstUnit //
   /////////////
 
-  getMstUnitList() {
-    return Api.admin.get("/master/mstUnit");
+  getMstUnitList(queryParams = {}) {
+    return Api.admin.get("/master/mstUnit", { queryParams: queryParams });
   }, // List
   createMstUnit(data) {
     return Api.admin.post("/master/mstUnit", { data });
@@ -25,8 +25,8 @@ const masterApiRoutes = {
   // MstPackType //
   /////////////////
 
-  getMstPackTypeList() {
-    return Api.admin.get("/master/mstPackType");
+  getMstPackTypeList(queryParams = {}) {
+    return Api.admin.get("/master/mstPackType", { queryParams: queryParams });
   }, // List
   createMstPackType(data) {
     return Api.admin.post("/master/mstPackType", { data });
@@ -43,8 +43,8 @@ const masterApiRoutes = {
   // mstVehicle //
   //////////////////
 
-  getMstVehicleList() {
-    return Api.admin.get("/master/mstVehicle");
+  getMstVehicleList(queryParams = {}) {
+    return Api.admin.get("/master/mstVehicle", { queryParams: queryParams });
   }, // List
   createMstVehicle(data) {
     return Api.admin.post("/master/mstVehicle", { data });
@@ -60,8 +60,8 @@ const masterApiRoutes = {
   //////////////////
   // mstState //
   //////////////////
-  getMstStateList() {
-    return Api.admin.get("/master/mstState");
+  getMstStateList(queryParams = {}) {
+    return Api.admin.get("/master/mstState", { queryParams: queryParams });
   }, // List
   createMstState(data) {
     return Api.admin.post("/master/mstState", { data });
@@ -76,9 +76,9 @@ const masterApiRoutes = {
   //////////////////
   // mstZone //
   //////////////////
-  
-  getMstZoneList() {
-    return Api.admin.get("/master/mstZone");
+
+  getMstZoneList(filters = {}) {
+    return Api.admin.get("/master/mstZone", { queryParams: filters });
   }, // List
   createMstZone(data) {
     return Api.admin.post("/master/mstZone", { data });
@@ -94,8 +94,8 @@ const masterApiRoutes = {
   //////////////////
   // mstDepot //
   //////////////////
-  getMstDepotList() {
-    return Api.admin.get("/master/mstDepot");
+  getMstDepotList(filters = {}) {
+    return Api.admin.get("/master/mstDepot", { queryParams: filters });
   }, // List
   createMstDepot(data) {
     return Api.admin.post("/master/mstDepot", { data });
@@ -104,17 +104,19 @@ const masterApiRoutes = {
     return Api.admin.put(`/master/mstDepot/${id}`, { data });
   }, // Update
 
+  showMstDepot(id) {
+    return Api.admin.get(`/master/mstDepot/${id}`);
+  }, //
   deleteMstDepot(id) {
     return Api.admin.delete(`/master/mstDepot/${id}`);
   }, // Delete
+  addDepotAddress(depotId, data) {
+    return Api.admin.post(
+      `/master/mstDepot/${depotId}/address`,
+      { data }
+    );
+  }
 
-  addDepotAddress(id, data) {
-    return Api.admin.post(`/master/mstDepot/addAddress/${id}`, { data });
-  }, // Add Address
-
-  updateDepotAddress(depotId, data) {
-    return Api.admin.put(`/master/mstDepot/${depotId}/updateAddress`, { data });
-  }, // Update Address
 
   //
 };

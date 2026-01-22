@@ -23,22 +23,28 @@ export const sideMenu = [
       {
         label: "Units",
         icon: "fas fa-ruler",
-        module: 204,
+
         to: { name: "msunit" },
         match: "exact",
       },
       {
         label: "Pack Types",
         icon: "fas fa-box",
-        module: 204,
+
         to: { name: "mstpacktype" },
         match: "exact",
       },
       {
         label: "Vehicles",
         icon: "fas fa-truck",
-        module: 204,
+
         to: { name: "mstvehicle" },
+        match: "exact",
+      },
+      {
+        label: "Depots",
+        icon: "fas fa-warehouse",
+        to: { name: "mstdepot" },
         match: "exact",
       },
       {
@@ -90,7 +96,7 @@ export const sideMenu = [
 //       {
 //         label: "Units",
 //         icon: "fas fa-ruler",
-//         module: 204,
+//
 //         to: "/master/msunit",
 //         match: "exact",
 //       },

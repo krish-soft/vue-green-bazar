@@ -301,7 +301,6 @@ function closeModal() {
 async function submitForm() {
   // Validation can be added here
 
-  uiStore.isLoading = true;
 
   await (isEdit.value
       ? updateVehicle(form.value.id, form.value)
