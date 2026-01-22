@@ -1,62 +1,130 @@
 import $ from "jquery";
+import router from "@/router";
 
 const TABLE_ID = "#datatable";
-let initialized = false;
-let currentRowCount = 0;
-let observer = null;
+let retryTimer = null;
 
-function initDatatable(force = false) {
-  const table = $(TABLE_ID);
-  if (!table.length) return;
+function tryInitDatatable() {
+    const table = $(TABLE_ID);
 
-  const rows = table.find("tbody tr").length;
+    if (!table.length) return false;
 
-  // ❌ no data yet
-  if (rows === 0) return;
+    const rows = table.find("tbody tr").length;
 
-  // ✅ already initialized & no data change → STOP
-  if ($.fn.DataTable.isDataTable(TABLE_ID) && !force) {
-    return;
-  }
+    // ⏳ Data not rendered yet
+    if (rows === 0) return false;
 
-  // 🔁 destroy only when forced (API refresh)
-  if ($.fn.DataTable.isDataTable(TABLE_ID)) {
-    table.DataTable().destroy();
-  }
+    if ($.fn.DataTable.isDataTable(TABLE_ID)) {
+        table.DataTable().destroy();
+    }
 
-  currentRowCount = rows;
+    table.DataTable({
+        paging: true,
+        searching: true,
+        ordering: true,
+        lengthChange: true,
+        pageLength: 10,
+        responsive: true,
+        autoWidth: false,
+    });
 
-  table.DataTable({
-    paging: true,
-    searching: true,
-    ordering: true,
-    lengthChange: true,
-    pageLength: 10,
-    responsive: true,
-    autoWidth: false,
-  });
+    return true;
+}
 
-  // 🛑 VERY IMPORTANT: stop observing after init
-  if (observer) {
-    observer.disconnect();
-    observer = null;
-  }
+function waitForTableData() {
+    let attempts = 0;
+
+    retryTimer = setInterval(() => {
+        attempts++;
+
+        if (tryInitDatatable()) {
+            clearInterval(retryTimer);
+            retryTimer = null;
+        }
+
+        // 🛑 safety stop (2 seconds max)
+        if (attempts > 20) {
+            clearInterval(retryTimer);
+            retryTimer = null;
+        }
+    }, 100);
 }
 
 export function registerDatatableAutoInit() {
-  if (initialized) return;
-  initialized = true;
+    router.afterEach(() => {
+        if (retryTimer) {
+            clearInterval(retryTimer);
+            retryTimer = null;
+        }
 
-  observer = new MutationObserver(() => {
-    initDatatable();
-  });
-
-  // ✅ Observe ONLY table body, not whole document
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-  });
-
-  // Fallback safety init
-  setTimeout(() => initDatatable(true), 300);
+        waitForTableData();
+    });
 }
+
+
+
+
+// Working
+
+// import $ from "jquery";
+//
+// const TABLE_ID = "#datatable";
+// let initialized = false;
+// let currentRowCount = 0;
+// let observer = null;
+//
+// function initDatatable(force = false) {
+//   const table = $(TABLE_ID);
+//   if (!table.length) return;
+//
+//   const rows = table.find("tbody tr").length;
+//
+//   // ❌ no data yet
+//   if (rows === 0) return;
+//
+//   // ✅ already initialized & no data change → STOP
+//   if ($.fn.DataTable.isDataTable(TABLE_ID) && !force) {
+//     return;
+//   }
+//
+//   // 🔁 destroy only when forced (API refresh)
+//   if ($.fn.DataTable.isDataTable(TABLE_ID)) {
+//     table.DataTable().destroy();
+//   }
+//
+//   currentRowCount = rows;
+//
+//   table.DataTable({
+//     paging: true,
+//     searching: true,
+//     ordering: true,
+//     lengthChange: true,
+//     pageLength: 10,
+//     responsive: true,
+//     autoWidth: false,
+//   });
+//
+//   // 🛑 VERY IMPORTANT: stop observing after init
+//   if (observer) {
+//     observer.disconnect();
+//     observer = null;
+//   }
+// }
+//
+// export function registerDatatableAutoInit() {
+//   if (initialized) return;
+//   initialized = true;
+//
+//   observer = new MutationObserver(() => {
+//     initDatatable();
+//   });
+//
+//   // ✅ Observe ONLY table body, not whole document
+//   observer.observe(document.body, {
+//     childList: true,
+//     subtree: true,
+//   });
+//
+//   // Fallback safety init
+//   setTimeout(() => initDatatable(true), 600);
+// }

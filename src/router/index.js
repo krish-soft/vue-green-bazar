@@ -27,7 +27,7 @@ const router = createRouter({
                     path: "unit",
                     name: "msunit",
                     component: () =>
-                        import("@/views/master/unit/MsUnitView.vue"),
+                        import("@/views/master/unit/MstUnitView.vue"),
                 },
                 {
                     path: "packType",

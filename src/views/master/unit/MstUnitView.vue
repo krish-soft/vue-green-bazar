@@ -218,6 +218,7 @@ async function submitForm() {
       : createUnit(form.value));
 
   closeModal();
+  mListData.value = [];
   loadList();    // ✅ ALWAYS SAFE
 }
 
@@ -231,6 +232,8 @@ async function deleteUnit(id) {
   if (!confirmed) return;
 
   await deleteUnitRepo(id);
+  mListData.value = [];
+
   loadList();    // ✅ ALWAYS SAFE
 }
 </script>
