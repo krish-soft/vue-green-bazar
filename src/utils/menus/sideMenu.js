@@ -35,6 +35,13 @@ export const sideMenu = [
         match: "exact",
       },
       {
+        label: "Vehicles",
+        icon: "fas fa-truck",
+        module: 204,
+        to: { name: "mstvehicle" },
+        match: "exact",
+      },
+      {
         label: "Advanced",
         icon: "fas fa-sitemap",
         module: 205,

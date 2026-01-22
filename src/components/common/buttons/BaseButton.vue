@@ -1,10 +1,11 @@
 <template>
   <button
     :type="type"
+    :form="form"
     class="base-btn"
     :class="[variantClass, sizeClass, iconOnlyClass]"
     :disabled="disabled || loading"
-    @click="$emit('click', $event)"
+    @click="handleClick"
   >
     <!-- LOADING -->
     <span v-if="loading" class="spinner"></span>
@@ -38,10 +39,19 @@ const props = defineProps({
     type: String,
     default: "primary",
   },
+
+  /* IMPORTANT: native button type */
   type: {
     type: String,
-    default: "button",
+    default: "button", // button | submit | reset
   },
+
+  /* IMPORTANT: forward form attribute */
+  form: {
+    type: String,
+    default: null, // e.g. "vehicleForm"
+  },
+
   icon: {
     type: String,
     default: null,
@@ -62,7 +72,16 @@ const props = defineProps({
   disabled: Boolean,
 });
 
-defineEmits(["click"]);
+const emit = defineEmits(["click"]);
+
+/*
+  DO NOT emit click for submit buttons.
+  Native form submit must handle validation.
+*/
+const handleClick = (e) => {
+  if (props.type === "submit") return;
+  emit("click", e);
+};
 
 const variantClass = computed(() => `btn-${props.variant}`);
 const sizeClass = computed(() => `btn-${props.size}`);
@@ -70,8 +89,6 @@ const iconOnlyClass = computed(() =>
   props.iconOnly ? "btn-icon-only" : ""
 );
 </script>
-
-
 
 <style scoped>
 /* ===============================
@@ -138,35 +155,30 @@ const iconOnlyClass = computed(() =>
 }
 
 /* =====================================================
-   COLOR VARIANTS (10 TOTAL – THEME SAFE)
+   COLOR VARIANTS
 ===================================================== */
-
-/* 1️⃣ PRIMARY – Muted Bootstrap Blue (Dark Theme Safe) */
 .btn-primary {
-  background-color: #13522F; 
+  background-color: #13522F;
 }
 .btn-primary:hover {
   background-color: #15803D;
 }
 
-/* 2️⃣ SECONDARY – Neutral Dark (NOT darker than sidebar) */
 .btn-secondary {
-  background-color: #374151; /* dark gray-green */
+  background-color: #374151;
 }
 .btn-secondary:hover {
   background-color: #1f2937;
 }
 
-/* 3️⃣ WARNING – Amber (Bootstrap feel, less loud) */
 .btn-warning {
   background-color: #f59e0b;
-  color: #111827; /* readable on amber */
+  color: #111827;
 }
 .btn-warning:hover {
   background-color: #d97706;
 }
 
-/* 4️⃣ DANGER – Bootstrap Red (slightly muted) */
 .btn-danger {
   background-color: #dc2626;
 }
@@ -174,8 +186,6 @@ const iconOnlyClass = computed(() =>
   background-color: #b91c1c;
 }
 
-
-/* 5️⃣ SUCCESS – Soft Green */
 .btn-success {
   background-color: #4ade80;
 }
@@ -183,7 +193,6 @@ const iconOnlyClass = computed(() =>
   background-color: #22c55e;
 }
 
-/* 6️⃣ INFO – Teal (farm-friendly, not blue) */
 .btn-info {
   background-color: #14b8a6;
 }
@@ -191,7 +200,6 @@ const iconOnlyClass = computed(() =>
   background-color: #0d9488;
 }
 
-/* 7️⃣ NEUTRAL – Gray */
 .btn-gray {
   background-color: #6b7280;
 }
@@ -199,7 +207,6 @@ const iconOnlyClass = computed(() =>
   background-color: #4b5563;
 }
 
-/* 8️⃣ EARTH – Brown / Soil */
 .btn-earth {
   background-color: #92400e;
 }
@@ -207,7 +214,6 @@ const iconOnlyClass = computed(() =>
   background-color: #78350f;
 }
 
-/* 9️⃣ LEAF – Olive */
 .btn-leaf {
   background-color: #4d7c0f;
 }
@@ -215,7 +221,6 @@ const iconOnlyClass = computed(() =>
   background-color: #3f6212;
 }
 
-/* 🔟 SKY – Muted Blue-Green (Safe Accent) */
 .btn-sky {
   background-color: #0284c7;
 }

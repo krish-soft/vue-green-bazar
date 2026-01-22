@@ -1,5 +1,6 @@
 // mstUnitApiRoutes
 import { Api } from "@/services/core/api";
+import { get } from "jquery";
 
 const masterApiRoutes = {
   /////////////
@@ -38,10 +39,26 @@ const masterApiRoutes = {
     return Api.admin.delete(`/master/mstPackType/${id}`);
   }, // Delete
 
+  //////////////////
+  // mstVehicle //
+  //////////////////
+
+  getMstVehicleList() {
+    return Api.admin.get("/master/mstVehicle");
+  }, // List
+  createMstVehicle(data) {
+    return Api.admin.post("/master/mstVehicle", { data });
+  }, // Create
+  updateMstVehicle(id, data) {
+    return Api.admin.put(`/master/mstVehicle/${id}`, { data });
+  }, // Update
+
+  deleteMstVehicle(id) {
+    return Api.admin.delete(`/master/mstVehicle/${id}`);
+  }, // Delete
 
 
 
-  
 
   //
 };
