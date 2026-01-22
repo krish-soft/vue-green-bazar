@@ -1,4 +1,4 @@
-import { withUI } from "@/core/repos/_helpers/repoHelper";
+import {withUI} from "@/core/repos/_helpers/repoHelper";
 import masterApiRoutes from "@/core/services/apiRoutes/routes/master/masterApiRoutes.js";
 
 
@@ -6,7 +6,7 @@ import masterApiRoutes from "@/core/services/apiRoutes/routes/master/masterApiRo
    MstUnit
 ====================== */
 export const fetchUnits = () =>
-    withUI(() => masterApiRoutes.getMstUnitList());
+    withUI(() => masterApiRoutes.getMstUnitList(), {showSuccessMessage: false});
 
 export const createUnit = (payload) =>
     withUI(() => masterApiRoutes.createMstUnit(payload));
@@ -21,7 +21,7 @@ export const deleteUnit = (id) =>
    MstPackType
 ====================== */
 export const fetchPackTypes = () =>
-    withUI(() => masterApiRoutes.getMstPackTypeList());
+    withUI(() => masterApiRoutes.getMstPackTypeList() , {showSuccessMessage: false});
 
 export const createPackType = (payload) =>
     withUI(() => masterApiRoutes.createMstPackType(payload));
@@ -36,7 +36,7 @@ export const deletePackType = (id) =>
    MstVehicle
 ====================== */
 export const fetchVehicles = () =>
-    withUI(() => masterApiRoutes.getMstVehicleList());
+    withUI(() => masterApiRoutes.getMstVehicleList(), {showSuccessMessage: false});
 
 export const createVehicle = (payload) =>
     withUI(() => masterApiRoutes.createMstVehicle(payload));
@@ -51,7 +51,7 @@ export const deleteVehicle = (id) =>
    MstState
 ====================== */
 export const fetchStates = () =>
-    withUI(() => masterApiRoutes.getMstStateList());
+    withUI(() => masterApiRoutes.getMstStateList(), {showSuccessMessage: false});
 
 export const createState = (payload) =>
     withUI(() => masterApiRoutes.createMstState(payload));
@@ -66,7 +66,7 @@ export const deleteState = (id) =>
    MstZone
 ====================== */
 export const fetchZones = () =>
-    withUI(() => masterApiRoutes.getMstZoneList());
+    withUI(() => masterApiRoutes.getMstZoneList(), {showSuccessMessage: false});
 
 export const createZone = (payload) =>
     withUI(() => masterApiRoutes.createMstZone(payload));
@@ -81,7 +81,7 @@ export const deleteZone = (id) =>
    MstDepot
 ====================== */
 export const fetchDepots = () =>
-    withUI(() => masterApiRoutes.getMstDepotList());
+    withUI(() => masterApiRoutes.getMstDepotList(), {showSuccessMessage: false});
 
 export const createDepot = (payload) =>
     withUI(() => masterApiRoutes.createMstDepot(payload));

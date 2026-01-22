@@ -1,11 +1,11 @@
 // src/services/api/index.js
 import adminApi from "./adminApi.js";
 import publicApi from "./publicApi.js";
-import { attachAuth, handleError } from "./helpers.js";
+import {attachAuth, handleError} from "./helpers.js";
 import router from "@/router/index.js";
 
-import { useAuthStore } from "@/core/utils/stores/authStore.js";
-import { useUIStore } from "@/core/utils/stores/uiStore.js";
+import {useAuthStore} from "@/core/utils/stores/authStore.js";
+import {useUIStore} from "@/core/utils/stores/uiStore.js";
 
 const API_DEBUG = true; // ❗ set false in production
 
@@ -13,97 +13,102 @@ const API_DEBUG = true; // ❗ set false in production
  | CORE REQUEST WRAPPER
  -------------------------------- */
 function request(
-  apiInstance,
-  method,
-  url,
-  {
-    data = {},
-    queryParams = {},
-    headers = {},
-    auth = false,
-    responseType,
-  } = {},
+    apiInstance,
+    method,
+    url,
+    {
+        data = {},
+        queryParams = {},
+        headers = {},
+        auth = false,
+        responseType,
+    } = {},
 ) {
-  let config = {
-    params: queryParams,
-    headers,
-    responseType,
-  };
+    let config = {
+        params: queryParams,
+        headers,
+        responseType,
+    };
 
-  config = attachAuth(config, auth);
+    config = attachAuth(config, auth);
 
-  // 🔍 REQUEST DEBUG
-  if (API_DEBUG) {
-    console.group(`[API REQUEST] ${method.toUpperCase()} ${url}`);
-    console.log("Query Params:", queryParams);
-    console.log("Data:", data);
-    console.log("Headers:", config.headers);
-    console.log("Auth:", auth);
-    console.groupEnd();
-  }
-
-  // const requestCall =
-  //   method === "get"
-  //     ? apiInstance[method](url, config)
-  //     : apiInstance[method](url, data, config);
-
-  let requestCall;
-
-  if (method === "get") {
-    requestCall = apiInstance.get(url, config);
-  } else if (method === "delete") {
-    requestCall = apiInstance.delete(url, {
-      ...config,
-      data, // ✅ THIS FIXES AUTH
-    });
-  } else {
-    requestCall = apiInstance[method](url, data, config);
-  }
-
-  return requestCall
-    .then((res) => {
-      // ✅ RESPONSE DEBUG
-      if (API_DEBUG) {
-        console.group(`[API RESPONSE] ${method.toUpperCase()} ${url}`);
-        console.log("Status:", res.status);
-        console.log("Data:", res.data);
+    // 🔍 REQUEST DEBUG
+    if (API_DEBUG) {
+        console.group(`[API REQUEST] ${method.toUpperCase()} ${url}`);
+        console.log("Query Params:", queryParams);
+        console.log("Data:", data);
+        console.log("Headers:", config.headers);
+        console.log("Auth:", auth);
         console.groupEnd();
-      }
+    }
 
-      var response = res.data;
+    // const requestCall =
+    //   method === "get"
+    //     ? apiInstance[method](url, config)
+    //     : apiInstance[method](url, data, config);
 
-      // Handle Unauthenticated globally
-      if (
-        response?.actionCode === 1100
-        //  || response?.message?.includes("Unauthenticated.")
-      ) {
-        const uiStore = useUIStore();
-        uiStore.errorMessages = [
-          response?.message,
-          "Your session has expired. Please log in again.",
-        ];
+    let requestCall;
 
-        const authStore = useAuthStore();
-        authStore.forceLogout();
+    if (method === "get") {
+        requestCall = apiInstance.get(url, config);
+    } else if (method === "delete") {
+        requestCall = apiInstance.delete(url, {
+            ...config,
+            data, // ✅ THIS FIXES AUTH
+        });
+    } else {
+        requestCall = apiInstance[method](url, data, config);
+    }
 
-        router.replace({ name: "signin" });
-        return Promise.reject(response);
-      }
+    return requestCall
+        .then((res) => {
+            // ✅ RESPONSE DEBUG
+            if (API_DEBUG) {
+                console.group(`[API RESPONSE] ${method.toUpperCase()} ${url}`);
+                console.log("Status:", res.status);
+                console.log("Data:", res.data);
+                console.groupEnd();
+            }
 
-      return response;
-    })
-    .catch((error) => {
-      // ❌ ERROR DEBUG
-      if (API_DEBUG) {
-        console.group(`[API ERROR] ${method.toUpperCase()} ${url}`);
-        console.error("Error:", error);
-        console.error("Response:", error?.response);
-        console.error("Response Data:", error?.response?.data);
-        console.groupEnd();
-      }
+            var response = res.data;
 
-      return handleError(error);
-    });
+            // Handle Unauthenticated globally
+            if (response?.actionCode === 1100) {
+                const uiStore = useUIStore();
+                const authStore = useAuthStore();
+
+                // 1️⃣ Set error message (DO NOT reset after this)
+                uiStore.errorMessages = [
+                    response?.message || "Session expired",
+                    "Your session has expired. Please log in again.",
+                ];
+
+                // 2️⃣ Force logout (clear tokens, state)
+                authStore.forceLogout();
+                uiStore.isLoading = false;
+
+                // 3️⃣ Redirect to signin (hard redirect logic)
+                router.replace({name: "signin"});
+
+                // 4️⃣ Reject promise to stop further handling
+                return Promise.reject(response);
+            }
+
+
+            return response;
+        })
+        .catch((error) => {
+            // ❌ ERROR DEBUG
+            if (API_DEBUG) {
+                console.group(`[API ERROR] ${method.toUpperCase()} ${url}`);
+                console.error("Error:", error);
+                console.error("Response:", error?.response);
+                console.error("Response Data:", error?.response?.data);
+                console.groupEnd();
+            }
+
+            return handleError(error);
+        });
 }
 
 // function request(
@@ -135,52 +140,52 @@ function request(
  | EXPORT API
  -------------------------------- */
 export const Api = {
-  /* ---------- ADMIN (DEFAULT) ---------- */
+    /* ---------- ADMIN (DEFAULT) ---------- */
 
-  admin: {
-    get: (url, opts = {}) =>
-      request(adminApi, "get", url, { ...opts, auth: true }),
+    admin: {
+        get: (url, opts = {}) =>
+            request(adminApi, "get", url, {...opts, auth: true}),
 
-    post: (url, opts = {}) =>
-      request(adminApi, "post", url, { ...opts, auth: true }),
+        post: (url, opts = {}) =>
+            request(adminApi, "post", url, {...opts, auth: true}),
 
-    put: (url, opts = {}) =>
-      request(adminApi, "put", url, { ...opts, auth: true }),
+        put: (url, opts = {}) =>
+            request(adminApi, "put", url, {...opts, auth: true}),
 
-    delete: (url, opts = {}) =>
-      request(adminApi, "delete", url, { ...opts, auth: true }),
+        delete: (url, opts = {}) =>
+            request(adminApi, "delete", url, {...opts, auth: true}),
 
-    upload(url, { files, data = {}, headers = {}, auth = true } = {}) {
-      const formData = new FormData();
+        upload(url, {files, data = {}, headers = {}, auth = true} = {}) {
+            const formData = new FormData();
 
-      if (Array.isArray(files)) {
-        files.forEach((f) => formData.append("files[]", f));
-      } else {
-        formData.append("file", files);
-      }
+            if (Array.isArray(files)) {
+                files.forEach((f) => formData.append("files[]", f));
+            } else {
+                formData.append("file", files);
+            }
 
-      Object.entries(data).forEach(([k, v]) => formData.append(k, v));
+            Object.entries(data).forEach(([k, v]) => formData.append(k, v));
 
-      return request(adminApi, "post", url, {
-        data: formData,
-        headers: { ...headers, "Content-Type": "multipart/form-data" },
-        auth,
-      });
+            return request(adminApi, "post", url, {
+                data: formData,
+                headers: {...headers, "Content-Type": "multipart/form-data"},
+                auth,
+            });
+        },
+
+        download(url, opts = {}) {
+            return request(adminApi, "get", url, {
+                ...opts,
+                auth: true,
+                responseType: "blob",
+            });
+        },
     },
 
-    download(url, opts = {}) {
-      return request(adminApi, "get", url, {
-        ...opts,
-        auth: true,
-        responseType: "blob",
-      });
+    /* ---------- PUBLIC / SHARED ---------- */
+
+    public: {
+        get: (url, opts) => request(publicApi, "get", url, opts),
+        post: (url, opts) => request(publicApi, "post", url, opts),
     },
-  },
-
-  /* ---------- PUBLIC / SHARED ---------- */
-
-  public: {
-    get: (url, opts) => request(publicApi, "get", url, opts),
-    post: (url, opts) => request(publicApi, "post", url, opts),
-  },
 };
