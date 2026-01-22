@@ -59,7 +59,7 @@
   </BaseContainer>
 
   <!-- ADD / EDIT MODAL -->
-  <BaseModal ref="unitModal" icon="fas fa-ruler-combined">
+  <BaseModal ref="unitModal" icon="fas fa-box">
     <template #title>
       {{ isEdit ? "Edit Pack Type" : "Add Pack Type" }}
     </template>
