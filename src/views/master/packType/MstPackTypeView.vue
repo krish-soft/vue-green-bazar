@@ -1,12 +1,12 @@
 <template>
-  <BaseContainer heading="Unit Management">
+  <BaseContainer heading="Pack Type Management">
     <template #headerActions>
       <BaseButton
         variant="primary"
         icon="fas fa-plus"
         @click="openAdd"
       >
-        Add Unit
+        Add Pack Type
       </BaseButton>
     </template>
 
@@ -61,7 +61,7 @@
   <!-- ADD / EDIT MODAL -->
   <BaseModal ref="unitModal" icon="fas fa-ruler-combined">
     <template #title>
-      {{ isEdit ? "Edit Unit" : "Add Unit" }}
+      {{ isEdit ? "Edit Pack Type" : "Add Pack Type" }}
     </template>
 
     <div class="mb-3">
@@ -69,7 +69,7 @@
       <input
         class="form-control"
         v-model.trim="form.name"
-        placeholder="Enter unit name"
+        placeholder="Enter name"
         required
       />
     </div>
@@ -79,8 +79,8 @@
       <input
         class="form-control"
         v-model.trim="form.unit"
-        placeholder="Eg: KG, PCS"
-         :disabled="isEdit"
+        placeholder="Eg: Bag, Crate, Dozen etc."
+       :disabled="isEdit"
       />
     </div>
 
@@ -89,7 +89,7 @@
 
   <div class="d-flex align-items-center justify-content-between">
     <span class="text-muted">
-      Unit is
+      Pack Type is
       <b :class="form.is_active ? 'text-success' : 'text-danger'">
         {{ form.is_active ? "Active" : "Inactive" }}
       </b>
@@ -105,30 +105,6 @@
     </div>
   </div>
 </div>
-<!-- 
-   <div class="border rounded-3 p-3 bg-light">
-  <label class="form-label fw-semibold mb-2">Status</label>
-
-  <div class="d-flex align-items-center justify-content-between">
-    <span class="text-muted">
-     Unit is <b>{{ form.is_active ? "active" : "inactive" }}</b>
-    </span>
-
-    <button
-      type="button"
-      class="btn"
-      :class="form.is_active ? 'btn-outline-success' : 'btn-outline-danger'"
-      @click="form.is_active = !form.is_active"
-    >
-      <i
-        class="fas"
-        :class="form.is_active ? 'fa-check-circle' : 'fa-ban'"
-      ></i>
-      {{ form.is_active ? "Active" : "Inactive" }}
-    </button>
-  </div>
-</div> -->
-
 
     <template #footer>
       <BaseButton variant="secondary" @click="closeModal">
@@ -178,7 +154,7 @@ onMounted(loadList);
 /* ---------------- API ---------------- */
 async function loadList() {
   uiStore.isLoading = true;
-  const resp = await apiRouteService.getMstUnitList();
+  const resp = await apiRouteService.getMstPackTypeList();
   if (resp?.isSuccess) mListData.value = resp.data;
   uiStore.isLoading = false;
 }
@@ -215,15 +191,15 @@ async function submitForm() {
   uiStore.isLoading = true;
 
   const resp = isEdit.value
-    ? await apiRouteService.updateMstUnit(form.value.id, form.value)
-    : await apiRouteService.createMstUnit(form.value);
+    ? await apiRouteService.updateMstPackType(form.value.id, form.value)
+    : await apiRouteService.createMstPackType(form.value);
 
   uiStore.isLoading = false;
 
   if (resp?.isSuccess) {
     uiStore.successMessage = resp.message;
     closeModal();
-      mListData.value = []; // Clear the list to force reload
+    mListData.value = [];
     loadList();
   } else {
     uiStore.errorMessages = [resp?.message];
@@ -233,14 +209,14 @@ async function submitForm() {
 /* ---------------- DELETE ---------------- */
 async function deleteUnit(id) {
   const confirmed = await showConfirmDialog(
-    "Delete Unit",
-    "Are you sure you want to delete this unit?"
+    "Delete Pack Type",
+    "Are you sure you want to delete this pack type?"
   );
 
   if (!confirmed) return;
 
   uiStore.isLoading = true;
-  const resp = await apiRouteService.deleteMstUnit(id);
+  const resp = await apiRouteService.deleteMstPackType(id);
   uiStore.isLoading = false;
 
   if (resp?.isSuccess) {

@@ -28,6 +28,13 @@ export const sideMenu = [
         match: "exact",
       },
       {
+        label: "Pack Types",
+        icon: "fas fa-box",
+        module: 204,
+        to: { name: "mstpacktype" },
+        match: "exact",
+      },
+      {
         label: "Advanced",
         icon: "fas fa-sitemap",
         module: 205,

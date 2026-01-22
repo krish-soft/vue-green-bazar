@@ -5,6 +5,7 @@ import { useErrorStore } from "@/utils/stores/errorStore"; // Import Pinia store
 import HomeView from "@/views/HomeView.vue";
 import SignInView from "@/views/auth/SignInView.vue";
 import MsUnitView from "../views/master/unit/MsUnitView.vue";
+import MstPackTypeView from "../views/master/packType/MstPackTypeView.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -13,12 +14,8 @@ const router = createRouter({
     { path: "/signin", name: "signin", component: SignInView },
 
     // Master Routes
-    {
-      path: "/master/unit",
-      name: "msunit",
-      component: MsUnitView,
-      meta: { requiresAuth: true },
-    },
+    {path: "/master/unit", name: "msunit", component: MsUnitView, meta: { requiresAuth: true }},
+    {path: "/master/packType", name: "mstpacktype", component: MstPackTypeView, meta: { requiresAuth: true }},
   ],
 
   linkActiveClass: "router-link-active",
