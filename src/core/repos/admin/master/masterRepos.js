@@ -132,3 +132,18 @@ export const updateProductCategory = (id, payload) =>
 
 export const deleteProductCategory = (id) =>
   withUI(() => masterApiRoutes.deleteMstProductCategory(id));
+
+/* ======================
+   MstProduct
+====================== */
+
+export const fetchProducts = (filters = {}) =>
+  withUI(() => masterApiRoutes.getMstProductList(filters), {
+    showSuccessMessage: false,
+  });
+export const createProduct = (payload) =>
+  withUI(() => masterApiRoutes.createMstProduct(payload));
+export const updateProduct = (id, payload) =>
+  withUI(() => masterApiRoutes.updateMstProduct(id, payload));
+export const deleteProduct = (id) =>
+  withUI(() => masterApiRoutes.deleteMstProduct(id)); 

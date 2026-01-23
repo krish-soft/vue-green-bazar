@@ -52,6 +52,12 @@ export const sideMenu = [
             to: { name: "productcategory" },
             match: "exact",
           },
+          {
+            label: "Products",
+            icon: "fas fa-box-open",
+            to: { name: "product" },
+            match: "exact",
+          },
 
         ],
       },
