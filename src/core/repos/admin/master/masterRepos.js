@@ -113,4 +113,22 @@ export const uploadDepotPicture = (id, payload) =>
   withUI(() => masterApiRoutes.uploadDepotPicture(id, payload));
 
 export const removeDepotPicture = (id) =>
-  withUI(() => masterApiRoutes.removeDepotPicture(id)); 
+  withUI(() => masterApiRoutes.removeDepotPicture(id));
+
+/* ======================
+   MstProductCategory
+====================== */
+
+export const fetchProductCategories = (filters = {}) =>
+  withUI(() => masterApiRoutes.getMstProductCategoryList(filters), {
+    showSuccessMessage: false,
+  });
+
+export const createProductCategory = (payload) =>
+  withUI(() => masterApiRoutes.createMstProductCategory(payload));
+
+export const updateProductCategory = (id, payload) =>
+  withUI(() => masterApiRoutes.updateMstProductCategory(id, payload));
+
+export const deleteProductCategory = (id) =>
+  withUI(() => masterApiRoutes.deleteMstProductCategory(id));

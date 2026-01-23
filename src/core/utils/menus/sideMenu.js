@@ -13,13 +13,7 @@ export const sideMenu = [
     module: 200,
     match: "children",
     children: [
-      {
-        label: "Products",
-        icon: "fas fa-box",
-        module: 203,
-        to: { name: "signin" },
-        match: "exact",
-      },
+
       {
         label: "Units",
         icon: "fas fa-ruler",
@@ -48,23 +42,17 @@ export const sideMenu = [
         match: "exact",
       },
       {
-        label: "Advanced",
-        icon: "fas fa-sitemap",
-        module: 205,
+        label: "Product",
+        icon: "fas fa-box",
         match: "children",
         children: [
           {
             label: "Categories",
-            module: 206,
-            to: { name: "home" },
+            icon: "fas fa-tags",
+            to: { name: "productcategory" },
             match: "exact",
           },
-          {
-            label: "Brands",
-            module: 207,
-            to: { name: "home" },
-            match: "exact",
-          },
+
         ],
       },
     ],

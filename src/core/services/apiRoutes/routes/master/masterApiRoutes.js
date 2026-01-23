@@ -126,6 +126,25 @@ const masterApiRoutes = {
     return Api.admin.delete(`/master/mstDepot/${id}/deletePicture`);
   }, // Remove Picture
 
+  ////////////////////////
+  // mstProductCategory //
+  ////////////////////////
+
+  getMstProductCategoryList(filters = {}) {
+    return Api.admin.get("/master/mstProductCategory", {
+      queryParams: filters,
+    });
+  }, // List
+  createMstProductCategory(data) {
+    return Api.admin.post("/master/mstProductCategory", { data });
+  }, // Create
+  updateMstProductCategory(id, data) {
+    return Api.admin.put(`/master/mstProductCategory/${id}`, { data });
+  }, // Update
+
+  deleteMstProductCategory(id) {
+    return Api.admin.delete(`/master/mstProductCategory/${id}`);
+  }, // Delete
 
   //
 };

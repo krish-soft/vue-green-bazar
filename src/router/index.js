@@ -49,6 +49,15 @@ const router = createRouter({
           name: "mstdepotdetails",
           component: () => import("@/views/master/depot/MstDepotDetailsView.vue"),
         },
+
+        // Product Category Route
+        {
+          path: "product/category",
+          name: "productcategory",
+          component: () =>
+            import("@/views/master/product/ProductCategoryView.vue"),
+        },
+
       ],
     },
   ],
