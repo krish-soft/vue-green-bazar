@@ -58,6 +58,12 @@ export const sideMenu = [
             to: { name: "product" },
             match: "exact",
           },
+          {
+            label: "Product Variants",
+            icon: "fas fa-boxes",
+            to: { name: "productvariant" },
+            match: "exact",
+          },
 
         ],
       },

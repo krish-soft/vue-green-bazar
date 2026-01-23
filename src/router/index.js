@@ -63,6 +63,12 @@ const router = createRouter({
           component: () =>
             import("@/views/master/product/ProductView.vue"),
         },
+        {
+          path: "product/variant",
+          name: "productvariant",
+          component: () =>
+            import("@/views/master/product/ProductVariantView.vue"),
+        },
 
       ],
     },

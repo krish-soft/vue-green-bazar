@@ -167,6 +167,24 @@ const masterApiRoutes = {
   }, // Delete
 
 
+  ///////////////////////
+  // mstProductVariant //
+  ///////////////////////
+  getMstProductVariantList(filters = {}) {
+    return Api.admin.get("/master/mstProductVariant", {
+      queryParams: filters,
+    });
+  }, // List
+  createMstProductVariant(data) {
+    return Api.admin.post("/master/mstProductVariant", { data });
+  }, // Create
+  updateMstProductVariant(id, data) {
+    return Api.admin.put(`/master/mstProductVariant/${id}`, { data });
+  }, // Update
+
+  deleteMstProductVariant(id) {
+    return Api.admin.delete(`/master/mstProductVariant/${id}`);
+  }, // Delete
 
   //
 };

@@ -47,7 +47,7 @@ function waitForTableData() {
             clearInterval(retryTimer);
             retryTimer = null;
         }
-    }, 100);
+    }, 300);
 }
 
 export function registerDatatableAutoInit() {
