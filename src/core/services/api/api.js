@@ -1,11 +1,11 @@
 // src/services/api/index.js
 import adminApi from "./adminApi.js";
 import publicApi from "./publicApi.js";
-import {attachAuth, handleError} from "./helpers.js";
+import { attachAuth, handleError } from "./helpers.js";
 import router from "@/router/index.js";
 
-import {useAuthStore} from "@/core/utils/stores/authStore.js";
-import {useUIStore} from "@/core/utils/stores/uiStore.js";
+import { useAuthStore } from "@/core/utils/stores/authStore.js";
+import { useUIStore } from "@/core/utils/stores/uiStore.js";
 
 const API_DEBUG = true; // ❗ set false in production
 
@@ -88,7 +88,7 @@ function request(
                 uiStore.isLoading = false;
 
                 // 3️⃣ Redirect to signin (hard redirect logic)
-                router.replace({name: "signin"});
+                router.replace({ name: "signin" });
 
                 // 4️⃣ Reject promise to stop further handling
                 return Promise.reject(response);
@@ -144,31 +144,33 @@ export const Api = {
 
     admin: {
         get: (url, opts = {}) =>
-            request(adminApi, "get", url, {...opts, auth: true}),
+            request(adminApi, "get", url, { ...opts, auth: true }),
 
         post: (url, opts = {}) =>
-            request(adminApi, "post", url, {...opts, auth: true}),
+            request(adminApi, "post", url, { ...opts, auth: true }),
 
         put: (url, opts = {}) =>
-            request(adminApi, "put", url, {...opts, auth: true}),
+            request(adminApi, "put", url, { ...opts, auth: true }),
 
         delete: (url, opts = {}) =>
-            request(adminApi, "delete", url, {...opts, auth: true}),
+            request(adminApi, "delete", url, { ...opts, auth: true }),
 
-        upload(url, {files, data = {}, headers = {}, auth = true} = {}) {
+        upload(url, { files, data = {}, headers = {}, auth = true } = {}) {
             const formData = new FormData();
 
             if (Array.isArray(files)) {
                 files.forEach((f) => formData.append("files[]", f));
             } else {
-                formData.append("file", files);
+                // formData.append("file", files);
+                // convert in array
+                formData.append("files[]", files);
             }
 
             Object.entries(data).forEach(([k, v]) => formData.append(k, v));
 
             return request(adminApi, "post", url, {
                 data: formData,
-                headers: {...headers, "Content-Type": "multipart/form-data"},
+                headers: { ...headers, "Content-Type": "multipart/form-data" },
                 auth,
             });
         },

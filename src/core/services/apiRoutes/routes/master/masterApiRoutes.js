@@ -115,7 +115,16 @@ const masterApiRoutes = {
       `/master/mstDepot/${depotId}/address`,
       { data }
     );
-  }
+  }, // Add Address
+  uploadDepotPicture(depotId, data) {
+    return Api.admin.upload(
+      `/master/mstDepot/${depotId}/uploadPicture`,
+      { files: data }
+    );
+  }, // Upload Picture
+  removeDepotPicture(id) {
+    return Api.admin.delete(`/master/mstDepot/${id}/deletePicture`);
+  }, // Remove Picture
 
 
   //

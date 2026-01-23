@@ -45,7 +45,7 @@ const router = createRouter({
           component: () => import("@/views/master/depot/MstDepotView.vue"),
         },
         {
-          path: "depot-details/:id",
+          path: "depot/details/:id",
           name: "mstdepotdetails",
           component: () => import("@/views/master/depot/MstDepotDetailsView.vue"),
         },

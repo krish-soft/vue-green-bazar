@@ -7,19 +7,17 @@
     </template>
 
     <template #body>
-      <table
-        id="datatable"
-        class="table table-hover table-striped table-bordered align-middle"
-      >
+      <table id="datatable" class="table table-hover table-striped table-bordered align-middle">
         <thead class="table-dark">
           <tr>
             <th>#</th>
-            <th>Zone</th>
-            <th>Name</th>
-            <th>Code</th>
+            <th>Zone Details</th>
+            <th>Depot Details</th>
+
             <th>Capacity</th>
             <th>Cut Off Times</th>
             <th>Contact Person</th>
+            <th>Address</th>
 
             <th>Status</th>
             <th class="text-center">Action</th>
@@ -31,47 +29,46 @@
             <td>{{ i + 1 }}</td>
             <td>
               <!-- {{ row.zone_id }} -->
-              <b> Zone:</b> {{ row?.zone?.code }} ({{ row?.zone?.name }})
-              <br /><b>State:</b> {{ row?.zone?.state?.name }} ({{
+              <b> Zone:</b> <br />{{ row?.zone?.code }} ({{ row?.zone?.name }})
+              <br /><b>State:</b> <br />{{ row?.zone?.state?.name }} ({{
                 row?.zone?.state?.iso_code
               }})
             </td>
-            <td>{{ row.name }}</td>
-            <td>{{ row.code }}</td>
             <td>
-              Max. : {{ row.max_capacity_kg }} kg <br />
-              Current : {{ row.current_load_kg }} kg
+              <b> Name:</b> <br />{{ row.name }}<br />
+              <b> Code:</b><br /> {{ row.code }}
             </td>
             <td>
-              Buyer: {{ row.buyer_cutoff_time }} <br />
-              Seller: {{ row.seller_cutoff_time }}
+              <b> Max. : </b><br />{{ row.max_capacity_kg }} kg <br />
+              <b>Current :</b><br /> {{ row.current_load_kg }} kg
             </td>
             <td>
-              {{ row.contact_name }} <br />
-              {{ row.contact_phone }} <br />
-              {{ row.contact_email }}
+              <b>Buyer:</b> <br />{{ row.buyer_cutoff_time }} <br />
+              <b>Seller:</b><br /> {{ row.seller_cutoff_time }}
             </td>
             <td>
-              <span
-                class="badge px-3"
-                :class="row.is_active ? 'bg-success' : 'bg-danger'"
-              >
+              <b>Contact Name:</b> <br />{{ row.contact_name }} <br />
+              <b>Contact Phone:</b> <br />{{ row.contact_phone }}
+              <!-- <br /> <b>Contact Email:</b> <br />{{ row.contact_email }} -->
+            </td>
+            <td>
+              <span v-if="row.address">
+                {{ row.address.addr_line1 }}, {{ row.address.addr_line2 }},
+                <br /> {{ row.address.city }}, {{ row.address.state }} -
+                <br /> {{ row.address.postal_code }}
+              </span>
+              <span v-else class="text-muted"> {{ row.addr_code || "N/A" }} </span>
+
+            </td>
+            <td>
+              <span class="badge px-3" :class="row.is_active ? 'bg-success' : 'bg-danger'">
                 {{ row.is_active ? "Active" : "Inactive" }}
               </span>
             </td>
+
             <td class="text-center">
-              <BaseButton
-                iconOnly
-                variant="primary me-2"
-                icon="fas fa-edit"
-                @click="openEdit(row)"
-              />
-              <BaseButton
-                iconOnly
-                variant="sky me-2"
-                icon="fas fa-eye "
-                @click="showItemById(row.id)"
-              />
+              <BaseButton iconOnly variant="primary me-2" icon="fas fa-edit" @click="openEdit(row)" />
+              <BaseButton iconOnly variant="sky me-2" icon="fas fa-eye " @click="showItemById(row.id)" />
 
               <!-- <BaseButton
                 iconOnly
@@ -81,6 +78,7 @@
               /> -->
             </td>
           </tr>
+
         </tbody>
       </table>
     </template>
@@ -95,95 +93,48 @@
     <form id="newForm" @submit.prevent="submitForm">
       <div class="row">
         <div class="col-md-6">
-          <BaseInput
-            label="Depot Name"
-            v-model="form.name"
-            placeholder="Enter depot name"
-            required
-          />
+          <BaseInput label="Depot Name" v-model="form.name" placeholder="Enter depot name" required />
         </div>
         <div class="col-md-6">
-          <BaseAutoCompleteSelect
-            v-model="form.zone_id"
-            :options="zoneData"
-            label="Zone"
-            :label-key="
-              (z) =>
-                ` ${z.code}- ${z.name}  | ${z?.state?.name} (${z?.state?.iso_code})`
-            "
-            value-key="id"
-            required
-          />
+          <BaseAutoCompleteSelect v-model="form.zone_id" :options="zoneData" label="Zone" :label-key="(z) =>
+            ` ${z.code}- ${z.name}  | ${z?.state?.name} (${z?.state?.iso_code})`
+            " value-key="id" required />
         </div>
       </div>
 
       <div class="row">
         <div class="col-md-6">
-          <BaseInput
-            label="Max Capacity (kg)"
-            type="number"
-            step="0.5"
-            v-model="form.max_capacity_kg"
-            placeholder="Enter max capacity in kg"
-            required
-          />
+          <BaseInput label="Max Capacity (kg)" type="number" step="0.5" v-model="form.max_capacity_kg"
+            placeholder="Enter max capacity in kg" required />
         </div>
         <div class="col-md-6">
-          <BaseInput
-            label="Current Load (kg)"
-            type="number"
-            step="0.5"
-            v-model="form.current_load_kg"
-            placeholder="Enter current load in kg"
-            required
-          />
+          <BaseInput label="Current Load (kg)" type="number" step="0.5" v-model="form.current_load_kg"
+            placeholder="Enter current load in kg" required />
         </div>
       </div>
 
       <div class="row">
         <div class="col-md-6">
-          <BaseInput
-            label="Buyer Cut Off Time"
-            type="time"
-            v-model="form.buyer_cutoff_time"
-            placeholder="Enter buyer cut off time"
-            required
-          />
+          <BaseInput label="Buyer Cut Off Time" type="time" v-model="form.buyer_cutoff_time"
+            placeholder="Enter buyer cut off time" required />
         </div>
         <div class="col-md-6">
-          <BaseInput
-            label="Seller Cut Off Time"
-            type="time"
-            v-model="form.seller_cutoff_time"
-            placeholder="Enter seller cut off time"
-            required
-          />
+          <BaseInput label="Seller Cut Off Time" type="time" v-model="form.seller_cutoff_time"
+            placeholder="Enter seller cut off time" required />
         </div>
       </div>
 
       <div class="row">
         <div class="col-md-4">
-          <BaseInput
-            label="Contact Name"
-            v-model="form.contact_name"
-            placeholder="Enter contact person name"
-            required
-          />
+          <BaseInput label="Contact Name" v-model="form.contact_name" placeholder="Enter contact person name"
+            required />
         </div>
         <div class="col-md-4">
-          <BaseInput
-            label="Contact Phone"
-            v-model="form.contact_phone"
-            placeholder="Enter contact phone number"
-          />
+          <BaseInput label="Contact Phone" v-model="form.contact_phone" placeholder="Enter contact phone number" />
         </div>
         <div class="col-md-4">
-          <BaseInput
-            label="Contact Email"
-            type="email"
-            v-model="form.contact_email"
-            placeholder="Enter contact email"
-          />
+          <BaseInput label="Contact Email" type="email" v-model="form.contact_email"
+            placeholder="Enter contact email" />
         </div>
       </div>
 
@@ -201,11 +152,7 @@
               </span>
 
               <!-- TOGGLE -->
-              <div
-                class="status-toggle"
-                :class="{ active: form.is_active }"
-                @click="form.is_active = !form.is_active"
-              >
+              <div class="status-toggle" :class="{ active: form.is_active }" @click="form.is_active = !form.is_active">
                 <span class="toggle-knob"></span>
               </div>
             </div>
@@ -216,16 +163,15 @@
 
     <template #footer>
       <BaseButton variant="secondary" @click="closeModal"> Cancel </BaseButton>
-      <BaseButton
-        variant="primary"
-        :loading="uiStore.isLoading"
-        type="submit"
-        form="newForm"
-      >
+      <BaseButton variant="primary" :loading="uiStore.isLoading" type="submit" form="newForm">
         Save
       </BaseButton>
     </template>
   </BaseModal>
+
+
+
+
 </template>
 
 <script setup>
@@ -241,7 +187,7 @@ import {
   fetchDepots,
   createDepot,
   updateDepot,
-  
+
   deleteDepot,
   fetchZones,
 } from "@/core/repos/admin/master/masterRepos.js";

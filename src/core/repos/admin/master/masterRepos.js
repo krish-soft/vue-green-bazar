@@ -55,8 +55,8 @@ export const deleteVehicle = (id) =>
 /* ======================
    MstState
 ====================== */
-export const fetchStates = (queryParams = {}) =>
-  withUI(() => masterApiRoutes.getMstStateList(queryParams), {
+export const fetchStates = (filters = {}) =>
+  withUI(() => masterApiRoutes.getMstStateList(filters), {
     showSuccessMessage: false,
   });
 
@@ -101,7 +101,7 @@ export const updateDepot = (id, payload) =>
   withUI(() => masterApiRoutes.updateMstDepot(id, payload));
 
 export const showDepotDetails = (id) =>
-  withUI(() => masterApiRoutes.showMstDepot(id));
+  withUI(() => masterApiRoutes.showMstDepot(id), { showSuccessMessage: false });
 
 export const deleteDepot = (id) =>
   withUI(() => masterApiRoutes.deleteMstDepot(id));
@@ -109,3 +109,8 @@ export const deleteDepot = (id) =>
 export const saveDepotAddress = (id, payload) =>
   withUI(() => masterApiRoutes.addDepotAddress(id, payload));
 
+export const uploadDepotPicture = (id, payload) =>
+  withUI(() => masterApiRoutes.uploadDepotPicture(id, payload));
+
+export const removeDepotPicture = (id) =>
+  withUI(() => masterApiRoutes.removeDepotPicture(id)); 

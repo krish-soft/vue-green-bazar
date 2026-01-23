@@ -19,12 +19,12 @@
                                 <th class="text-muted fw-normal">Depot Code</th>
                                 <td>{{ depotDetails.code || "N/A" }}</td>
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <th class="text-muted fw-normal">Other Code</th>
                                 <td>{{ depotDetails.other_code || "N/A" }}</td>
-                            </tr>
+                            </tr> -->
                             <tr>
-                                <th class="text-muted fw-normal">Address Code</th>
+                                <th class="text-muted fw-normal">Address Code [Location]</th>
                                 <td>{{ depotDetails.addr_code || "N/A" }}</td>
                             </tr>
                             <tr>
@@ -228,18 +228,17 @@
                         <h6 class="fw-semibold text-muted mb-0">Depot Picture</h6>
 
                         <div class="d-flex gap-2">
-                            <BaseButton size="sm" variant="secondary" @click="uploadPicture">
+                            <BaseButton size="sm" variant="secondary" @click="openUploadPictureModal">
                                 {{ depotDetails.picture ? "Change Picture" : "Add Picture" }}
                             </BaseButton>
 
-                            <BaseButton v-if="depotDetails.picture" size="sm" variant="outline-danger"
-                                @click="removePicture">
+                            <BaseButton v-if="depotDetails.picture" size="sm" variant="danger" @click="removePicture">
                                 Remove
                             </BaseButton>
                         </div>
                     </div>
 
-                    <img v-if="depotDetails.picture" :src="depotDetails.picture" class="img-thumbnail"
+                    <img v-if="depotDetails.picture" :src="depotDetails?.pictureUrl" class="img-thumbnail"
                         style="max-width:160px" />
 
                     <div v-else class="text-muted small">No picture uploaded.</div>
@@ -253,7 +252,7 @@
         </template>
     </BaseContainer>
 
-    <!-- ADDRESS MODAL -->
+
     <!-- ADDRESS MODAL -->
     <BaseModal ref="addressModal" icon="fas fa-map-marker-alt" size="modal-lg">
         <template #title>
@@ -295,10 +294,13 @@
             <!-- State & Postal -->
             <div class="row">
                 <div class="col-md-4">
-                    <BaseInput label="State" v-model="addressForm.state" required />
+                    <!-- <BaseInput label="State" v-model="addressForm.state" required /> -->
+                    <BaseAutoCompleteSelect label="State" v-model="addressForm.state" :options="statesList"
+                        :label-key="'name'" :value-key="'name'" placeholder="Select State" required />
                 </div>
+
                 <div class="col-md-4">
-                    <BaseInput label="State ISO" v-model="addressForm.state_iso" required />
+                    <BaseInput label="State ISO" v-model="addressForm.state_iso" required readonly />
                 </div>
                 <div class="col-md-4">
                     <BaseInput label="Postal Code" v-model="addressForm.postal_code" required />
@@ -337,12 +339,34 @@
     </BaseModal>
 
 
+    <!-- Add/Update/Remove Picture Modal -->
+    <BaseModal ref="uploadPictureModal" icon="fas fa-image" size="modal-md">
+        <template #title>
+            Upload Depot Picture
+        </template>
+
+        <form id="uploadPictureForm" @submit.prevent="submitUploadPicture">
+            <BaseFileInput label="Select Picture" v-model="pictureFile" accept=".jpg,.jpeg,.png" required
+                help-text="Allowed formats: JPG, JPEG, PNG" />
+        </form>
+
+        <template #footer>
+            <BaseButton variant="secondary" @click="closeUploadPictureModal">
+                Cancel
+            </BaseButton>
+            <BaseButton variant="primary" type="submit" form="uploadPictureForm" :loading="uiStore.isLoading">
+                Upload
+            </BaseButton>
+        </template>
+    </BaseModal>
+
+
 </template>
 
 
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useUIStore } from "@/core/utils/stores/uiStore";
 import BaseContainer from "@/components/common/cards/BaseContainer.vue";
@@ -352,19 +376,19 @@ import BaseButton from "@/components/common/buttons/BaseButton.vue";
 import BaseInput from "@/components/common/inputs/BaseInput.vue";
 
 import { showDepotDetails } from "@/core/repos/admin/master/masterRepos.js";
-import { saveDepotAddress } from "@/core/repos/admin/master/masterRepos.js";
+import { saveDepotAddress, fetchStates, removeDepotPicture, uploadDepotPicture } from "@/core/repos/admin/master/masterRepos.js";
+import BaseAutoCompleteSelect from "../../../components/common/inputs/BaseAutoCompleteSelect.vue";
+import BaseFileInput from "../../../components/common/inputs/BaseFileInput.vue";
 
 const route = useRoute();
 const uiStore = useUIStore();
 
 const depotId = ref(route.params.id);
 const depotDetails = ref(null);
+const statesList = ref([]);
 
-/* LOAD DEPOT */
-onMounted(async () => {
-    if (!depotId.value) return;
-    depotDetails.value = await showDepotDetails(depotId.value);
-});
+const uploadPictureModal = ref(null);
+const pictureFile = ref(null);
 
 /* ADDRESS MODAL STATE */
 const addressModal = ref(null);
@@ -420,8 +444,34 @@ function resetAddressForm() {
     };
 }
 
+
+
+// watch change on state name chagne and update state_iso
+watch(() => addressForm.value.state, (newState) => {
+    const stateObj = statesList.value.find(state => state.name === newState);
+    if (stateObj) {
+        addressForm.value.state_iso = stateObj.iso_code || "";
+    } else {
+        addressForm.value.state_iso = "";
+    }
+});
+
+/* LOAD DEPOT */
+onMounted(async () => {
+    if (!depotId.value) return;
+    depotDetails.value = await showDepotDetails(depotId.value);
+});
+
+
+
 /* OPEN MODAL */
-function manageAddress() {
+async function manageAddress() {
+
+    // Load states if not already loaded
+    if (statesList.value.length === 0) {
+        statesList.value = await fetchStates({ is_active: true });
+    }
+
     resetAddressForm();
 
     if (depotDetails.value?.address) {
@@ -457,9 +507,44 @@ async function submitAddress() {
 }
 
 
+function openUploadPictureModal() {
+    pictureFile.value = null;
+    uploadPictureModal.value.show();
+}
 
-const uploadPicture = () => {
-    alert("Upload Picture functionality to be implemented.");
-};
+function closeUploadPictureModal() {
+    uploadPictureModal.value.hide();
+    pictureFile.value = null;
+}
+
+async function submitUploadPicture() {
+    if (!pictureFile.value) return;
+
+    // 👇 pass FILE directly, not object
+    const result = await uploadDepotPicture(
+        depotId.value,
+        pictureFile.value
+    );
+
+    // ❌ stop if API failed
+    if (result === null) return;
+
+    closeUploadPictureModal();
+
+    // refresh depot details
+    depotDetails.value = await showDepotDetails(depotId.value);
+}
+
+
+async function removePicture() {
+    const confirmed = confirm("Remove depot picture?");
+    if (!confirmed) return;
+
+    const result = await removeDepotPicture(depotId.value);
+    if (result === null) return;
+
+    depotDetails.value = await showDepotDetails(depotId.value);
+}
+
 
 </script>
