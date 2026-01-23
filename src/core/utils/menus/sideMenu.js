@@ -73,6 +73,20 @@ export const sideMenu = [
 
         ],
       },
+      {
+        label: "Charge",
+        icon: "fa-solid fa-hand-holding-dollar",
+        match: "children",
+        children: [
+          {
+            label: "Charges",
+            icon: "fas fa-tag",
+            to: { name: "charge" },
+            match: "exact",
+          },
+
+        ],
+      },
     ],
   },
 ];

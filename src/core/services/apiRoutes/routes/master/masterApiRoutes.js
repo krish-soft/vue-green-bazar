@@ -206,6 +206,26 @@ const masterApiRoutes = {
     return Api.admin.delete(`/master/mstProductPackaging/${id}`);
   }, // Delete
 
+
+  ///////////////
+  // mstCharge //
+  ///////////////
+  getMstChargeList(filters = {}) {
+    return Api.admin.get("/master/mstCharge", {
+      queryParams: filters,
+    });
+  }, // List
+  createMstCharge(data) {
+    return Api.admin.post("/master/mstCharge", { data });
+  }, // Create
+  updateMstCharge(id, data) {
+    return Api.admin.put(`/master/mstCharge/${id}`, { data });
+  }, // Update
+
+  deleteMstCharge(id) {
+    return Api.admin.delete(`/master/mstCharge/${id}`);
+  }, // Delete
+
   //
 };
 

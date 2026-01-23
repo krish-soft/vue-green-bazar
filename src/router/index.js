@@ -75,6 +75,13 @@ const router = createRouter({
           component: () =>
             import("@/views/master/product/ProductPackagingView.vue"),
         },
+        // Charges
+        {
+          path: "charge",
+          name: "charge",
+          component: () =>
+            import("@/views/master/charge/MstChargeView.vue"),
+        },
 
       ],
     },

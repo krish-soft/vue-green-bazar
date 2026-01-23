@@ -177,4 +177,19 @@ export const createProductPackaging = (payload) =>
 export const updateProductPackaging = (id, payload) =>
   withUI(() => masterApiRoutes.updateMstProductPackaging(id, payload));
 export const deleteProductPackaging = (id) =>
-  withUI(() => masterApiRoutes.deleteMstProductPackaging(id));  
+  withUI(() => masterApiRoutes.deleteMstProductPackaging(id));
+
+
+/* ======================
+   MstCharge
+====================== */
+export const fetchCharges = (filters = {}) =>
+  withUI(() => masterApiRoutes.getMstChargeList(filters), {
+    showSuccessMessage: false,
+  });
+export const createCharge = (payload) =>
+  withUI(() => masterApiRoutes.createMstCharge(payload));
+export const updateCharge = (id, payload) =>
+  withUI(() => masterApiRoutes.updateMstCharge(id, payload));
+export const deleteCharge = (id) =>
+  withUI(() => masterApiRoutes.deleteMstCharge(id));
