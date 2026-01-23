@@ -226,6 +226,27 @@ const masterApiRoutes = {
     return Api.admin.delete(`/master/mstCharge/${id}`);
   }, // Delete
 
+  ////////////////////
+  // mstChargeLevel //
+  ////////////////////
+  getMstChargeLevelList(filters = {}) {
+    return Api.admin.get("/master/mstChargeLevel", {
+      queryParams: filters,
+    });
+  }, // List  
+  createMstChargeLevel(data) {
+    return Api.admin.post("/master/mstChargeLevel", { data });
+  }, // Create
+  updateMstChargeLevel(id, data) {
+    return Api.admin.put(`/master/mstChargeLevel/${id}`, { data });
+  }, // Update
+
+  deleteMstChargeLevel(id) {
+    return Api.admin.delete(`/master/mstChargeLevel/${id}`);
+  }, // Delete
+
+
+
   //
 };
 

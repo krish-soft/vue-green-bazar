@@ -1,8 +1,8 @@
 <template>
-    <BaseContainer heading="Charges Management">
+    <BaseContainer heading="Charges Level  Management">
         <template #headerActions>
             <BaseButton variant="primary" icon="fas fa-plus" @click="openAdd">
-                Add Charges
+                Add Charges Level
             </BaseButton>
         </template>
 
@@ -15,11 +15,7 @@
                             <th>Name</th>
                             <th>Code</th>
                             <th>Description</th>
-                            <th>CGST (%)</th>
-                            <th>SGST (%)</th>
-                            <th>IGST (%)</th>
-
-                            <th>Taxable</th>
+                            <th>User Role Type</th>
                             <th>Status</th>
                             <th class="text-center">Action</th>
                         </tr>
@@ -31,16 +27,7 @@
                             <td>{{ row.name }}</td>
                             <td>{{ row.code }}</td>
                             <td>{{ row.description }}</td>
-
-                            <td>{{ row.cgst_percent }}</td>
-                            <td>{{ row.sgst_percent }}</td>
-                            <td>{{ row.igst_percent }}</td>
-                            <td>
-                                <span class="badge px-3"
-                                    :class="row.is_taxable ? 'bg-warning text-danger' : 'bg-success'">
-                                    {{ row.is_taxable ? "Taxable" : "Non-Taxable" }}
-                                </span>
-                            </td>
+                            <td>{{ row.user_role_type }}</td>
                             <td>
                                 <span class="badge px-3" :class="row.is_active ? 'bg-success' : 'bg-danger'">
                                     {{ row.is_active ? "Active" : "Inactive" }}
@@ -61,7 +48,7 @@
     <!-- ADD / EDIT MODAL -->
     <BaseModal ref="aModal" icon="fas fa-hand-holding-dollar">
         <template #title>
-            {{ isEdit ? "Edit Charge" : "Add Charge" }}
+            {{ isEdit ? "Edit Charges Level" : "Add Charges Level" }}
         </template>
 
         <div class="mb-3">
@@ -74,45 +61,12 @@
         </div>
 
         <div class="mb-3">
-            <BaseInput label="Description" v-model.trim="form.description" placeholder="Enter Description" />
+            <BaseInput label="Description" v-model.trim="form.description" placeholder="Enter Description" required />
         </div>
 
         <div class="mb-3">
-            <BaseInput label="CGST Percent" v-model.trim="form.cgst_percent" type="number" :step="0.01"
-                placeholder="Enter CGST Percent" required />
-
-        </div>
-
-        <div class="mb-3">
-            <BaseInput label="SGST Percent" v-model.trim="form.sgst_percent" type="number" :step="0.01"
-                placeholder="Enter SGST Percent" required />
-
-        </div>
-
-        <div class="mb-3">
-            <BaseInput label="IGST Percent" v-model.trim="form.igst_percent" type="number" :step="0.01"
-                placeholder="Enter IGST Percent" required />
-        </div>
-
-
-
-        <div class=" border rounded-3 p-3 bg-light">
-            <label class="form-label fw-semibold mb-2">Taxable</label>
-
-            <div class="d-flex align-items-center justify-content-between">
-                <span class="text-muted">
-                    Charges is
-                    <b :class="form.is_taxable ? 'text-warning' : 'text-gray'">
-                        {{ form.is_taxable ? "Taxable" : "Non-Taxable" }}
-                    </b>
-                </span>
-
-                <!-- TOGGLE -->
-                <div class="status-toggle" :class="{ active: form.is_taxable }"
-                    @click="form.is_taxable = !form.is_taxable">
-                    <span class="toggle-knob"></span>
-                </div>
-            </div>
+            <BaseAutoCompleteSelect label="User Role Type" :options="mUserRoleTypeEnum" v-model="form.user_role_type"
+                value-key="code" label-key="label" required />
         </div>
 
 
@@ -121,7 +75,7 @@
 
             <div class="d-flex align-items-center justify-content-between">
                 <span class="text-muted">
-                    Charges is
+                    Charge Level is
                     <b :class="form.is_active ? 'text-success' : 'text-danger'">
                         {{ form.is_active ? "Active" : "Inactive" }}
                     </b>
@@ -156,17 +110,21 @@ import BaseInput from "@/components/common/inputs/BaseInput.vue";
 
 import { useUIStore } from "@/core/utils/stores/uiStore";
 import { showConfirmDialog } from "@/core/utils/uiHelpers/swalUtils.js";
+import { mUserRoleTypeEnum } from "@/core/utils/constants/constants";
+
 
 import {
-    fetchCharges,
-    createCharge,
-    updateCharge,
-    deleteCharge
+    fetchChargeLevels,
+    createChargeLevel,
+    updateChargeLevel,
+    deleteChargeLevel
 } from "@/core/repos/admin/master/masterRepos";
+import BaseAutoCompleteSelect from "@/components/common/inputs/BaseAutoCompleteSelect.vue";
 
 /* ---------------- STATE ---------------- */
 const uiStore = useUIStore();
 const mListData = ref([]);
+
 
 const aModal = ref(null);
 const isEdit = ref(false);
@@ -176,12 +134,8 @@ const form = ref({
     name: "",
     code: "",
     description: "",
-    cgst_percent: "",
-    sgst_percent: "",
-    igst_percent: "",
-
+    user_role_type: "",
     is_active: true,
-    is_taxable: false,
 });
 
 function resetForm() {
@@ -190,12 +144,8 @@ function resetForm() {
         name: "",
         code: "",
         description: "",
-        cgst_percent: "",
-        sgst_percent: "",
-        igst_percent: "",
-
+        user_role_type: "",
         is_active: true,
-        is_taxable: false,
     };
 }
 
@@ -204,7 +154,7 @@ onMounted(loadList);
 
 /* ---------------- LIST ---------------- */
 async function loadList() {
-    mListData.value = await fetchCharges();   // ✅ NO CHECK
+    mListData.value = await fetchChargeLevels();   // ✅ NO CHECK
 }
 
 /* ---------------- MODAL ---------------- */
@@ -230,8 +180,8 @@ function closeModal() {
 /* ---------------- SAVE ---------------- */
 async function submitForm() {
     await (isEdit.value
-        ? updateCharge(form.value.id, form.value)
-        : createCharge(form.value));
+        ? updateChargeLevel(form.value.id, form.value)
+        : createChargeLevel(form.value));
 
     closeModal();
     mListData.value = [];
@@ -241,13 +191,13 @@ async function submitForm() {
 /* ---------------- DELETE ---------------- */
 async function deleteAction(id) {
     const confirmed = await showConfirmDialog(
-        "Delete Charge",
-        "Are you sure you want to delete this charge?"
+        "Delete Charge Level",
+        "Are you sure you want to delete this charge level?"
     );
 
     if (!confirmed) return;
 
-    await deleteCharge(id);
+    await deleteChargeLevel(id);
     mListData.value = [];
 
     loadList();    // ✅ ALWAYS SAFE

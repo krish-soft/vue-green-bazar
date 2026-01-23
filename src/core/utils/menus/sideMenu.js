@@ -84,6 +84,12 @@ export const sideMenu = [
             to: { name: "charge" },
             match: "exact",
           },
+          {
+            label: "Charge Levels",
+            icon: "fas fa-level-up-alt",
+            to: { name: "chargelevel" },
+            match: "exact",
+          },
 
         ],
       },

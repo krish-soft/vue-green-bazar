@@ -193,3 +193,19 @@ export const updateCharge = (id, payload) =>
   withUI(() => masterApiRoutes.updateMstCharge(id, payload));
 export const deleteCharge = (id) =>
   withUI(() => masterApiRoutes.deleteMstCharge(id));
+
+
+/* ======================
+   MstChargeLevel
+====================== */
+
+export const fetchChargeLevels = (filters = {}) =>
+  withUI(() => masterApiRoutes.getMstChargeLevelList(filters), {
+    showSuccessMessage: false,
+  });
+export const createChargeLevel = (payload) =>
+  withUI(() => masterApiRoutes.createMstChargeLevel(payload));
+export const updateChargeLevel = (id, payload) =>
+  withUI(() => masterApiRoutes.updateMstChargeLevel(id, payload));
+export const deleteChargeLevel = (id) =>
+  withUI(() => masterApiRoutes.deleteMstChargeLevel(id));

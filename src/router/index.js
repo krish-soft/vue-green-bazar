@@ -82,6 +82,12 @@ const router = createRouter({
           component: () =>
             import("@/views/master/charge/MstChargeView.vue"),
         },
+        {
+          path: "charge/level",
+          name: "chargelevel",
+          component: () =>
+            import("@/views/master/charge/MstChargeLevelView.vue"),
+        },
 
       ],
     },
