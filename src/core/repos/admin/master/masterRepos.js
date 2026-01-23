@@ -162,3 +162,19 @@ export const updateProductVariant = (id, payload) =>
   withUI(() => masterApiRoutes.updateMstProductVariant(id, payload));
 export const deleteProductVariant = (id) =>
   withUI(() => masterApiRoutes.deleteMstProductVariant(id));
+
+
+/* ======================
+   MstProductPackaging
+====================== */
+
+export const fetchProductPackagings = (filters = {}) =>
+  withUI(() => masterApiRoutes.getMstProductPackagingList(filters), {
+    showSuccessMessage: false,
+  });
+export const createProductPackaging = (payload) =>
+  withUI(() => masterApiRoutes.createMstProductPackaging(payload));
+export const updateProductPackaging = (id, payload) =>
+  withUI(() => masterApiRoutes.updateMstProductPackaging(id, payload));
+export const deleteProductPackaging = (id) =>
+  withUI(() => masterApiRoutes.deleteMstProductPackaging(id));  

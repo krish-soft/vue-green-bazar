@@ -186,6 +186,26 @@ const masterApiRoutes = {
     return Api.admin.delete(`/master/mstProductVariant/${id}`);
   }, // Delete
 
+  /////////////////////////
+  // mstProductPackaging //
+  /////////////////////////
+
+  getMstProductPackagingList(filters = {}) {
+    return Api.admin.get("/master/mstProductPackaging", {
+      queryParams: filters,
+    });
+  }, // List
+  createMstProductPackaging(data) {
+    return Api.admin.post("/master/mstProductPackaging", { data });
+  }, // Create
+  updateMstProductPackaging(id, data) {
+    return Api.admin.put(`/master/mstProductPackaging/${id}`, { data });
+  }, // Update
+
+  deleteMstProductPackaging(id) {
+    return Api.admin.delete(`/master/mstProductPackaging/${id}`);
+  }, // Delete
+
   //
 };
 
