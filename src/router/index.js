@@ -121,6 +121,16 @@ const router = createRouter({
           name: "mstfinanceyear",
           component: () => import("@/views/master/setting/MstFinanceYearView.vue"),
         },
+        {
+          path: "setting/app-setting",
+          name: "mstappsetting",
+          component: () => import("@/views/master/setting/MstAppSettingView.vue"),
+        },
+        {
+          path: "setting/finance-setting",
+          name: "mstfinancesetting",
+          component: () => import("@/views/master/setting/MstFinanceSettingView.vue"),
+        },
 
       ],
     },

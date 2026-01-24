@@ -116,6 +116,18 @@ export const sideMenu = [
             to: { name: "mstfinanceyear" },
             match: "exact",
           },
+          {
+            label: "App Setting",
+            icon: "fas fa-cogs",
+            to: { name: "mstappsetting" },
+            match: "exact",
+          },
+          {
+            label: "Finance Setting",
+            icon: "fas fa-money-bill-wave",
+            to: { name: "mstfinancesetting" },
+            match: "exact",
+          },
 
 
 

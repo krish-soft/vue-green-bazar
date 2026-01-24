@@ -254,3 +254,20 @@ export const updateFinancialYear = (id, payload) =>
   withUI(() => masterApiRoutes.updateMstFinancialYear(id, payload));
 export const deleteFinancialYear = (id) =>
   withUI(() => masterApiRoutes.deleteMstFinancialYear(id));
+
+// mstAppSetting
+export const fetchAppSettings = (filters = {}) =>
+  withUI(() => masterApiRoutes.getMstAppSetting(filters), {
+    showSuccessMessage: false,
+  });
+
+export const updateAppSetting = (payload) =>
+  withUI(() => masterApiRoutes.updateMstAppSetting(payload));
+
+// mstFinanceSetting
+export const fetchFinanceSettings = (filters = {}) =>
+  withUI(() => masterApiRoutes.getMstFinanceSetting(filters), {
+    showSuccessMessage: false,
+  });
+export const updateFinanceSetting = (payload) =>
+  withUI(() => masterApiRoutes.updateMstFinanceSetting(payload));
