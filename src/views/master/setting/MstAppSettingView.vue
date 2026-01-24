@@ -5,7 +5,7 @@
       <form id="settingForm" @submit.prevent="submitForm" class="needs-validation">
 
         <!-- ================= GENERAL ================= -->
-        <h6 class="mb-3 text-muted">General</h6>
+        <h6 class="mb-3 text-primary">General</h6>
         <div class="row g-3 mb-4">
           <div class="col-md-4">
             <BaseInput v-model="form.app_name" label="App Name" required />
@@ -17,7 +17,7 @@
         </div>
 
         <!-- ================= LOCALIZATION ================= -->
-        <h6 class="mb-3 text-muted">Localization</h6>
+        <h6 class="mb-3 text-primary">Localization</h6>
 
         <div class="row g-3 mb-4">
           <div class="col-md-2">
@@ -42,7 +42,7 @@
         </div>
 
         <!-- ================= MAINTENANCE ================= -->
-        <!-- <h6 class="mb-3 text-muted">Maintenance</h6>
+        <!-- <h6 class="mb-3 text-primary">Maintenance</h6>
         <div class="row g-3 mb-4 align-items-center">
           <div class="col-md-3">
             <div class="form-check form-switch mt-4">
@@ -60,7 +60,7 @@
         </div> -->
 
         <!-- ================= REGISTRATION ================= -->
-        <h6 class="mb-3 text-muted">Registration</h6>
+        <h6 class="mb-3 text-primary">Registration</h6>
         <div class="row g-3 mb-4">
           <div class="col-md-3">
             <div class="form-check form-switch mt-4">
@@ -74,7 +74,7 @@
         </div>
 
         <!-- ================= MOBILE APP ================= -->
-        <h6 class="mb-3 text-muted">Mobile App</h6>
+        <h6 class="mb-3 text-primary">Mobile App</h6>
 
         <!-- ANDROID -->
         <div class="row g-3 mb-3 align-items-center">

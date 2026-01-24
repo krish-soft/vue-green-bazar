@@ -345,7 +345,7 @@ const masterApiRoutes = {
     return Api.admin.put("/master/setting/mstBusinessSetting", { data });
   },
   updateMstBusinesSettingsBillingAddress(data) {
-    return Api.admin.put("/master/setting/mstBusinessSetting/updateBillAddress/", { data });
+    return Api.admin.post("/master/setting/mstBusinessSetting/updateBillAddress", { data });
   },
 
   uploadMstBusinessSettingPicture(depotId, fileData) {

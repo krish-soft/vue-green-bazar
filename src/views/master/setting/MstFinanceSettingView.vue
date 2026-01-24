@@ -4,7 +4,7 @@
     <template #body>
       <form id="settingForm" @submit.prevent="submitForm" class="needs-validation">
 
-        <h6 class="mb-3 text-muted">Currency</h6>
+        <h6 class="mb-3 text-primary">Currency</h6>
         <div class="row g-3 mb-4">
           <div class="col-md-2">
             <BaseInput v-model="form.currency" label="Currency" required readonly />
@@ -19,7 +19,7 @@
           </div>
         </div>
 
-        <h6 class="mb-3 text-muted">Digit</h6>
+        <h6 class="mb-3 text-primary">Digit</h6>
         <div class="row g-3 mb-4">
           <div class="col-md-2">
             <BaseInput v-model="form.thousand_separator" label="Thousand Separator" required />
@@ -34,7 +34,7 @@
           </div>
         </div>
 
-        <h6 class="mb-3 text-muted">Financial Year</h6>
+        <h6 class="mb-3 text-primary">Financial Year</h6>
         <div class="row g-3 mb-4">
 
           <div class="col-md-4">

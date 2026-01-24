@@ -117,15 +117,28 @@ export const sideMenu = [
             match: "exact",
           },
           {
+            label: "Finance/Currency Setting",
+            icon: "fas fa-money-bill-wave",
+            to: { name: "mstfinancesetting" },
+            match: "exact",
+          },
+          {
             label: "App Setting",
             icon: "fas fa-cogs",
             to: { name: "mstappsetting" },
             match: "exact",
           },
+
           {
-            label: "Finance Setting",
-            icon: "fas fa-money-bill-wave",
-            to: { name: "mstfinancesetting" },
+            label: "Payment Setting",
+            icon: "fas fa-credit-card",
+            to: { name: "mstpaymentsetting" },
+            match: "exact",
+          },
+          {
+            label: "Business Setting",
+            icon: "fas fa-briefcase",
+            to: { name: "mstbusinesssetting" },
             match: "exact",
           },
 

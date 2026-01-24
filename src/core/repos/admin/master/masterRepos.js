@@ -271,3 +271,22 @@ export const fetchFinanceSettings = (filters = {}) =>
   });
 export const updateFinanceSetting = (payload) =>
   withUI(() => masterApiRoutes.updateMstFinanceSetting(payload));
+
+// mstPaymentSetting
+export const fetchPaymentSettings = (filters = {}) =>
+  withUI(() => masterApiRoutes.getMstPaymentSetting(filters), {
+    showSuccessMessage: false,
+  });
+export const updatePaymentSetting = (payload) =>
+  withUI(() => masterApiRoutes.updateMstPaymentSetting(payload));
+
+// mstBusinessSetting
+export const fetchBusinessSettings = (filters = {}) =>
+  withUI(() => masterApiRoutes.getMstBusinessSetting(filters), {
+    showSuccessMessage: false,
+  });
+export const updateBusinessSetting = (payload) =>
+  withUI(() => masterApiRoutes.updateMstBusinessSetting(payload));
+
+export const saveBusinessSettingAddress = (payload) =>
+  withUI(() => masterApiRoutes.updateMstBusinesSettingsBillingAddress(payload));

@@ -131,6 +131,16 @@ const router = createRouter({
           name: "mstfinancesetting",
           component: () => import("@/views/master/setting/MstFinanceSettingView.vue"),
         },
+        {
+          path: "setting/payment-setting",
+          name: "mstpaymentsetting",
+          component: () => import("@/views/master/setting/MstPaymentSetting.vue"),
+        },
+        {
+          path: "setting/business-setting",
+          name: "mstbusinesssetting",
+          component: () => import("@/views/master/setting/MstBusinessSettingView.vue"),
+        },
 
       ],
     },
