@@ -377,8 +377,8 @@ import BaseInput from "@/components/common/inputs/BaseInput.vue";
 
 import { showDepotDetails } from "@/core/repos/admin/master/masterRepos.js";
 import { saveDepotAddress, fetchStates, removeDepotPicture, uploadDepotPicture } from "@/core/repos/admin/master/masterRepos.js";
-import BaseAutoCompleteSelect from "../../../components/common/inputs/BaseAutoCompleteSelect.vue";
-import BaseFileInput from "../../../components/common/inputs/BaseFileInput.vue";
+import BaseAutoCompleteSelect from "@/components/common/inputs/BaseAutoCompleteSelect.vue";
+import BaseFileInput from "@/components/common/inputs/BaseFileInput.vue";
 
 const route = useRoute();
 const uiStore = useUIStore();

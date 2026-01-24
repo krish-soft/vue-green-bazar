@@ -13,9 +13,6 @@ export const sideMenu = [
     module: 200,
     match: "children",
     children: [
-
-
-
       {
         label: "Depots",
         icon: "fas fa-warehouse",
@@ -30,25 +27,25 @@ export const sideMenu = [
           {
             label: "Categories",
             icon: "fas fa-tags",
-            to: { name: "productcategory" },
+            to: { name: "mstproductcategory" },
             match: "exact",
           },
           {
             label: "Products",
             icon: "fas fa-box-open",
-            to: { name: "product" },
+            to: { name: "mstproduct" },
             match: "exact",
           },
           {
             label: "Product Variants",
             icon: "fas fa-boxes",
-            to: { name: "productvariant" },
+            to: { name: "mstproductvariant" },
             match: "exact",
           },
           {
             label: "Product Packaging",
             icon: "fas fa-dolly",
-            to: { name: "productpackaging" },
+            to: { name: "mstproductpackaging" },
             match: "exact",
           },
 
@@ -62,27 +59,49 @@ export const sideMenu = [
           {
             label: "Charges",
             icon: "fas fa-tag",
-            to: { name: "charge" },
+            to: { name: "mstcharge" },
             match: "exact",
           },
           {
             label: "Charge Levels",
             icon: "fas fa-level-up-alt",
-            to: { name: "chargelevel" },
+            to: { name: "mstchargelevel" },
             match: "exact",
           },
           {
             label: "Minimum Order Charge Rule",
             icon: "fas fa-file-invoice-dollar",
-            to: { name: "minimumorderchargerule" },
+            to: { name: "mstminimumorderchargerule" },
             match: "exact",
           },
           {
             label: "Delivery Charge Rule",
             icon: "fas fa-truck-loading",
-            to: { name: "deliverychargerule" },
+            to: { name: "mstdeliverychargerule" },
             match: "exact",
           },
+
+        ],
+      },
+
+      {
+        label: "Geography",
+        icon: "fas fa-earth-americas",
+        match: "children",
+        children: [
+          {
+            label: "Zones",
+            icon: "fas fa-map-marked-alt",
+            to: { name: "mstzone" },
+            match: "exact",
+          },
+          {
+            label: "States",
+            icon: "fas fa-flag",
+            to: { name: "mststate" },
+            match: "exact",
+          },
+
 
         ],
       },

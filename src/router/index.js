@@ -53,52 +53,64 @@ const router = createRouter({
         // Product Category Route
         {
           path: "product/category",
-          name: "productcategory",
+          name: "mstproductcategory",
           component: () =>
             import("@/views/master/product/ProductCategoryView.vue"),
         },
         {
           path: "product",
-          name: "product",
+          name: "mstproduct",
           component: () =>
             import("@/views/master/product/ProductView.vue"),
         },
         {
           path: "product/variant",
-          name: "productvariant",
+          name: "mstproductvariant",
           component: () =>
             import("@/views/master/product/ProductVariantView.vue"),
         },
         {
           path: "product/packaging",
-          name: "productpackaging",
+          name: "mstproductpackaging",
           component: () =>
             import("@/views/master/product/ProductPackagingView.vue"),
         },
         // Charges
         {
           path: "charge",
-          name: "charge",
+          name: "mstcharge",
           component: () =>
             import("@/views/master/charge/MstChargeView.vue"),
         },
         {
           path: "charge/level",
-          name: "chargelevel",
+          name: "mstchargelevel",
           component: () =>
             import("@/views/master/charge/MstChargeLevelView.vue"),
         },
         {
           path: "charge/minimum-order-rule",
-          name: "minimumorderchargerule",
+          name: "mstminimumorderchargerule",
           component: () =>
             import("@/views/master/charge/MstMinimumOrderChargeRuleView.vue"),
         },
         {
           path: "charge/delivery-charge-rule",
-          name: "deliverychargerule",
+          name: "mstdeliverychargerule",
           component: () =>
             import("@/views/master/charge/MstDeliveryChargeRuleView.vue"),
+        },
+
+        // Geography
+        {
+          path: "geography/zone",
+          name: "mstzone",
+          component: () => import("@/views/master/geography/MstZoneView.vue"),
+        },
+        {
+          path: "geography/state",
+          name: "mststate",
+          component: () => import("@/views/master/geography/MstStateView.vue"),
         },
 
       ],
