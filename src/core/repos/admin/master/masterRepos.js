@@ -109,8 +109,8 @@ export const deleteDepot = (id) =>
 export const saveDepotAddress = (id, payload) =>
   withUI(() => masterApiRoutes.addDepotAddress(id, payload));
 
-export const uploadDepotPicture = (id, payload) =>
-  withUI(() => masterApiRoutes.uploadDepotPicture(id, payload));
+export const uploadDepotPicture = (id, filePayload) =>
+  withUI(() => masterApiRoutes.uploadDepotPicture(id, filePayload));
 
 export const removeDepotPicture = (id) =>
   withUI(() => masterApiRoutes.removeDepotPicture(id));

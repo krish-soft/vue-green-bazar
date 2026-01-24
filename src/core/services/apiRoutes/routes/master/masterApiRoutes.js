@@ -116,10 +116,10 @@ const masterApiRoutes = {
       { data }
     );
   }, // Add Address
-  uploadDepotPicture(depotId, data) {
+  uploadDepotPicture(depotId, fileData) {
     return Api.admin.upload(
       `/master/mstDepot/${depotId}/uploadPicture`,
-      { files: data }
+      { files: fileData }
     );
   }, // Upload Picture
   removeDepotPicture(id) {

@@ -155,25 +155,75 @@ export const Api = {
         delete: (url, opts = {}) =>
             request(adminApi, "delete", url, { ...opts, auth: true }),
 
-        upload(url, { files, data = {}, headers = {}, auth = true } = {}) {
+        upload(
+            url,
+            {
+                files = {},          // can be File | File[] | { key: File | File[] }
+                data = {},
+                headers = {},
+                auth = true,
+            } = {}
+        ) {
             const formData = new FormData();
 
-            if (Array.isArray(files)) {
-                files.forEach((f) => formData.append("files[]", f));
-            } else {
-                // formData.append("file", files);
-                // convert in array
-                formData.append("files[]", files);
+            // Case 1: files is a File or File[]
+            if (files instanceof File) {
+                formData.append("file", files);
+            }
+            else if (Array.isArray(files)) {
+                files.forEach((file) => {
+                    formData.append("files[]", file);
+                });
+            }
+            // Case 2: files is an object with custom keys
+            else if (typeof files === "object") {
+                Object.entries(files).forEach(([key, value]) => {
+                    if (Array.isArray(value)) {
+                        value.forEach((file) => {
+                            formData.append(`${key}[]`, file);
+                        });
+                    } else if (value instanceof File) {
+                        formData.append(key, value);
+                    }
+                });
             }
 
-            Object.entries(data).forEach(([k, v]) => formData.append(k, v));
+            // Append other form fields
+            Object.entries(data).forEach(([key, value]) => {
+                formData.append(key, value);
+            });
 
             return request(adminApi, "post", url, {
                 data: formData,
-                headers: { ...headers, "Content-Type": "multipart/form-data" },
+                headers: {
+                    ...headers,
+                    // DO NOT manually set multipart boundary
+                    "Content-Type": "multipart/form-data",
+                },
                 auth,
             });
         },
+
+
+        // upload(url, { files, data = {}, headers = {}, auth = true } = {}) {
+        //     const formData = new FormData();
+
+        //     if (Array.isArray(files)) {
+        //         files.forEach((f) => formData.append("files[]", f));
+        //     } else {
+        //         // formData.append("file", files);
+        //         // convert in array
+        //         formData.append("files[]", files);
+        //     }
+
+        //     Object.entries(data).forEach(([k, v]) => formData.append(k, v));
+
+        //     return request(adminApi, "post", url, {
+        //         data: formData,
+        //         headers: { ...headers, "Content-Type": "multipart/form-data" },
+        //         auth,
+        //     });
+        // },
 
         download(url, opts = {}) {
             return request(adminApi, "get", url, {
@@ -191,3 +241,33 @@ export const Api = {
         post: (url, opts) => request(publicApi, "post", url, opts),
     },
 };
+
+
+
+/**
+
+ *  UPLOAD SAMPLES
+
+ */
+
+// Single File
+// upload("/user/profile", {
+//     files: { avatar: file }
+// });
+
+// Multiple Files
+// upload("/kyc", {
+//     files: {
+//         aadhaar: aadhaarFile,
+//         pan: panFile,
+//         photos: [photo1, photo2],
+//     },
+//     data: {
+//         user_id: 10
+//     }
+// });
+
+// without Keys
+// upload("/upload", {
+//     files: [file1, file2]
+// });

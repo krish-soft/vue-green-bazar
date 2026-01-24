@@ -523,7 +523,7 @@ async function submitUploadPicture() {
     // 👇 pass FILE directly, not object
     const result = await uploadDepotPicture(
         depotId.value,
-        pictureFile.value
+        { picture: pictureFile.value }
     );
 
     // ❌ stop if API failed
