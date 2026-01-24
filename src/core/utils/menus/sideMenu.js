@@ -105,6 +105,22 @@ export const sideMenu = [
 
         ],
       },
+      {
+        label: "Settings",
+        icon: "fas fa-cogs",
+        match: "children",
+        children: [
+          {
+            label: "Financial Years",
+            icon: "fas fa-calendar-alt",
+            to: { name: "mstfinanceyear" },
+            match: "exact",
+          },
+
+
+
+        ],
+      },
 
       {
         label: "Other",

@@ -283,6 +283,82 @@ const masterApiRoutes = {
     return Api.admin.delete(`/master/mstDeliveryChargeRule/${id}`);
   }, // Delete
 
+  /////////////////////////////
+  // Settings // 
+  /////////////////////////////    
+
+  //////////////////////
+  // mstFinancialYear //
+  //////////////////////
+  getMstFinancialYearList(filters = {}) {
+    return Api.admin.get("/master/setting/mstFinancialYear", {
+      queryParams: filters,
+    });
+  }, // List
+  createMstFinancialYear(data) {
+    return Api.admin.post("/master/setting/mstFinancialYear", { data });
+  }, // Create
+  updateMstFinancialYear(id, data) {
+    return Api.admin.put(`/master/setting/mstFinancialYear/${id}`, { data });
+  }, // Update
+  deleteMstFinancialYear(id) {
+    return Api.admin.delete(`/master/setting/mstFinancialYear/${id}`);
+  }, // Delete
+
+  ///////////////////
+  // MstAppSetting //
+  ///////////////////
+  getMstAppSetting() {
+    return Api.admin.get("/master/setting/mstAppSetting");
+  }, //
+  updateMstAppSetting(data) {
+    return Api.admin.put("/master/setting/mstAppSetting", { data });
+  },
+
+  ///////////////////////
+  // mstFinanceSetting //
+  ///////////////////////
+  getMstFinanceSetting() {
+    return Api.admin.get("/master/setting/mstFinanceSetting");
+  }, //
+  updateMstFinanceSetting(data) {
+    return Api.admin.put("/master/setting/mstFinanceSetting", { data });
+  },
+  ///////////////////////
+  // mstPaymentSetting //
+  ///////////////////////
+  getMstPaymentSetting() {
+    return Api.admin.get("/master/setting/mstPaymentSetting");
+  }, //
+  updateMstPaymentSetting(data) {
+    return Api.admin.put("/master/setting/mstPaymentSetting", { data });
+  },
+
+  ///////////////////////
+  // mstBusinessSetting //
+  ///////////////////////
+
+  getMstBusinessSetting() {
+    return Api.admin.get("/master/setting/mstBusinessSetting");
+  },  //
+  updateMstBusinessSetting(data) {
+    return Api.admin.put("/master/setting/mstBusinessSetting", { data });
+  },
+  updateMstBusinesSettingsBillingAddress(data) {
+    return Api.admin.put("/master/setting/mstBusinessSetting/updateBillAddress/", { data });
+  },
+
+  uploadMstBusinessSettingPicture(depotId, fileData) {
+    return Api.admin.upload(
+      `/master/setting/mstBusinessSetting/uploadPicture`,
+      { files: fileData }
+    );
+  }, // Upload Picture
+  removeMstBusinessSettingPicture(id) {
+    return Api.admin.delete(`/master/setting/mstBusinessSetting/deletePicture`);
+  }, // Remove Picture
+
+
 
   //
 };

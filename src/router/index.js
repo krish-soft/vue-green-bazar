@@ -113,6 +113,15 @@ const router = createRouter({
           component: () => import("@/views/master/geography/MstStateView.vue"),
         },
 
+
+        // Settings
+
+        {
+          path: "setting/finance-year",
+          name: "mstfinanceyear",
+          component: () => import("@/views/master/setting/MstFinanceYearView.vue"),
+        },
+
       ],
     },
   ],

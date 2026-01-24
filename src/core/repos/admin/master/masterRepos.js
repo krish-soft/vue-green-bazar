@@ -239,3 +239,18 @@ export const updateDeliveryChargeRule = (id, payload) =>
   withUI(() => masterApiRoutes.updateMstDeliveryChargeRule(id, payload));
 export const deleteDeliveryChargeRule = (id) =>
   withUI(() => masterApiRoutes.deleteMstDeliveryChargeRule(id));
+
+
+// settings
+
+// mstFinancialYear
+export const fetchFinancialYears = (filters = {}) =>
+  withUI(() => masterApiRoutes.getMstFinancialYearList(filters), {
+    showSuccessMessage: false,
+  });
+export const createFinancialYear = (payload) =>
+  withUI(() => masterApiRoutes.createMstFinancialYear(payload));
+export const updateFinancialYear = (id, payload) =>
+  withUI(() => masterApiRoutes.updateMstFinancialYear(id, payload));
+export const deleteFinancialYear = (id) =>
+  withUI(() => masterApiRoutes.deleteMstFinancialYear(id));
