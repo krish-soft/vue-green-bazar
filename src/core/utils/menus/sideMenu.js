@@ -77,6 +77,12 @@ export const sideMenu = [
             to: { name: "minimumorderchargerule" },
             match: "exact",
           },
+          {
+            label: "Delivery Charge Rule",
+            icon: "fas fa-truck-loading",
+            to: { name: "deliverychargerule" },
+            match: "exact",
+          },
 
         ],
       },

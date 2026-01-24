@@ -94,6 +94,12 @@ const router = createRouter({
           component: () =>
             import("@/views/master/charge/MstMinimumOrderChargeRuleView.vue"),
         },
+        {
+          path: "charge/delivery-charge-rule",
+          name: "deliverychargerule",
+          component: () =>
+            import("@/views/master/charge/MstDeliveryChargeRuleView.vue"),
+        },
 
       ],
     },

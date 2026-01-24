@@ -224,3 +224,18 @@ export const updateMinimumOrderChargeRule = (id, payload) =>
   withUI(() => masterApiRoutes.updateMstMinimumOrderChargeRule(id, payload));
 export const deleteMinimumOrderChargeRule = (id) =>
   withUI(() => masterApiRoutes.deleteMstMinimumOrderChargeRule(id));
+
+
+/* ======================
+   MstDeliveryChargeRule
+====================== */
+export const fetchDeliveryChargeRules = (filters = {}) =>
+  withUI(() => masterApiRoutes.getMstDeliveryChargeRuleList(filters), {
+    showSuccessMessage: false,
+  });
+export const createDeliveryChargeRule = (payload) =>
+  withUI(() => masterApiRoutes.createMstDeliveryChargeRule(payload));
+export const updateDeliveryChargeRule = (id, payload) =>
+  withUI(() => masterApiRoutes.updateMstDeliveryChargeRule(id, payload));
+export const deleteDeliveryChargeRule = (id) =>
+  withUI(() => masterApiRoutes.deleteMstDeliveryChargeRule(id));
