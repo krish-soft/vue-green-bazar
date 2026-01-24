@@ -50,11 +50,11 @@
       :value-key="'id'" placeholder="Select State" required :disabled="isEdit" />
 
     <div class="mb-3">
-      <BaseInput v-model="form.name" placeholder="Enter zone name" required />
+      <BaseInput label="Name" v-model="form.name" placeholder="Enter zone name" required />
     </div>
 
     <div class="mb-3">
-      <BaseInput v-model="form.code" placeholder="Enter zone code" required :disabled="isEdit" />
+      <BaseInput label="Code" v-model="form.code" placeholder="Enter zone code" required :disabled="isEdit" />
 
     </div>
 
