@@ -43,7 +43,12 @@
           </div>
         </div>
 
-
+        <div class="form-check form-switch mb-4">
+          <input class="form-check-input" type="checkbox" id="financialYearLogicEnabled"
+            v-model="form.is_financial_year_logic_enabled" />
+          <label class="form-check-label" for="financialYearLogicEnabled">Enable Financial Year Logic
+            [ <b class="text-danger"> Risk:</b> Can break logics & automations ]</label>
+        </div>
 
       </form>
 
@@ -88,7 +93,7 @@ const form = ref({
   thousand_separator: "",
   decimal_separator: "",
   decimal_places: "",
-
+  is_financial_year_logic_enabled: false,
   financial_year_id: "",
 });
 
