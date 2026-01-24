@@ -516,3 +516,31 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
   -moz-appearance: auto !important;
 }
+
+/* Readonly input - visually distinct from disabled */
+.form-control[readonly] {
+  background-color: #f8f9fa; /* lighter than disabled */
+  border-color: #ced4da;
+  color: #212529;
+  cursor: default;
+}
+
+/* Add subtle visual cue for readonly */
+.form-control[readonly]:focus {
+  box-shadow: none;
+  border-color: #adb5bd;
+}
+
+/* Optional: icon-like hint using background */
+.form-control[readonly] {
+  background-image: linear-gradient(45deg, transparent 75%, #dee2e6 75%);
+  background-size: 6px 6px;
+}
+
+/* Disabled input (Bootstrap default reinforcement) */
+.form-control:disabled {
+  background-color: #e9ecef;
+  color: #6c757d;
+  cursor: not-allowed;
+  opacity: 1; /* prevent over-fading */
+}
