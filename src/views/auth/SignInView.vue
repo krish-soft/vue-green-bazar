@@ -1,32 +1,61 @@
 <!--SignInView  -->
 <template>
   <div class="row justify-content-center mt-5">
+
+
     <div class="col-md-4 col-sm-10">
-      <BaseContainer heading="Sign In" subHeading="Admin Access">
-        <template #body>
+
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+
+          <!-- LOGO -->
+          <div class="row align-items-center mb-3">
+
+            <!-- TITLE -->
+            <div class="col-md-6 text-center">
+              <h1 class="fw-semibold mb-1">Sign In</h1>
+              <h6 class="text-muted mb-0 mt-2">Admin Access</h6>
+            </div>
+
+
+            <!-- LOGO -->
+            <div class="col-md-6 d-flex justify-content-center">
+              <img :src="APP_LOGO" alt="Logo" class="img-fluid" style="max-height:120px" />
+            </div>
+
+
+
+          </div>
+
+          <hr class="my-3">
+
+          <!-- TITLE -->
           <form @submit.prevent="handleLogin">
+
             <!-- Email -->
             <div class="mb-3">
-              <label class="form-label">Email</label>
+              <label class="form-label fw-semibold">Email</label>
               <input type="email" class="form-control" v-model.trim="form.email" placeholder="admin@example.com" />
             </div>
 
             <!-- Password -->
             <div class="mb-3">
-              <label class="form-label">Password</label>
+              <label class="form-label fw-semibold">Password</label>
               <input type="password" class="form-control" v-model="form.password" placeholder="••••••••" />
             </div>
 
-            <!-- Submit -->
-            <div class="d-grid">
+            <!-- SUBMIT -->
+            <div class="d-grid mt-4">
               <button type="submit" class="btn btn-success" :disabled="uiStore.isLoading">
-                <span v-if="uiStore.isLoading">Signing in...</span>
-                <span v-else>Sign In</span>
+                <span v-if="uiStore.isLoading" class="spinner-border spinner-border-sm me-2"></span>
+                {{ uiStore.isLoading ? "Signing in..." : "Sign In" }}
               </button>
             </div>
+
           </form>
-        </template>
-      </BaseContainer>
+
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -34,6 +63,8 @@
 <script setup>
 import { onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
+import { APP_LOGO } from "@/core/utils/constants/assets";
+
 
 import BaseContainer from "@/components/common/cards/BaseContainer.vue";
 import { useUIStore } from "@/core/utils/stores/uiStore";
