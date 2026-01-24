@@ -36,7 +36,10 @@
                                 {{ row?.charge_level?.code }}
                             </td>
                             <td>
-                                {{ row?.charge_level?.user_role_type }}
+                                <span :class="`role-${row?.charge_level?.user_role_type.toLowerCase()}`">
+                                    {{ row?.charge_level?.user_role_type }}
+                                </span>
+
                             </td>
 
                             <td>{{ row.rule_no }}</td>
