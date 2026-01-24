@@ -88,6 +88,12 @@ const router = createRouter({
           component: () =>
             import("@/views/master/charge/MstChargeLevelView.vue"),
         },
+        {
+          path: "charge/minimum-order-rule",
+          name: "minimumorderchargerule",
+          component: () =>
+            import("@/views/master/charge/MstMinimumOrderChargeRuleView.vue"),
+        },
 
       ],
     },

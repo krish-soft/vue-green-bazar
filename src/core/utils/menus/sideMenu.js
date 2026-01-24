@@ -14,27 +14,8 @@ export const sideMenu = [
     match: "children",
     children: [
 
-      {
-        label: "Units",
-        icon: "fas fa-ruler",
 
-        to: { name: "msunit" },
-        match: "exact",
-      },
-      {
-        label: "Pack Types",
-        icon: "fas fa-box",
 
-        to: { name: "mstpacktype" },
-        match: "exact",
-      },
-      {
-        label: "Vehicles",
-        icon: "fas fa-truck",
-
-        to: { name: "mstvehicle" },
-        match: "exact",
-      },
       {
         label: "Depots",
         icon: "fas fa-warehouse",
@@ -90,7 +71,42 @@ export const sideMenu = [
             to: { name: "chargelevel" },
             match: "exact",
           },
+          {
+            label: "Minimum Order Charge Rule",
+            icon: "fas fa-file-invoice-dollar",
+            to: { name: "minimumorderchargerule" },
+            match: "exact",
+          },
 
+        ],
+      },
+
+      {
+        label: "Other",
+        icon: "fa-solid fa-ellipsis-h",
+        match: "children",
+        children: [
+          {
+            label: "Units",
+            icon: "fas fa-ruler",
+
+            to: { name: "msunit" },
+            match: "exact",
+          },
+          {
+            label: "Pack Types",
+            icon: "fas fa-box",
+
+            to: { name: "mstpacktype" },
+            match: "exact",
+          },
+          {
+            label: "Vehicles",
+            icon: "fas fa-truck",
+
+            to: { name: "mstvehicle" },
+            match: "exact",
+          },
         ],
       },
     ],

@@ -65,7 +65,8 @@
         </template>
 
         <div class="mb-3">
-            <BaseInput label="Name" v-model.trim="form.name" placeholder="Enter Charge Name" required />
+            <BaseInput label="Name (Will Reflect on Invoice)" v-model.trim="form.name" placeholder="Enter Charge Name"
+                required />
         </div>
 
         <div class="mb-3">

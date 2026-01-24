@@ -246,6 +246,25 @@ const masterApiRoutes = {
   }, // Delete
 
 
+  ///////////////////////////////
+  // mstMinimumOrderChargeRule //
+  ///////////////////////////////
+  getMstMinimumOrderChargeRuleList(filters = {}) {
+    return Api.admin.get("/master/mstMinimumOrderChargeRule", {
+      queryParams: filters,
+    });
+  }, // List
+  createMstMinimumOrderChargeRule(data) {
+    return Api.admin.post("/master/mstMinimumOrderChargeRule", { data });
+  }, // Create
+  updateMstMinimumOrderChargeRule(id, data) {
+    return Api.admin.put(`/master/mstMinimumOrderChargeRule/${id}`, { data });
+  }, // Update
+
+  deleteMstMinimumOrderChargeRule(id) {
+    return Api.admin.delete(`/master/mstMinimumOrderChargeRule/${id}`);
+  }
+
 
   //
 };
