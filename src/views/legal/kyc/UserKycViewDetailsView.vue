@@ -54,8 +54,12 @@
                 </div>
 
                 <div class="mb-4">
-                    <div class="border-bottom pb-1 mb-2">
-                        <h6 class="fw-semibold text-muted mb-0">Verification</h6>
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2">
+                        <h6 class="fw-semibold text-muted mb-0">Verifications</h6>
+
+                        <BaseButton size="sm" variant="primary" @click="openKycModal()" :disabled="!hasDepots">
+                            Update KYC Status
+                        </BaseButton>
                     </div>
 
                     <table class="table table-sm table-borderless align-middle mb-0">
@@ -67,7 +71,7 @@
                                         'bg-secondary': kycDetails.status === 'pending',
                                         'bg-success': kycDetails.status === 'approved',
                                         'bg-danger': kycDetails.status === 'rejected',
-                                        'bg-info': kycDetails.status === 'request_for_review',
+                                        'bg-info': kycDetails.status === 'under_review',
                                     }">
                                         {{ kycDetails.status }}
                                     </span>
@@ -96,7 +100,8 @@
 
                             <tr>
                                 <th class="text-muted fw-normal w-25">Is Expired</th>
-                                <td class="fw-semibold">{{ kycDetails.is_expired ? 'Yes' : 'No' }}</td>
+                                <td class="fw-semibold" :class="kycDetails.is_expired ? 'text-danger' : 'text-success'">
+                                    {{ kycDetails.is_expired ? 'Yes' : 'No' }}</td>
                             </tr>
 
                             <tr>
@@ -136,15 +141,22 @@
                                         alt="Document Front" width="50" class="zoom-thumb"
                                         @click="openZoom(docFile.document_url_front)" /> -->
 
-                                    <ImageZoomViewer v-if="!docFile.is_verified" :src="docFile.document_url_front"
-                                        :thumbWidth="75" />
-                                    <span v-else class="text-success">Verified</span>
+                                    <ImageZoomViewer
+                                        v-if="kycDetails.status === 'pending' || kycDetails.status === 'under_review'"
+                                        :src="docFile.document_url_front" :thumbWidth="75" />
+
+                                    <span v-else class="text-muted">{{ docFile.status }}</span>
+
+
 
                                 </td>
                                 <td>
-                                    <ImageZoomViewer v-if="!docFile.is_verified" :src="docFile.document_url_back"
-                                        :thumbWidth="75" />
-                                    <span v-else class="text-success">Verified</span>
+                                    <ImageZoomViewer
+                                        v-if="kycDetails.status === 'pending' || kycDetails.status === 'under_review'"
+                                        :src="docFile.document_url_back" :thumbWidth="75" />
+
+                                    <span v-else class="text-muted">{{ docFile.status }}</span>
+
                                 </td>
                             </tr>
 
@@ -205,20 +217,72 @@
         </template>
     </BaseCotainer>
 
+    <!-- KYC Modal -->
+    <BaseModal ref="kycModal" icon="fas fa-id-card">
+        <template #title>
+            KYC Verification
+        </template>
+
+        <form id="kycForm" @submit.prevent="submitKycStatusForm">
+
+            <div class="col-md-12">
+                <BaseInput label="User KYC ID" v-model="userKycForm.kyc_id" readonly />
+
+                <BaseAutoCompleteSelect label="Status" v-model="userKycForm.status" :options="kycStatusList"
+                    label-key="label" value-key="value" placeholder="Select status" required />
+
+
+                <BaseInput label="Review Comment" v-model="userKycForm.review_comment"
+                    placeholder="Enter Review Comment" required />
+            </div>
+
+
+
+        </form>
+
+        <template #footer>
+            <BaseButton variant="secondary" @click="closeKycModal()">
+                Cancel
+            </BaseButton>
+            <BaseButton variant="primary" type="submit" form="kycForm" :loading="uiStore.isLoading">
+                Save
+            </BaseButton>
+        </template>
+    </BaseModal>
+
     <!-- User Depot -->
-    <BaseModal ref="aModal" icon="fas fa-map-marker-alt" size="modal-lg">
+    <BaseModal ref="userDepotModal" icon="fas fa-map-marker-alt">
         <template #title>
             Assign New Depot
         </template>
 
         <form id="depotForm" @submit.prevent="submitDepotForm">
             <div class="col-md-6">
-                <BaseInput label="User Id" v-model="form.user_id" readonly />
+                <BaseInput label="User Code" v-model="kycDetails.user_code" readonly />
+                <BaseInput label="User Id" v-model="userDepotForm.user_id" readonly hidden />
             </div>
             <div class="col-md-12">
-                <BaseAutoCompleteSelect label="Depots" v-model="form.depot_id" :options="depotList"
+                <BaseAutoCompleteSelect label="Depots" v-model="userDepotForm.depot_id" :options="depotList"
                     :label-key="['zone.state.name', 'code', 'name', 'zone.name']" :value-key="'id'"
                     placeholder="Select depot" required />
+            </div>
+            <div class=" border rounded-3 p-3 bg-light">
+                <label class="form-label fw-semibold mb-2">Status</label>
+
+                <div class="d-flex align-items-center justify-content-between">
+                    <span class="text-muted">
+                        Charge Level is
+                        <b :class="userDepotForm.is_primary ? 'text-success' : 'text-danger'">
+                            {{ userDepotForm.is_primary ? "Primary" : "Not" }}
+                        </b>
+                    </span>
+
+                    <!-- TOGGLE -->
+                    <div class="status-toggle" :class="{ active: userDepotForm.is_primary }"
+                        @click="userDepotForm.is_primary = !userDepotForm.is_primary">
+                        <span class="toggle-knob"></span>
+                    </div>
+                </div>
             </div>
         </form>
 
@@ -236,7 +300,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import { useUIStore } from "@/core/utils/stores/uiStore";
 import {
     fetchKycDetails,
@@ -245,6 +309,9 @@ import {
 } from "@/core/repos/admin/legal/legalRepos";
 import { fetchDepots } from "@/core/repos/admin/master/masterRepos";
 import { addCustomerDepot, removeCustomerDepot } from "@/core/repos/admin/customer/customerRepos";
+import { fetchAllEnums } from "@/core/repos/utils/utilsRepos";
+
+
 import { useRoute } from "vue-router";
 
 import BaseCotainer from "@/components/common/cards/BaseContainer.vue";
@@ -265,17 +332,21 @@ const route = useRoute();
 const kycId = ref(route.params.id);
 const kycDetails = ref([]);
 const depotList = ref([]);
+const kycStatusList = ref([]);
 
-const aModal = ref(null);
+const userDepotModal = ref(null);
+const kycModal = ref(null);
 
-const form = ref({
+
+
+const userDepotForm = ref({
     id: null,
     user_id: null,
     depot_id: null,
     is_primary: false,
 });
 
-const resetForm = ref({
+const resetUserDepotForm = ref({
     id: null,
     user_id: null,
     depot_id: null,
@@ -283,6 +354,19 @@ const resetForm = ref({
 });
 
 
+const userKycForm = ref({
+    id: null,
+    kyc_id: "",
+    status: null,
+    review_comment: "",
+});
+
+const resetUserKycForm = ref({
+    id: null,
+    kyc_id: "",
+    status: "",
+    review_comment: "",
+});
 
 /* ---------------- INIT ---------------- */
 onMounted(() => loadKycDetails(kycId.value));
@@ -296,40 +380,87 @@ async function loadKycDetails(id) {
     kycDetails.value = data;
 }
 
+/* ---------------- DEPOT MODAL ---------------- */
+
 async function openDepotModal() {
     depotList.value = await fetchDepots({ is_active: true });
-    form.value = {
+    userDepotForm.value = {
         user_id: kycDetails.value.user_id,
     };
-    aModal.value.show();
+    userDepotModal.value.show();
 }
 
 function closeDepotModal() {
-    aModal.value.hide();
-    resetForm.value = { ...resetForm.value };
+    userDepotModal.value.hide();
+    resetUserDepotForm.value = { ...resetUserDepotForm.value };
 }
 
-
 const submitDepotForm = async () => {
-
-    await addCustomerDepot(form.value);
+    await addCustomerDepot(userDepotForm.value);
     closeDepotModal();
     // kycDetails.value = [];
     await loadKycDetails(kycId.value);
-
 };
 
-
 const removeDepotAction = async (id) => {
-
     const confirmed = await showConfirmDialog(
         "Remove Depot",
         "Are you sure you want to remove this depot?"
     );
-
     if (!confirmed) return;
-
     await removeCustomerDepot(id);
+    kycDetails.value = [];
+    await loadKycDetails(kycId.value);
+}
+
+
+/* ---------------- KYC MODAL ---------------- */
+
+// true false is depot exist or not so can sue for multiplue places
+
+const hasDepots = computed(() => {
+    return Array.isArray(kycDetails.value?.depots) &&
+        kycDetails.value.depots.length > 0;
+});
+
+async function openKycModal() {
+    // Check deptos exist or not of users
+    if (!hasDepots.value) {
+        uiStore.errorMessages = ["Please assign at least one depot to the user before verifying KYC.", "warning"];
+        return;
+    }
+    // Get all enums for kyc status
+    var data = await fetchAllEnums();
+
+    if (!data) {
+        return;
+    }
+    // console.log("KYC Statuses:", data);
+
+    resetUserDepotForm.value = { ...resetUserKycForm.value };
+
+    kycStatusList.value = data.kyc_statuses;
+    userKycForm.value.kyc_id = kycId || kycDetails.value.id; // assign kyc id to form
+    userKycForm.value.status = kycDetails.value.status;
+    userKycForm.value.review_comment = kycDetails.value.review_comment;
+
+    // Remove the status which currenly set to avoid reselecting same status
+    kycStatusList.value = kycStatusList.value.filter((status => status.value !== kycDetails.value.status));
+
+    kycModal.value.show();
+}
+
+function closeKycModal() {
+    resetUserKycForm.value = { ...resetUserKycForm.value };
+    kycModal.value.hide();
+}
+
+/* ---------------- SAVE KYC STATUS ---------------- */
+async function submitKycStatusForm() {
+
+    await updateKycStatus(kycId.value, userKycForm.value);
+    closeKycModal();
+    resetUserKycForm.value = { ...resetUserKycForm.value };
     kycDetails.value = [];
     await loadKycDetails(kycId.value);
 }

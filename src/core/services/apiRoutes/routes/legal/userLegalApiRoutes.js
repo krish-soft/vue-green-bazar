@@ -12,7 +12,7 @@ const userLegalApiRoutes = {
     },
 
     updateKycStatus(id, data) {
-        return Api.admin.get(`/legal/kyc/status/${id}`, { data });
+        return Api.admin.put(`/legal/kyc/status/${id}`, { data });
     },
 
 
