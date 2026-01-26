@@ -237,6 +237,15 @@
             </div>
 
 
+            <div class="mt-2 d-flex align-items-center gap-2">
+                <label class="form-label mb-0">
+                    Confirm:
+                    <strong>{{ a }} + {{ b }}</strong> =
+                </label>
+
+                <BaseInput v-model="confirmAnswer" type="number" class="w-50 mt-2" placeholder="?" required />
+            </div>
+
 
         </form>
 
@@ -322,6 +331,22 @@ import BaseAutoCompleteSelect from "@/components/common/inputs/BaseAutoCompleteS
 
 import ImageZoomViewer from "@/components/common/other/ImageZoomViewer.vue";
 import { showConfirmDialog } from "@/core/utils/uiHelpers/swalUtils.js";
+
+const a = ref(0);
+const b = ref(0);
+const confirmAnswer = ref("");
+
+const generateCaptcha = () => {
+    a.value = Math.floor(Math.random() * 9) + 1; // 1–9
+    b.value = Math.floor(Math.random() * 9) + 1; // 1–9
+    confirmAnswer.value = "";
+};
+
+onMounted(generateCaptcha);
+
+const isConfirmValid = computed(() =>
+    Number(confirmAnswer.value) === a.value + b.value
+);
 
 
 
@@ -436,6 +461,7 @@ async function openKycModal() {
         return;
     }
     // console.log("KYC Statuses:", data);
+    generateCaptcha();
 
     resetUserDepotForm.value = { ...resetUserKycForm.value };
 
@@ -457,6 +483,13 @@ function closeKycModal() {
 
 /* ---------------- SAVE KYC STATUS ---------------- */
 async function submitKycStatusForm() {
+
+    if (!isConfirmValid.value) {
+        uiStore.errorMessages = ["Confirmation failed. Please solve the sum."];
+        generateCaptcha();
+        return;
+    }
+
 
     await updateKycStatus(kycId.value, userKycForm.value);
     closeKycModal();
