@@ -57,7 +57,8 @@
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2">
                         <h6 class="fw-semibold text-muted mb-0">Verifications</h6>
 
-                        <BaseButton size="sm" variant="primary" @click="openKycModal()" :disabled="!hasDepots">
+                        <BaseButton size="sm" variant="primary" @click="openKycModal()"
+                            :disabled="!hasDepots || !canKycStatusUpdate">
                             Update KYC Status
                         </BaseButton>
                     </div>
@@ -446,6 +447,10 @@ const removeDepotAction = async (id) => {
 const hasDepots = computed(() => {
     return Array.isArray(kycDetails.value?.depots) &&
         kycDetails.value.depots.length > 0;
+});
+
+const canKycStatusUpdate = computed(() => {
+    return uiStore.isSuperAdminGroup() || kycDetails.value.status === 'under_review';
 });
 
 async function openKycModal() {

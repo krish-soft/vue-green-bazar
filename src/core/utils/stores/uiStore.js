@@ -1,6 +1,7 @@
 // src/utils/stores/uiStore.js
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import { useUserStore } from "@/core/utils/stores/userStore.js";
 
 export const useUIStore = defineStore("ui", () => {
   const isLoading = ref(false);
@@ -16,6 +17,17 @@ export const useUIStore = defineStore("ui", () => {
     warningMessages.value = [];
   }
 
+  function isSuperAdminGroup() {
+    // Get Current user role
+    const userStore = useUserStore();
+    const userRole = userStore.userRole;
+
+    if (userRole && (userRole === 'super_admin' || userRole === 'admin')) {
+      return true;
+    }
+    return false;
+  }
+
   return {
     isLoading,
     isCenterLoading,
@@ -24,5 +36,7 @@ export const useUIStore = defineStore("ui", () => {
     warningMessages,
     resetMessages,
     sidebarCollapsed,
+
+    isSuperAdminGroup,
   };
 });
