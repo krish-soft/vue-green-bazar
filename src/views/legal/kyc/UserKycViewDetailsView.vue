@@ -63,6 +63,133 @@
                         </tbody>
                     </table>
                 </div>
+                <!-- ================= ADDRESS ================= -->
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2">
+                        <h6 class="fw-semibold text-muted mb-0">User Address Details [Not KYC]</h6>
+                    </div>
+
+                    <table v-if="kycDetails.address" class="table table-sm table-borderless align-middle mb-0">
+                        <tbody>
+                            <!-- Address Name / Type -->
+                            <tr v-if="kycDetails.address.addr_name">
+                                <th class="text-muted fw-normal w-25">Address Name</th>
+                                <td>{{ kycDetails.address.addr_name }}</td>
+                            </tr>
+
+                            <!-- Address Lines -->
+                            <tr>
+                                <th class="text-muted fw-normal">Address Line 1</th>
+                                <td>{{ kycDetails.address.address_line1 || "N/A" }}</td>
+                            </tr>
+
+                            <tr v-if="kycDetails.address.address_line2">
+                                <th class="text-muted fw-normal">Address Line 2</th>
+                                <td>{{ kycDetails.address.address_line2 }}</td>
+                            </tr>
+
+                            <!-- Locality -->
+                            <tr v-if="kycDetails.address.landmark">
+                                <th class="text-muted fw-normal">Landmark</th>
+                                <td>{{ kycDetails.address.landmark }}</td>
+                            </tr>
+
+                            <tr v-if="kycDetails.address.village">
+                                <th class="text-muted fw-normal">Village</th>
+                                <td>{{ kycDetails.address.village }}</td>
+                            </tr>
+
+                            <tr v-if="kycDetails.address.taluka">
+                                <th class="text-muted fw-normal">Taluka</th>
+                                <td>{{ kycDetails.address.taluka }}</td>
+                            </tr>
+
+                            <tr v-if="kycDetails.address.district">
+                                <th class="text-muted fw-normal">District</th>
+                                <td>{{ kycDetails.address.district }}</td>
+                            </tr>
+
+                            <!-- City / State -->
+                            <tr>
+                                <th class="text-muted fw-normal">City</th>
+                                <td>{{ kycDetails.address.city || "N/A" }}</td>
+                            </tr>
+
+                            <tr>
+                                <th class="text-muted fw-normal">State</th>
+                                <td>
+                                    {{ kycDetails.address.state || "N/A" }}
+                                    <span v-if="kycDetails.address.state_iso" class="text-muted">
+                                        ({{ kycDetails.address.state_iso }})
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th class="text-muted fw-normal">Postal Code</th>
+                                <td>{{ kycDetails.address.postal_code || "N/A" }}</td>
+                            </tr>
+
+                            <!-- Country -->
+                            <tr v-if="kycDetails.address.country">
+                                <th class="text-muted fw-normal">Country</th>
+                                <td>
+                                    {{ kycDetails.address.country }}
+                                    <span v-if="kycDetails.address.country_iso" class="text-muted">
+                                        ({{ kycDetails.address.country_iso }})
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <!-- Contact -->
+                            <tr v-if="kycDetails.address.contact_name">
+                                <th class="text-muted fw-normal">Contact Name</th>
+                                <td>{{ kycDetails.address.contact_name }}</td>
+                            </tr>
+
+                            <tr v-if="kycDetails.address.phone_number">
+                                <th class="text-muted fw-normal">Phone</th>
+                                <td>
+                                    <span v-if="kycDetails.address.dial_code">
+                                        +{{ kycDetails.address.dial_code }}
+                                    </span>
+                                    <span class="masked-value"> {{ kycDetails.address.phone_number }}</span>
+                                </td>
+                            </tr>
+
+                            <tr v-if="kycDetails.address.email">
+                                <th class="text-muted fw-normal">Email</th>
+                                <td class="text-break"><span class="masked-value">{{ kycDetails.address.email }}</span>
+                                </td>
+                            </tr>
+
+                            <!-- Geo -->
+                            <tr v-if="kycDetails.address.latitude && kycDetails.address.longitude">
+                                <th class="text-muted fw-normal">Coordinates</th>
+                                <td>
+                                    {{ kycDetails.address.latitude }},
+                                    {{ kycDetails.address.longitude }}
+                                </td>
+                            </tr>
+
+                            <!-- Status -->
+                            <tr>
+                                <th class="text-muted fw-normal">Status</th>
+                                <td>
+                                    <span class="badge"
+                                        :class="kycDetails.address.is_active ? 'bg-success' : 'bg-danger'">
+                                        {{ kycDetails.address.is_active ? "Active" : "Inactive" }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div v-else class="text-muted small">
+                        No address information available.
+                    </div>
+
+                </div>
 
                 <!-- ================= VERIFICATIONS ================= -->
                 <div class="mb-4">
