@@ -17,6 +17,17 @@
                     <table class="table table-sm table-borderless align-middle mb-0">
                         <tbody>
                             <tr>
+                                <th class="text-muted fw-normal w-25">User</th>
+                                <td class="fw-semibold">
+                                    <b>Customer Code:</b> {{ kycDetails?.user_code }}
+                                    <br /><b>Name:</b> {{ kycDetails?.user?.name }}
+                                    <br /> <span :class="`role-${kycDetails?.user?.role}`">
+                                        {{ kycDetails?.user?.role }}
+                                    </span>
+
+                                </td>
+                            </tr>
+                            <tr>
                                 <th class="text-muted fw-normal w-25">KYC Code</th>
                                 <td class="fw-semibold">{{ kycDetails.kyc_code }}</td>
                             </tr>
@@ -53,6 +64,7 @@
                     </table>
                 </div>
 
+                <!-- ================= VERIFICATIONS ================= -->
                 <div class="mb-4">
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2">
                         <h6 class="fw-semibold text-muted mb-0">Verifications</h6>
@@ -114,6 +126,7 @@
                     </table>
                 </div>
 
+                <!-- ================= DOCUMENTS =================-->
                 <div class="mb-4">
                     <div class="border-bottom pb-1 mb-2">
                         <h6 class="fw-semibold text-muted mb-0">Documents</h6>
@@ -165,7 +178,7 @@
                     </table>
                 </div>
 
-
+                <!-- ================= DEPOTS =================-->
                 <div class="mb-4">
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2">
                         <h6 class="fw-semibold text-muted mb-0">Depot Details</h6>
@@ -343,7 +356,6 @@ const generateCaptcha = () => {
     confirmAnswer.value = "";
 };
 
-onMounted(generateCaptcha);
 
 const isConfirmValid = computed(() =>
     Number(confirmAnswer.value) === a.value + b.value
@@ -395,7 +407,10 @@ const resetUserKycForm = ref({
 });
 
 /* ---------------- INIT ---------------- */
-onMounted(() => loadKycDetails(kycId.value));
+onMounted(() => {
+    loadKycDetails(kycId.value);
+    generateCaptcha();
+});
 
 /* ---------------- LOAD ---------------- */
 async function loadKycDetails(id) {
@@ -468,7 +483,7 @@ async function openKycModal() {
     // console.log("KYC Statuses:", data);
     generateCaptcha();
 
-    resetUserDepotForm.value = { ...resetUserKycForm.value };
+    resetUserKycForm.value = { ...resetUserKycForm.value };
 
     kycStatusList.value = data.kyc_statuses;
     userKycForm.value.kyc_id = kycId || kycDetails.value.id; // assign kyc id to form

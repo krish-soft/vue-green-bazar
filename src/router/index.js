@@ -29,6 +29,18 @@ const router = createRouter({
       component: () => import("@/views/legal/kyc/UserKycViewDetailsView.vue"),
     },
 
+    // FulFillmentLocationView
+    {
+      path: "/fulfillmentlocation",
+      name: "fulfillmentlocation",
+      component: () => import("@/views/common/fulfillmentLocation/FulfillmentLocationView.vue"),
+    },
+    {
+      path: "/fulfillmentlocation/:id",
+      name: "fulfillmentlocationdetails",
+      component: () => import("@/views/common/fulfillmentLocation/FulfillmentLocationDetailsView.vue"),
+    },
+
     // Master Routes
     {
       path: "/master",

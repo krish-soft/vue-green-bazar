@@ -9,10 +9,29 @@ export const sideMenu = [
     match: "exact",
   },
 
+  // Seller/Farmer menu
+  // {
+  //   label: "Seller/Farmer",
+  //   icon: "fas fa-store",
+  //   module: AppModuleEnum.LISTINGS,
+  //   match: "children",
+  //   children: [
+  //     {
+  //       label: "Liistings",
+  //       icon: "fas fa-list",
+  //       to: { name: "userkyc" },
+  //       module: AppModuleEnum.LISTINGS,
+  //       match: "exact",
+  //     },
+
+  //   ],
+  // },
+
   // Legal Menu
   {
-    label: "User Legal",
-    icon: "fas fa-gavel",
+    label: "User Onboarding",
+    // icon: "fas fa-gavel",
+    icon: "fas fa-user-check",
     module: AppModuleEnum.LEGALS,
     match: "children",
     children: [
@@ -20,6 +39,13 @@ export const sideMenu = [
         label: "KYC",
         icon: "fas fa-id-card",
         to: { name: "userkyc" },
+        match: "exact",
+      },
+
+      {
+        label: "Fulfillment Location",
+        icon: "fas fa-map-marker-alt",
+        to: { name: "fulfillmentlocation" },
         match: "exact",
       },
 
