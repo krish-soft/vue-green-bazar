@@ -1,6 +1,6 @@
 // mstUnitApiRoutes
 import { Api } from "@/core/services/api/api.js";
-import { get } from "jquery";
+// import { get } from "jquery";
 
 const masterApiRoutes = {
   /////////////

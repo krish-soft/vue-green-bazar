@@ -634,3 +634,48 @@ input[type="number"] {
     transparent 16px
   );
 }
+
+/* ======================================================
+   MASKED VALUE (HOVER TO REVEAL)
+   ====================================================== */
+.masked-value {
+  position: relative;
+  display: inline-block;
+
+  font-family: monospace;
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+
+  color: transparent;
+  padding: 4px 8px;
+  border-radius: 4px;
+
+  background: repeating-linear-gradient(
+    45deg,
+    #3a3a3a,
+    #3a3a3a 4px,
+    #2e2e2e 4px,
+    #2e2e2e 8px
+  );
+
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.masked-value::after {
+  content: attr(data-mask);
+  color: #9e9e9e;
+}
+
+.masked-value:hover {
+  background: #1f1f1f;
+  color: #ffffff;
+  letter-spacing: normal;
+}
+
+.masked-value:hover::after {
+  content: "";
+}

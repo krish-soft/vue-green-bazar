@@ -154,7 +154,7 @@ const handleLogin = async () => {
     uiStore.successMessage = "Login successful";
     router.push({ name: "home" });
   } catch (e) {
-    uiStore.errorMessages = ["Something went wrong. " + e.message];
+    uiStore.errorMessages = ["Something went wrong:\n " + e.message];
   } finally {
     uiStore.isLoading = false;
   }

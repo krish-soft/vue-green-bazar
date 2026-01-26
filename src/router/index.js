@@ -16,6 +16,18 @@ const router = createRouter({
       name: "signin",
       component: () => import("@/views/auth/SignInView.vue"),
     },
+    // Legal Kyc
+
+    {
+      path: "/legal/kyc",
+      name: "userkyc",
+      component: () => import("@/views/legal/kyc/UserKycView.vue"),
+    },
+    {
+      path: "/legal/kyc/:id",
+      name: "userkycdetails",
+      component: () => import("@/views/legal/kyc/UserKycViewDetailsView.vue"),
+    },
 
     // Master Routes
     {

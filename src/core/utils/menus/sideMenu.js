@@ -1,3 +1,5 @@
+import { AppModuleEnum } from "../enums/AppModuleEnum";
+
 export const sideMenu = [
   {
     label: "Home",
@@ -7,22 +9,35 @@ export const sideMenu = [
     match: "exact",
   },
 
+  // Legal Menu
   {
-    label: "Master",
-    icon: "fas fa-seedling",
-    module: 200,
+    label: "User Legal",
+    icon: "fas fa-gavel",
+    module: AppModuleEnum.LEGALS,
     match: "children",
     children: [
       {
-        label: "Depots",
-        icon: "fas fa-warehouse",
-        to: { name: "mstdepot" },
+        label: "KYC",
+        icon: "fas fa-id-card",
+        to: { name: "userkyc" },
         match: "exact",
       },
+
+    ],
+  },
+
+  // Master Menu
+  {
+    label: "Master",
+    icon: "fas fa-seedling",
+    module: AppModuleEnum.MASTERS,
+    match: "children",
+    children: [
       {
         label: "Product",
         icon: "fas fa-box",
         match: "children",
+        module: AppModuleEnum.PRODUCTS,
         children: [
           {
             label: "Categories",
@@ -55,6 +70,7 @@ export const sideMenu = [
         label: "Charge",
         icon: "fa-solid fa-hand-holding-dollar",
         match: "children",
+        module: AppModuleEnum.COMMISSIONS,
         children: [
           {
             label: "Charges",
@@ -88,7 +104,14 @@ export const sideMenu = [
         label: "Geography",
         icon: "fas fa-earth-americas",
         match: "children",
+        module: AppModuleEnum.GEOGRAPHY,
         children: [
+          {
+            label: "States",
+            icon: "fas fa-flag",
+            to: { name: "mststate" },
+            match: "exact",
+          },
           {
             label: "Zones",
             icon: "fas fa-map-marked-alt",
@@ -96,12 +119,11 @@ export const sideMenu = [
             match: "exact",
           },
           {
-            label: "States",
-            icon: "fas fa-flag",
-            to: { name: "mststate" },
+            label: "Depots",
+            icon: "fas fa-warehouse",
+            to: { name: "mstdepot" },
             match: "exact",
           },
-
 
         ],
       },
@@ -109,6 +131,7 @@ export const sideMenu = [
         label: "Settings",
         icon: "fas fa-cogs",
         match: "children",
+        module: AppModuleEnum.SETTINGS,
         children: [
           {
             label: "Financial Years",

@@ -1,14 +1,14 @@
-// src/services/api/apiService.js
+// apiRouteService.js
 
 import authApiRoutes from "./routes/authApiRoutes.js";
 import masterApiRoutes from "./routes/master/masterApiRoutes.js";
+import userLegalApiRoutes from "./routes/legal/userLegalApiRoutes.js";
 // later add more
-// import productApiRoutes from "./routes/productApiRoutes";
-// import orderApiRoutes from "./routes/orderApiRoutes";
 
 const apiRouteService = {
   ...authApiRoutes,
   ...masterApiRoutes,
+  ...userLegalApiRoutes,
   // ...productApiRoutes,
   // ...orderApiRoutes,
 };
