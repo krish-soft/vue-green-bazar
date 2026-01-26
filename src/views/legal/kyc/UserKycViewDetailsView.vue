@@ -153,8 +153,51 @@
                 </div>
 
 
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2">
+                        <h6 class="fw-semibold text-muted mb-0">Depot Details</h6>
 
+                        <BaseButton size="sm" variant="secondary" @click="openDepotModal()">
+                            Add New Depot
+                        </BaseButton>
+                    </div>
 
+                    <table class="table table-sm table-bordered align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-muted fw-normal">#</th>
+                                <th class="text-muted fw-normal">Primary</th>
+                                <th class="text-muted fw-normal">User Details</th>
+                                <th class="text-muted fw-normal">Depot Details</th>
+                                <th class="text-muted fw-normal">Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr v-for="(depot, i) in kycDetails.depots" :key="depot.id">
+                                <td>{{ i + 1 }} </td>
+                                <td><span :class="['badge', depot.is_primary ? 'bg-success' : 'bg-secondary']"> {{
+                                    depot.is_primary ? "Yes" : "No" }} </span></td>
+                                <td>
+                                    {{ depot?.user?.user_code }}
+                                    <br>{{ depot?.user?.name }}
+                                </td>
+                                <td>
+                                    {{ depot?.depot?.code }}
+                                    <br>{{ depot?.depot?.name }}
+                                </td>
+                                <td>
+                                    <BaseButton iconOnly icon="fas fa-trash" variant="danger"
+                                        @click="removeDepotAction(depot.id)" />
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
 
 
             </div>
@@ -162,35 +205,84 @@
         </template>
     </BaseCotainer>
 
-    <!-- <div v-if="zoomImage" class="zoom-overlay" @click="zoomImage = null">
-        <img :src="zoomImage" class="zoomed-image" />
-    </div> -->
+    <!-- User Depot -->
+    <BaseModal ref="aModal" icon="fas fa-map-marker-alt" size="modal-lg">
+        <template #title>
+            Assign New Depot
+        </template>
+
+        <form id="depotForm" @submit.prevent="submitDepotForm">
+            <div class="col-md-6">
+                <BaseInput label="User Id" v-model="form.user_id" readonly />
+            </div>
+            <div class="col-md-12">
+                <BaseAutoCompleteSelect label="Depots" v-model="form.depot_id" :options="depotList"
+                    :label-key="['zone.state.name', 'code', 'name', 'zone.name']" :value-key="'id'"
+                    placeholder="Select depot" required />
+            </div>
+        </form>
+
+        <template #footer>
+            <BaseButton variant="secondary" @click="closeDepotModal()">
+                Cancel
+            </BaseButton>
+            <BaseButton variant="primary" type="submit" form="depotForm" :loading="uiStore.isLoading">
+                Save
+            </BaseButton>
+        </template>
+    </BaseModal>
+
 
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
 import { useUIStore } from "@/core/utils/stores/uiStore";
-import { fetchKycDetails, updateKycStatus } from "@/core/repos/admin/legal/legalRepos";
+import {
+    fetchKycDetails,
+    updateKycStatus,
+
+} from "@/core/repos/admin/legal/legalRepos";
+import { fetchDepots } from "@/core/repos/admin/master/masterRepos";
+import { addCustomerDepot, removeCustomerDepot } from "@/core/repos/admin/customer/customerRepos";
 import { useRoute } from "vue-router";
 
 import BaseCotainer from "@/components/common/cards/BaseContainer.vue";
 import BaseButton from "@/components/common/buttons/BaseButton.vue";
 import BaseInput from "@/components/common/inputs/BaseInput.vue";
-import ImageZoomViewer from "../../../components/common/other/ImageZoomViewer.vue";
+import BaseModal from "@/components/common/modal/BaseModal.vue";
+import BaseAutoCompleteSelect from "@/components/common/inputs/BaseAutoCompleteSelect.vue";
+
+import ImageZoomViewer from "@/components/common/other/ImageZoomViewer.vue";
+import { showConfirmDialog } from "@/core/utils/uiHelpers/swalUtils.js";
+
+
 
 /* ---------------- STATE ---------------- */
 const uiStore = useUIStore();
 const route = useRoute();
 
-
 const kycId = ref(route.params.id);
 const kycDetails = ref([]);
-const zoomImage = ref(null);
+const depotList = ref([]);
 
-const openZoom = (src) => {
-    zoomImage.value = src;
-};
+const aModal = ref(null);
+
+const form = ref({
+    id: null,
+    user_id: null,
+    depot_id: null,
+    is_primary: false,
+});
+
+const resetForm = ref({
+    id: null,
+    user_id: null,
+    depot_id: null,
+    is_primary: false,
+});
+
+
 
 /* ---------------- INIT ---------------- */
 onMounted(() => loadKycDetails(kycId.value));
@@ -201,9 +293,45 @@ async function loadKycDetails(id) {
     if (!data) {
         return;
     }
-
     kycDetails.value = data;
 }
 
+async function openDepotModal() {
+    depotList.value = await fetchDepots({ is_active: true });
+    form.value = {
+        user_id: kycDetails.value.user_id,
+    };
+    aModal.value.show();
+}
+
+function closeDepotModal() {
+    aModal.value.hide();
+    resetForm.value = { ...resetForm.value };
+}
+
+
+const submitDepotForm = async () => {
+
+    await addCustomerDepot(form.value);
+    closeDepotModal();
+    // kycDetails.value = [];
+    await loadKycDetails(kycId.value);
+
+};
+
+
+const removeDepotAction = async (id) => {
+
+    const confirmed = await showConfirmDialog(
+        "Remove Depot",
+        "Are you sure you want to remove this depot?"
+    );
+
+    if (!confirmed) return;
+
+    await removeCustomerDepot(id);
+    kycDetails.value = [];
+    await loadKycDetails(kycId.value);
+}
 
 </script>

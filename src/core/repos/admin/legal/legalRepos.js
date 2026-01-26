@@ -8,7 +8,9 @@ export const fetchKycList = (filters = {}) =>
         showSuccessMessage: false,
     });
 export const fetchKycDetails = (id) =>
-    withUI(() => apiRouteService.getKycDetails(id));
+    withUI(() => apiRouteService.getKycDetails(id), {
+        showSuccessMessage: false,
+    });
 export const updateKycStatus = (id, data) =>
-    withUI(() => apiRouteService.updateKycStatus(id, data),);
+    withUI(() => apiRouteService.updateKycStatus(id, data));
 
