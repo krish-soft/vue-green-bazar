@@ -295,11 +295,7 @@
                     </table>
                 </div>
 
-
-
             </div>
-
-
         </template>
     </BaseCotainer>
 
@@ -471,9 +467,7 @@ async function loadDetails() {
     if (!data) {
         return;
     }
-
     locationDetails.value = data;
-
 }
 
 

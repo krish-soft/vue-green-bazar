@@ -41,6 +41,18 @@ const router = createRouter({
       component: () => import("@/views/common/fulfillmentLocation/FulfillmentLocationDetailsView.vue"),
     },
 
+    // Product Listing
+    {
+      path: "/productlisting",
+      name: "productlisting",
+      component: () => import("@/views/common/productlisting/ProductListingView.vue"),
+    },
+    {
+      path: "/productlisting/:id",
+      name: "productlistingdetails",
+      component: () => import("@/views/common/productlisting/ProductListingDetailsView.vue"),
+    },
+
     // Master Routes
     {
       path: "/master",

@@ -10,22 +10,22 @@ export const sideMenu = [
   },
 
   // Seller/Farmer menu
-  // {
-  //   label: "Seller/Farmer",
-  //   icon: "fas fa-store",
-  //   module: AppModuleEnum.LISTINGS,
-  //   match: "children",
-  //   children: [
-  //     {
-  //       label: "Liistings",
-  //       icon: "fas fa-list",
-  //       to: { name: "userkyc" },
-  //       module: AppModuleEnum.LISTINGS,
-  //       match: "exact",
-  //     },
+  {
+    label: "Seller/Farmer",
+    icon: "fas fa-store",
+    module: AppModuleEnum.SELLERS,
+    match: "children",
+    children: [
+      {
+        label: "Listings",
+        icon: "fas fa-list",
+        to: { name: "productlisting" },
+        module: AppModuleEnum.LISTINGS,
+        match: "exact",
+      },
 
-  //   ],
-  // },
+    ],
+  },
 
   // Legal Menu
   {

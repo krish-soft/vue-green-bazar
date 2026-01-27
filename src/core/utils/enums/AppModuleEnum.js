@@ -47,4 +47,10 @@ export const AppModuleEnum = {
   // Admin & Operations (800–899)
   ADMIN: 801,
   AUDIT_LOGS: 802,
+
+  SELLERS: 900,
+  BUYERS: 901,
+  DELIVERY_PARTNERS: 902,
+  AFFILIATES: 903,
+
 };
