@@ -1,5 +1,5 @@
 <template>
-    <BaseCotainer :heading="'User KYC Details : ' + kycDetails?.kyc_code">
+    <BaseContainer :heading="'User KYC Details : ' + kycDetails?.kyc_code">
 
         <template #headerActions>
         </template>
@@ -356,7 +356,7 @@
             </div>
 
         </template>
-    </BaseCotainer>
+    </BaseContainer>
 
     <!-- KYC Modal -->
     <BaseModal ref="kycModal" icon="fas fa-id-card">
@@ -464,7 +464,7 @@ import { fetchAllEnums } from "@/core/repos/utils/utilsRepos";
 
 import { useRoute } from "vue-router";
 
-import BaseCotainer from "@/components/common/cards/BaseContainer.vue";
+import BaseContainer from "@/components/common/cards/BaseContainer.vue";
 import BaseButton from "@/components/common/buttons/BaseButton.vue";
 import BaseInput from "@/components/common/inputs/BaseInput.vue";
 import BaseModal from "@/components/common/modal/BaseModal.vue";

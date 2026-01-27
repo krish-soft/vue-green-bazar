@@ -1,5 +1,5 @@
 <template>
-    <BaseCotainer heading="User KYC List">
+    <BaseContainer heading="User KYC List">
 
         <template #headerActions>
 
@@ -57,7 +57,7 @@
             </div>
 
         </template>
-    </BaseCotainer>
+    </BaseContainer>
 
 
 </template>
@@ -67,7 +67,7 @@ import { ref, onMounted } from "vue";
 import { useUIStore } from "@/core/utils/stores/uiStore";
 import { fetchKycList } from "@/core/repos/admin/legal/legalRepos";
 
-import BaseCotainer from "@/components/common/cards/BaseContainer.vue";
+import BaseContainer from "@/components/common/cards/BaseContainer.vue";
 import BaseButton from "@/components/common/buttons/BaseButton.vue";
 import BaseInput from "@/components/common/inputs/BaseInput.vue";
 

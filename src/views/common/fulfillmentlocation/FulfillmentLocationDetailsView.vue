@@ -1,5 +1,5 @@
 <template>
-    <BaseCotainer heading="FulfillmentLocation Details">
+    <BaseContainer heading="FulfillmentLocation Details">
 
         <template #body>
 
@@ -297,7 +297,7 @@
 
             </div>
         </template>
-    </BaseCotainer>
+    </BaseContainer>
 
 
     <!-- KYC Modal -->
@@ -399,7 +399,7 @@ import { fetchDepots } from "@/core/repos/admin/master/masterRepos";
 import { fetchAllEnums } from "@/core/repos/utils/utilsRepos";
 
 
-import BaseCotainer from "@/components/common/cards/BaseContainer.vue";
+import BaseContainer from "@/components/common/cards/BaseContainer.vue";
 import BaseModal from "@/components/common/modal/BaseModal.vue";
 
 import BaseButton from "@/components/common/buttons/BaseButton.vue";

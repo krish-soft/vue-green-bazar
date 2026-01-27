@@ -1,5 +1,5 @@
 <template>
-    <BaseCotainer heading="Product Listing">
+    <BaseContainer heading="Product Listing">
 
         <template #headerActions>
         </template>
@@ -90,7 +90,7 @@
             </div>
 
         </template>
-    </BaseCotainer>
+    </BaseContainer>
 
 
 </template>
@@ -100,7 +100,7 @@ import { ref, onMounted } from "vue";
 import { useUIStore } from "@/core/utils/stores/uiStore";
 import { fetchProductListingsList } from "@/core/repos/admin/common/productListingRepos";
 
-import BaseCotainer from "@/components/common/cards/BaseContainer.vue";
+import BaseContainer from "@/components/common/cards/BaseContainer.vue";
 import BaseButton from "@/components/common/buttons/BaseButton.vue";
 import BaseInput from "@/components/common/inputs/BaseInput.vue";
 

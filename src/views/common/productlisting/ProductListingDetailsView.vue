@@ -1,5 +1,5 @@
 <template>
-    <BaseCotainer heading="Product Listing Details">
+    <BaseContainer heading="Product Listing Details">
 
         <template #body>
 
@@ -287,7 +287,7 @@
 
         </template>
 
-    </BaseCotainer>
+    </BaseContainer>
 </template>
 
 <script setup>
@@ -296,7 +296,7 @@ import { useUIStore } from "@/core/utils/stores/uiStore";
 import { fetchProductListingDetails } from "@/core/repos/admin/common/productListingRepos";
 import { useRoute } from "vue-router";
 import router from "@/router";
-import BaseCotainer from "@/components/common/cards/BaseContainer.vue";
+import BaseContainer from "@/components/common/cards/BaseContainer.vue";
 import BaseButton from "@/components/common/buttons/BaseButton.vue";
 import BaseInput from "@/components/common/inputs/BaseInput.vue";
 
