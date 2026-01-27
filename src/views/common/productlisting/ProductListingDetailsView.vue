@@ -7,8 +7,13 @@
 
                 <!-- ================= BASIC INFO ================= -->
                 <div class="mb-4">
-                    <div class="border-bottom pb-1 mb-2">
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2">
                         <h6 class="fw-semibold text-muted mb-0">Basic Information</h6>
+
+                        <BaseButton :disabled="!listingDetails.is_active" size="sm" variant="danger"
+                            @click="opencancelListingModal()">
+                            Cancel Listing
+                        </BaseButton>
                     </div>
                     <table class="table table-sm table-borderless align-middle mb-0">
                         <tbody>
@@ -207,7 +212,7 @@
                 </div>
 
                 <!-- Listing Items & Packages -->
-                <!-- Listing Items & Packages -->
+
                 <div class="mb-4">
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-3">
                         <h6 class="fw-semibold text-muted mb-0">
@@ -245,6 +250,7 @@
                                             <th>Sold Qty</th>
 
                                             <th>Status</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
 
@@ -259,9 +265,16 @@
                                             <td class="text-end">{{ pkg.qty }}</td>
                                             <td class="text-end">{{ pkg.sold_qty }}</td>
                                             <td class="text-center"><span class="badge"
-                                                    :class="pkg.is_sold ? 'bg-success' : 'bg-warning'">
-                                                    {{ pkg.is_sold
-                                                        ? 'Sold' : 'Available' }} </span> </td>
+                                                    :class="pkg.is_locked ? 'bg-danger' : pkg.is_sold ? 'bg-success' : 'bg-warning'">
+                                                    {{ pkg.is_locked ? 'Locked' : (pkg.is_sold
+                                                        ? 'Sold' : 'Available') }} </span>
+                                            </td>
+                                            <td>
+                                                <BaseButton iconOnly size="sm" variant="primary" icon="fas fa-edit"
+                                                    @click="() => { packageForm.package_id = pkg.id, packageForm.user_id = listingDetails?.seller?.id; openPackageModal(); }" />
+
+
+                                            </td>
                                         </tr>
 
                                         <tr v-if="!item.listing_packages?.length">
@@ -282,23 +295,103 @@
 
 
             </div>
+        </template>
+    </BaseContainer>
 
 
-
+    <!-- Cancel Listing Modal -->
+    <BaseModal ref="cancelListingModal" icon="fas fa-id-card">
+        <template #title>
+            Cancel Listing
         </template>
 
-    </BaseContainer>
+        <form id="cancelListingForm" @submit.prevent="submitCancelListingForm">
+
+            <div class="col-md-12">
+
+                <h5 class="mb-3 text-danger"> Once you cancel, this action cannot be undone.</h5>
+
+                <BaseInput label="Review Comment" v-model="cancelListingForm.reason" placeholder="Enter Reason/Comment"
+                    required />
+            </div>
+
+
+            <div class="mt-2 d-flex align-items-center gap-2">
+                <label class="form-label mb-0">
+                    Confirm:
+                    <strong>{{ a }} + {{ b }}</strong> =
+                </label>
+
+                <BaseInput v-model="confirmAnswer" type="number" class="w-50 mt-2" placeholder="?" required />
+            </div>
+
+
+        </form>
+
+        <template #footer>
+            <BaseButton variant="secondary" @click="closecancelListingModal()">
+                Cancel
+            </BaseButton>
+            <BaseButton variant="primary" type="submit" form="cancelListingForm" :loading="uiStore.isLoading">
+                Save
+            </BaseButton>
+        </template>
+    </BaseModal>
+
+    <BaseModal ref="packageModal" icon="fas fa-id-card">
+        <template #title>
+            Update Package
+        </template>
+
+        <form id="packageForm" @submit.prevent="submitPackageForm">
+
+            <div class="col-md-12">
+
+                <BaseInput label="Qty" v-model="packageForm.qty" placeholder="Enter Qty" type="number" step="1" min="0"
+                    required />
+
+                <BaseInput label="Review Comment" v-model="packageForm.reason" placeholder="Enter Reason/Comment"
+                    required />
+            </div>
+
+
+            <div class="mt-2 d-flex align-items-center gap-2">
+                <label class="form-label mb-0">
+                    Confirm:
+                    <strong>{{ a }} + {{ b }}</strong> =
+                </label>
+
+                <BaseInput v-model="confirmAnswer" type="number" class="w-50 mt-2" placeholder="?" required />
+            </div>
+
+
+        </form>
+
+        <template #footer>
+            <BaseButton variant="secondary" @click="closePackageModal()">
+                Cancel
+            </BaseButton>
+            <BaseButton variant="primary" type="submit" form="packageForm" :loading="uiStore.isLoading">
+                Save
+            </BaseButton>
+        </template>
+    </BaseModal>
+
+
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useUIStore } from "@/core/utils/stores/uiStore";
-import { fetchProductListingDetails } from "@/core/repos/admin/common/productListingRepos";
+import { fetchProductListingDetails, cancelProductListing, updateListingPackage } from "@/core/repos/admin/common/productListingRepos";
 import { useRoute } from "vue-router";
 import router from "@/router";
+
 import BaseContainer from "@/components/common/cards/BaseContainer.vue";
 import BaseButton from "@/components/common/buttons/BaseButton.vue";
 import BaseInput from "@/components/common/inputs/BaseInput.vue";
+import BaseModal from "@/components/common/modal/BaseModal.vue";
+
 
 /* ---------------- STATE ---------------- */
 const uiStore = useUIStore();
@@ -306,6 +399,12 @@ const route = useRoute();
 
 const listingId = ref(route.params.id);
 const listingDetails = ref([]);
+
+const cancelListingModal = ref(null);
+const packageModal = ref(null);
+
+const selectedPackage = ref(null);
+
 
 /* ---------------- INIT ---------------- */
 onMounted(loadDetails);
@@ -318,6 +417,108 @@ async function loadDetails() {
     }
     listingDetails.value = data;
 }
+
+const cancelListingForm = ref({
+    listing_id: null,
+    reason: "",
+});
+
+const resetcancelListingForm = ref({
+    listing_id: null,
+    reason: "",
+});
+
+const packageForm = ref({
+    package_id: "",
+    user_id: "",
+    qty: "",
+    reason: "",
+});
+
+const resetPackageForm = ref({
+    package_id: "",
+    user_id: "",
+    qty: "",
+    reason: "",
+});
+
+
+
+const a = ref(0);
+const b = ref(0);
+const confirmAnswer = ref("");
+
+const generateCaptcha = () => {
+    a.value = Math.floor(Math.random() * 9) + 1; // 1–9
+    b.value = Math.floor(Math.random() * 9) + 1; // 1–9
+    confirmAnswer.value = "";
+};
+
+
+const isConfirmValid = computed(() =>
+    Number(confirmAnswer.value) === a.value + b.value
+);
+
+
+async function opencancelListingModal() {
+    generateCaptcha();
+    cancelListingForm.value = { ...resetcancelListingForm.value };
+    cancelListingModal.value.show();
+}
+
+function closecancelListingModal() {
+    cancelListingForm.value = { ...resetcancelListingForm.value };
+    generateCaptcha();
+    cancelListingModal.value.hide();
+}
+
+
+
+async function submitCancelListingForm() {
+
+    if (!isConfirmValid.value) {
+        uiStore.errorMessages = ["Confirmation failed. Please solve the sum."];
+        generateCaptcha();
+        return;
+    }
+
+    await cancelProductListing(listingId.value, cancelListingForm.value);
+    closecancelListingModal();
+
+    cancelListingForm.value = { ...resetcancelListingForm.value };
+    listingDetails.value = [];
+    await loadDetails(listingId.value);
+};
+
+// ================ PACKAGE MODAL ================
+
+async function openPackageModal() {
+    generateCaptcha();
+    // packageForm.value = { ...resetPackageForm.value }; // selecting package id is already set
+    packageModal.value.show();
+}
+
+function closePackageModal() {
+    packageForm.value = { ...resetPackageForm.value };
+    generateCaptcha();
+    packageModal.value.hide();
+}
+
+async function submitPackageForm() {
+
+    if (!isConfirmValid.value) {
+        uiStore.errorMessages = ["Confirmation failed. Please solve the sum."];
+        generateCaptcha();
+        return;
+    }
+
+    await updateListingPackage(packageForm.value.package_id, packageForm.value);
+    closePackageModal();
+
+    packageForm.value = { ...resetPackageForm.value };
+    listingDetails.value = [];
+    await loadDetails(listingId.value);
+};
 
 
 

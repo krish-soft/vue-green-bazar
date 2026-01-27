@@ -11,17 +11,17 @@ const productListingApiRoutes = {
         return Api.admin.get(`/listing/${id}`);
     },
 
-    cancelProductListing(id) {
-        return Api.admin.post(`/listing/${id}`);
+    cancelProductListing(id, data) {
+        return Api.admin.post(`/listing/cancel/${id}`, { data });
     },
 
 
-    updateListingPackage(packageId) {
-        return Api.admin.put(`/listing/packages/${packageId}`);
+    updateListingPackage(packageId, data) {
+        return Api.admin.put(`/listing/packages/${packageId}`, { data });
     },
 
-    cancelListingPackage(packageId) {
-        return Api.admin.post(`/listing/packages/cancel/${packageId}`);
+    cancelListingPackage(packageId, data) {
+        return Api.admin.post(`/listing/packages/cancel/${packageId}`, { data });
     },
 
 

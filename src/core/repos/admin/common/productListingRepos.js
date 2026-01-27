@@ -12,14 +12,13 @@ export const fetchProductListingDetails = (id) =>
     withUI(() => apiRouteService.getProductListingDetails(id), {
         showSuccessMessage: false,
     });
-export const cancelProductListing = (id) =>
-    withUI(() => apiRouteService.cancelProductListing(id));
+export const cancelProductListing = (id, payload) =>
+    withUI(() => apiRouteService.cancelProductListing(id, payload));
 
 
 // Listing Package
-export const updateListingPackage = (packageId) =>
-    withUI(() => apiRouteService.updateListingPackage(packageId));
+export const updateListingPackage = (packageId, payload) =>
+    withUI(() => apiRouteService.updateListingPackage(packageId, payload));
 
-export const cancelListingPackage = (packageId) =>
-    withUI(() => apiRouteService.cancelListingPackage(packageId));
-
+export const cancelListingPackage = (packageId, payload) =>
+    withUI(() => apiRouteService.cancelListingPackage(packageId, payload));
