@@ -2,8 +2,8 @@
 
     <div class="row">
 
-        <div class="col-md-5">
-            <!--  Add New Customer -->
+        <div class="col-md-6">
+            <!-- 1. Add New Customer -->
             <BaseContainer heading="1. Add New Customer">
                 <template #body>
 
@@ -38,11 +38,9 @@
 
                 </template>
             </BaseContainer>
-        </div>
 
-        <div class="col-md-7">
-
-            <BaseContainer heading="2. Add Address Details">
+            <!-- 2. Address Details -->
+            <BaseContainer heading="2. Add Address Details" class="mt-4">
 
                 <template #body>
 
@@ -50,7 +48,7 @@
 
                         <div class="row">
                             <div class="col-md-6">
-                                <CustomerSearchComponent v-model="selectedCustomer" />
+                                <CustomerSearchComponent v-model="selectedCustomer" required />
                             </div>
                         </div>
                         <AddressComponent v-model="addressForm" form-id="addressForm" />
@@ -66,83 +64,91 @@
                 </template>
 
             </BaseContainer>
+        </div>
+
+        <div class="col-md-6">
+            <!-- 3. Add KYC Details -->
+            <BaseContainer heading="3. Add KYC Details">
+                <template #body>
+                    <form id="kycForm" @submit.prevent="submitKYCForm">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <CustomerSearchComponent v-model="selectedCustomer" required />
+                            </div>
+                        </div>
+
+                        <!-- KYC FORM FIELDS GO HERE -->
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <BaseInput v-model="kycForm.legal_name" label="Legal Name"
+                                    placeholder="Enter Legal Name" required />
+                            </div>
+                            <div class="col-md-6">
+                                <BaseInput v-model="kycForm.aadhaar_number" label="Aadhaar Number"
+                                    placeholder="Enter Aadhaar Number" required />
+                            </div>
+                            <div class="row mt-3">
+
+                            </div>
+                            <div class="col-md-6">
+                                <BaseInput v-model="kycForm.pan_card_number" label="PAN Card Number"
+                                    placeholder="Enter PAN Card Number" />
+                            </div>
+                            <div class="col-md-6">
+                                <BaseInput v-model="kycForm.dob" label="Date of Birth" type="date"
+                                    placeholder="Select DOB" required />
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <BaseFileInput label="Select Aadhaar Front Image"
+                                    v-model="kycFileForm.aadhaar_front_image" accept=".jpg,.jpeg,.png"
+                                    help-text="Allowed formats: JPG, JPEG, PNG" required />
+                            </div>
+
+                            <div class="col-md-6">
+                                <BaseFileInput label="Select Aadhaar Back Image"
+                                    v-model="kycFileForm.aadhaar_back_image" accept=".jpg,.jpeg,.png"
+                                    help-text="Allowed formats: JPG, JPEG, PNG" required />
+
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <BaseFileInput label="Select PAN Card Image" v-model="kycFileForm.pan_card_image"
+                                    accept=".jpg,.jpeg,.png" help-text="Allowed formats: JPG, JPEG, PNG" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <BaseFileInput label="Select Selfie Image" v-model="kycFileForm.selfie_image"
+                                    accept=".jpg,.jpeg,.png" help-text="Allowed formats: JPG, JPEG, PNG" />
+
+                            </div>
+
+                        </div>
+
+                        <div class="row mt-3">
+
+                            <!-- ✅ BUTTON GOES HERE -->
+                            <div class="text-end mt-3">
+                                <BaseButton variant="primary" type="submit" form="kycForm" :loading="uiStore.isLoading">
+                                    Save KYC Details
+                                </BaseButton>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </template>
+
+            </BaseContainer>
 
         </div>
     </div>
 
-    <!-- Add KYC Details -->
 
-    <BaseContainer heading="3. Add KYC Details" class="mt-4">
-        <template #body>
-
-
-            <form id="kycForm" @submit.prevent="submitKYCForm">
-
-                <div class="row">
-                    <div class="col-md-4">
-                        <CustomerSearchComponent v-model="selectedCustomer" required />
-                    </div>
-                </div>
-
-                <!-- KYC FORM FIELDS GO HERE -->
-                <div class="row mt-3">
-                    <div class="col-md-3">
-                        <BaseInput v-model="kycForm.legal_name" label="Legal Name" placeholder="Enter Legal Name"
-                            required />
-                    </div>
-                    <div class="col-md-3">
-                        <BaseInput v-model="kycForm.aadhaar_number" label="Aadhaar Number"
-                            placeholder="Enter Aadhaar Number" required />
-                    </div>
-                    <div class="col-md-3">
-                        <BaseInput v-model="kycForm.pan_card_number" label="PAN Card Number"
-                            placeholder="Enter PAN Card Number" />
-                    </div>
-                    <div class="col-md-3">
-                        <BaseInput v-model="kycForm.dob" label="Date of Birth" type="date" placeholder="Select DOB"
-                            required />
-                    </div>
-                </div>
-
-                <div class="row mt-3">
-                    <div class="col-md-3">
-                        <BaseFileInput label="Select Aadhaar Front Image" v-model="kycFileForm.aadhaar_front_image"
-                            accept=".jpg,.jpeg,.png" help-text="Allowed formats: JPG, JPEG, PNG" required />
-                    </div>
-
-                    <div class="col-md-3">
-                        <BaseFileInput label="Select Aadhaar Back Image" v-model="kycFileForm.aadhaar_back_image"
-                            accept=".jpg,.jpeg,.png" help-text="Allowed formats: JPG, JPEG, PNG" required />
-
-                    </div>
-                    <div class="col-md-3">
-                        <BaseFileInput label="Select PAN Card Image" v-model="kycFileForm.pan_card_image"
-                            accept=".jpg,.jpeg,.png" help-text="Allowed formats: JPG, JPEG, PNG" />
-                    </div>
-
-                    <div class="col-md-3">
-                        <BaseFileInput label="Select Selfie Image" v-model="kycFileForm.selfie_image"
-                            accept=".jpg,.jpeg,.png" help-text="Allowed formats: JPG, JPEG, PNG" />
-
-                    </div>
-
-                </div>
-
-                <div class="row mt-3">
-
-                    <!-- ✅ BUTTON GOES HERE -->
-                    <div class="text-end mt-3">
-                        <BaseButton variant="primary" type="submit" form="kycForm" :loading="uiStore.isLoading">
-                            Save KYC Details
-                        </BaseButton>
-                    </div>
-                </div>
-
-            </form>
-
-        </template>
-
-    </BaseContainer>
 
 </template>
 
@@ -238,7 +244,7 @@ async function submitAddressFormWithUser() {
     if (data) {
         // Reset the form after successful submission
         addressForm.value = null;
-        selectedCustomer.value = null;
+        // selectedCustomer.value = null;
     }
 }
 

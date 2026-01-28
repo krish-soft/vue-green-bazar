@@ -6,7 +6,7 @@
         </label>
 
         <input type="text" class="form-control" placeholder="Search customer" v-model="searchQuery" :required="required"
-            autocomplete="off" />
+            autocomplete="off" style="border:1px dashed #444;" />
 
         <div v-show="showDropdown" class="border bg-white position-absolute w-100"
             style="top:100%; max-height:220px; overflow-y:auto; z-index:1050">
@@ -33,7 +33,7 @@ import { searchCustomerAutocomplete } from "@/core/repos/admin/customer/customer
 /* ===== PROPS ===== */
 const props = defineProps({
     modelValue: { type: Object, default: null },
-    label: { type: String, default: "Customer" },
+    label: { type: String, default: "Select Customer" },
     required: { type: Boolean, default: false }
 });
 
