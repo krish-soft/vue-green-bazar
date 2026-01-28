@@ -16,6 +16,14 @@ const router = createRouter({
       name: "signin",
       component: () => import("@/views/auth/SignInView.vue"),
     },
+
+    // New Customer
+    {
+      path: "/legal/customer/new",
+      name: "newcustomer",
+      component: () => import("@/views/legal/customer/NewCustomerView.vue"),
+    },
+
     // Legal Kyc
 
     {
@@ -28,6 +36,8 @@ const router = createRouter({
       name: "userkycdetails",
       component: () => import("@/views/legal/kyc/UserKycViewDetailsView.vue"),
     },
+
+
 
     // FulFillmentLocationView
     {

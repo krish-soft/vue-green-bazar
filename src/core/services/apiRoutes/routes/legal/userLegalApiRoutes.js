@@ -16,6 +16,12 @@ const userLegalApiRoutes = {
     },
 
 
+    uploadKycWithData(data, files) {
+        return Api.admin.upload(`/legal/kyc/create`, { data: data, files: files });
+    },
+
+
+
 
 };
 export default userLegalApiRoutes;

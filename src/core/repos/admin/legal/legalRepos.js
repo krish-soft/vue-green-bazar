@@ -14,3 +14,5 @@ export const fetchKycDetails = (id) =>
 export const updateKycStatus = (id, data) =>
     withUI(() => apiRouteService.updateKycStatus(id, data));
 
+export const addKycWithDataFiles = (data, files) =>
+    withUI(() => apiRouteService.uploadKycWithData(data, files));

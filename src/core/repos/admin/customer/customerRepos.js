@@ -3,6 +3,11 @@ import apiRouteService from "@/core/services/apiRoutes/apiRouteService.js";
 
 // Customer
 
+export const searchCustomerAutocomplete = (filters = {}) =>
+    withUI(() => apiRouteService.searchCustomerAutocomplete(filters), {
+        showSuccessMessage: false,
+    });
+
 export const fetchCustomerList = (filters = {}) =>
     withUI(() => apiRouteService.getCustomerList(filters), {
         showSuccessMessage: false,
@@ -23,3 +28,9 @@ export const addCustomerDepot = (data) =>
     withUI(() => apiRouteService.addCustomerDepot(data));
 export const removeCustomerDepot = (id) =>
     withUI(() => apiRouteService.removeCustomerDepot(id));
+
+// Address Details
+export const addCustomerAddress = (data) =>
+    withUI(() => apiRouteService.addCustomerAddress(data));
+export const addCustomerBillingAddress = (data) =>
+    withUI(() => apiRouteService.addCustomerBillingAddress(data));

@@ -3,12 +3,20 @@ import { Api } from "@/core/services/api/api.js";
 
 const customerApiRoutes = {
     // Users
+
+    searchCustomerAutocomplete(filters = {}) {
+        return Api.admin.get("/customer/search", { queryParameters: filters });
+    },
+
     getCustomerList(filters = {}) {
         return Api.admin.get("/customer/customer", { queryParameters: filters });
     },
+
     createCustomer(data) {
         return Api.admin.post("/customer/customer", { data });
     },
+
+
 
     updateCustomer(id, data) {
         return Api.admin.put(`/customer/customer/${id}`, { data });
@@ -26,6 +34,18 @@ const customerApiRoutes = {
     removeCustomerDepot(id) {
         return Api.admin.delete(`/customer/removeDepot/${id}`);
     },
+
+
+    // Address Details
+    addCustomerAddress(data) {
+        return Api.admin.post("/customer/address", { data });
+    },
+
+    addCustomerBillingAddress(data) {
+        return Api.admin.post("/customer/billingAddress", { data });
+    },
+
+
 
 
 

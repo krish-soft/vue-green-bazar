@@ -29,21 +29,27 @@ export const sideMenu = [
 
   // Legal Menu
   {
-    label: "User Onboarding",
+    label: "Customer Onboarding",
     // icon: "fas fa-gavel",
     icon: "fas fa-user-check",
     module: AppModuleEnum.LEGALS,
     match: "children",
     children: [
       {
-        label: "KYC",
+        label: "New Customer",
+        icon: "fas fa-user-plus",
+        to: { name: "newcustomer" },
+        match: "exact",
+      },
+      {
+        label: "KYC Verification",
         icon: "fas fa-id-card",
         to: { name: "userkyc" },
         match: "exact",
       },
 
       {
-        label: "Fulfillment Location",
+        label: "Fulfillment Location Verification",
         icon: "fas fa-map-marker-alt",
         to: { name: "fulfillmentlocation" },
         match: "exact",
