@@ -60,8 +60,6 @@
 </template>
 
 <script setup>
-
-
 import { ref, onMounted } from "vue";
 import { useUIStore } from "@/core/utils/stores/uiStore";
 

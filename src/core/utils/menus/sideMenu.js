@@ -23,6 +23,13 @@ export const sideMenu = [
         module: AppModuleEnum.ORDERS,
         match: "exact",
       },
+      {
+        label: "Payments",
+        icon: "fas fa-credit-card",
+        to: { name: "paymentlist" },
+        module: AppModuleEnum.PAYMENTS,
+        match: "exact",
+      },
 
     ],
   },

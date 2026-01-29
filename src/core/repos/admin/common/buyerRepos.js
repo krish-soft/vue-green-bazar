@@ -14,3 +14,21 @@ export const fetchOrderDetails = (id) =>
     withUI(() => apiRouteService.getOrderDetails(id), {
         showSuccessMessage: false,
     });
+
+
+
+// payment
+export const fetchPaymentsList = (filters = {}) =>
+    withUI(() => apiRouteService.getPaymentsList(filters), {
+        showSuccessMessage: false,
+    });
+
+export const fetchPaymentDetails = (id) =>
+    withUI(() => apiRouteService.getPaymentDetails(id), {
+        showSuccessMessage: false,
+    });
+
+export const reconcilePayment = (data) =>
+    withUI(() => apiRouteService.reconcilePayment(data), {
+        showSuccessMessage: true,
+    });

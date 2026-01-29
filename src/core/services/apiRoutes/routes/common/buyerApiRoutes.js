@@ -14,9 +14,19 @@ const buyerApiRoutes = {
     },
 
 
-    // cart 
+    // payment
 
+    getPaymentsList(filters = {}) {
+        return Api.admin.get("/payment", { queryParameters: filters });
+    },
 
+    getPaymentDetails(id) {
+        return Api.admin.get(`/payment/${id}`);
+    },
+
+    reconcilePayment(data) {
+        return Api.admin.post('/reconcile', { data });
+    },
 
 
 
