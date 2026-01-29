@@ -51,17 +51,25 @@ const router = createRouter({
       component: () => import("@/views/common/fulfillmentLocation/FulfillmentLocationDetailsView.vue"),
     },
 
-    // Product Listing
+    // Seller Product Listing
     {
       path: "/productlisting",
       name: "productlisting",
-      component: () => import("@/views/common/productlisting/ProductListingView.vue"),
+      component: () => import("@/views/seller/productlisting/ProductListingView.vue"),
     },
     {
       path: "/productlisting/:id",
       name: "productlistingdetails",
-      component: () => import("@/views/common/productlisting/ProductListingDetailsView.vue"),
+      component: () => import("@/views/seller/productlisting/ProductListingDetailsView.vue"),
     },
+
+    // Buyer
+    {
+      path: "/order/list",
+      name: "orderlist",
+      component: () => import("@/views/buyer/order/OrderView.vue"),
+    },
+
 
     // Master Routes
     {

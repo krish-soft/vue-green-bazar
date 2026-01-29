@@ -383,7 +383,7 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { useUIStore } from "@/core/utils/stores/uiStore";
-import { fetchProductListingDetails, cancelProductListing, updateListingPackage } from "@/core/repos/admin/common/productListingRepos";
+import { fetchProductListingDetails, cancelProductListing, updateListingPackage } from "@/core/repos/admin/common/sellerRepos";
 import { useRoute } from "vue-router";
 import router from "@/router";
 

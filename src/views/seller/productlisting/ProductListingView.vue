@@ -98,7 +98,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useUIStore } from "@/core/utils/stores/uiStore";
-import { fetchProductListingsList } from "@/core/repos/admin/common/productListingRepos";
+import { fetchProductListingsList } from "@/core/repos/admin/common/sellerRepos";
 
 import BaseContainer from "@/components/common/cards/BaseContainer.vue";
 import BaseButton from "@/components/common/buttons/BaseButton.vue";

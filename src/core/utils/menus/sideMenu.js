@@ -9,9 +9,27 @@ export const sideMenu = [
     match: "exact",
   },
 
+  // Buyer/Trader menu
+  {
+    label: "Buyer",
+    icon: "fas fa-shopping-cart",
+    module: AppModuleEnum.BUYERS,
+    match: "children",
+    children: [
+      {
+        label: "Orders",
+        icon: "fas fa-shopping-bag",
+        to: { name: "orderlist" },
+        module: AppModuleEnum.ORDERS,
+        match: "exact",
+      },
+
+    ],
+  },
+
   // Seller/Farmer menu
   {
-    label: "Seller/Farmer",
+    label: "Seller",
     icon: "fas fa-store",
     module: AppModuleEnum.SELLERS,
     match: "children",

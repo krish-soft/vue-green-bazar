@@ -1,7 +1,7 @@
 
 import { Api } from "@/core/services/api/api.js";
 
-const productListingApiRoutes = {
+const sellerApiRoutes = {
 
     getProductListingsList(filters = {}) {
         return Api.admin.get("/listing/", { queryParameters: filters });
@@ -27,4 +27,4 @@ const productListingApiRoutes = {
 
 }
 
-export default productListingApiRoutes;
+export default sellerApiRoutes;
