@@ -21,8 +21,8 @@
                             <th>Sell To Market</th>
                             <th>Seller Deliver</th>
                             <th>Sold</th>
-                            <th>Partial</th>
-                            <th>Locked</th>
+                            <!-- <th>Partial</th>
+                            <th>Locked</th> -->
                             <th>Expired</th>
 
 
@@ -64,7 +64,7 @@
                                 <i class="fas fa-cart-plus text-danger" v-else></i>
                             </td>
 
-                            <td>
+                            <!-- <td>
                                 <i class="fas fa-percent text-warning" v-if="row.is_partial"></i>
                                 <i class="fas fa-minus-circle text-danger" v-else></i>
                             </td>
@@ -72,7 +72,7 @@
                             <td>
                                 <i class="fas fa-shield-alt text-success" v-if="row.is_locked"></i>
                                 <i class="fas fa-lock-open text-danger" v-else></i>
-                            </td>
+                            </td> -->
                             <td>
                                 <i class="fas fa-hourglass-end text-danger" v-if="row.is_expired"></i>
                                 <i class="fas fa-hourglass-start text-success" v-else></i>

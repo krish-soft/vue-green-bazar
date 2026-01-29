@@ -10,8 +10,8 @@
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2">
                         <h6 class="fw-semibold text-muted mb-0">Basic Information</h6>
 
-                        <BaseButton :disabled="!listingDetails.is_active" size="sm" variant="danger"
-                            @click="opencancelListingModal()">
+                        <BaseButton :disabled="!listingDetails.is_active || listingDetails.is_sold" size="sm"
+                            variant="danger" @click="opencancelListingModal()">
                             Cancel Listing
                         </BaseButton>
                     </div>
@@ -53,7 +53,7 @@
                                             listingDetails.is_sold ? 'Sold' : 'Available' }} </span> </td>
                             </tr>
 
-                            <tr>
+                            <!-- <tr>
                                 <th class="text-muted fw-normal w-25">Partial Status</th>
                                 <td class="fw-semibold"><span class="badge"
                                         :class="listingDetails.is_partial ? 'bg-success' : 'bg-secondary'"> {{
@@ -65,7 +65,7 @@
                                 <td class="fw-semibold"><span class="badge"
                                         :class="listingDetails.is_locked ? 'bg-success' : 'bg-secondary'"> {{
                                             listingDetails.is_locked ? 'Locked' : 'not' }} </span> </td>
-                            </tr>
+                            </tr> -->
 
                             <tr>
                                 <th class="text-muted fw-normal w-25">Expire Status</th>
@@ -250,7 +250,7 @@
                                             <th>Sold Qty</th>
 
                                             <th>Status</th>
-                                            <th>Action</th>
+                                            <!-- <th>Action</th> -->
                                         </tr>
                                     </thead>
 
@@ -269,12 +269,12 @@
                                                     {{ pkg.is_locked ? 'Locked' : (pkg.is_sold
                                                         ? 'Sold' : 'Available') }} </span>
                                             </td>
-                                            <td>
+                                            <!-- <td>
                                                 <BaseButton iconOnly size="sm" variant="primary" icon="fas fa-edit"
                                                     @click="() => { packageForm.package_id = pkg.id, packageForm.user_id = listingDetails?.seller?.id; openPackageModal(); }" />
 
 
-                                            </td>
+                                            </td> -->
                                         </tr>
 
                                         <tr v-if="!item.listing_packages?.length">
