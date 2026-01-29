@@ -679,3 +679,54 @@ input[type="number"] {
 .masked-value:hover::after {
   content: "";
 }
+
+/* ORDER STATUS BADGES */
+
+.bg-pending {
+  background-color: #6c757d !important; /* grey */
+}
+
+.bg-processing {
+  background-color: #0dcaf0 !important; /* cyan */
+}
+
+.bg-confirmed {
+  background-color: #198754 !important; /* green */
+}
+
+.bg-shipped {
+  background-color: #0d6efd !important; /* blue */
+}
+
+.bg-delivered {
+  background-color: #20c997 !important; /* teal */
+}
+
+.bg-cancelled {
+  background-color: #dc3545 !important; /* red */
+}
+
+.bg-refunded {
+  background-color: #ffc107 !important; /* yellow */
+  color: #212529 !important;
+}
+
+/* PAYMENT STATUS */
+
+.bg-payment_pending {
+  background-color: #fd7e14 !important; /* orange */
+}
+
+.bg-paid {
+  background-color: #198754 !important; /* green */
+}
+
+.bg-failed_payment,
+.bg-failed {
+  background-color: #b02a37 !important; /* dark red */
+}
+
+/* FALLBACK */
+.bg-unknown {
+  background-color: #adb5bd !important;
+}

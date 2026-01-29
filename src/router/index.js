@@ -69,6 +69,11 @@ const router = createRouter({
       name: "orderlist",
       component: () => import("@/views/buyer/order/OrderView.vue"),
     },
+    {
+      path: "/order/:id",
+      name: "orderdetails",
+      component: () => import("@/views/buyer/order/OrderDetailsView.vue"),
+    },
 
 
     // Master Routes

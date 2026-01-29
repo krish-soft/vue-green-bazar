@@ -27,8 +27,16 @@
                             <td>{{ index + 1 }}</td>
                             <td>{{ new Date(order.orderDate).toLocaleDateString() }}</td>
                             <td>{{ order.order_number }}</td>
-                            <td>{{ order.order_status }}</td>
-                            <td>{{ order.payment_status }}</td>
+                            <td>
+                                <span class="badge" :class="`bg-${order.order_status}`">
+                                    {{ order.order_status }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge" :class="`bg-${order.payment_status}`">
+                                    {{ order.payment_status }}
+                                </span>
+                            </td>
                             <td>{{ order?.buyer?.user_code }}
                                 <br /> {{ order?.buyer?.nickname }}
                             </td>
@@ -38,7 +46,8 @@
                                 <br /> {{ order?.shipping_fulfillment_location?.state }}
                             </td>
                             <td>
-
+                                <BaseButton iconOnly variant="sky me-2" icon="fas fa-eye "
+                                    @click="showItemById(order.id)" />
                             </td>
                         </tr>
                     </tbody>
@@ -81,8 +90,8 @@ async function loadList() {
     ordersList.value = data;
 }
 
-function showOrderById(id) {
-    // router.push({ name: "orderdetails", params: { id } });
+function showItemById(id) {
+    router.push({ name: "orderdetails", params: { id } });
 }
 
 
