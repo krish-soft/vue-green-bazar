@@ -30,7 +30,11 @@
                             <td>{{ order.order_status }}</td>
                             <td>{{ order.payment_status }}</td>
                             <td>{{ order?.buyer?.user_code }} - {{ order?.buyer?.nickname }}</td>
-                            <td>{{ order?.shipping_fulfillment_location?.city }}</td>
+                            <td>
+                                {{ order?.shipping_fulfillment_location?.village }}
+                                <br /> {{ order?.shipping_fulfillment_location?.city }}
+                                <br /> {{ order?.shipping_fulfillment_location?.state }}
+                            </td>
                             <td>
 
                             </td>
