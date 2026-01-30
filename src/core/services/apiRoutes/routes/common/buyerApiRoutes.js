@@ -25,7 +25,7 @@ const buyerApiRoutes = {
     },
 
     reconcilePayment(data) {
-        return Api.admin.post('/reconcile', { data });
+        return Api.admin.post('/payment/reconcile', { data });
     },
 
 
