@@ -682,7 +682,8 @@ input[type="number"] {
 
 /* ORDER STATUS BADGES */
 
-.bg-pending {
+.bg-pending,
+.bg-initiated {
   background-color: #6c757d !important; /* grey */
 }
 

@@ -25,7 +25,7 @@
                         <tr v-for="(order, index) in ordersList" :key="order.id" @click="showOrderById(order.id)"
                             style="cursor: pointer;">
                             <td>{{ index + 1 }}</td>
-                            <td>{{ new Date(order.orderDate).toLocaleDateString() }}</td>
+                            <td>{{ new Date(order.order_date).toDateString() }}</td>
                             <td>{{ order.order_number }}</td>
                             <td>
                                 <span class="badge" :class="`bg-${order.order_status}`">
@@ -37,13 +37,14 @@
                                     {{ order.payment_status }}
                                 </span>
                             </td>
-                            <td>{{ order?.buyer?.user_code }}
-                                <br /> {{ order?.buyer?.nickname }}
+                            <td>
+                                <b>Code:</b> {{ order?.buyer?.user_code }}
+                                <br /> <b>Nick.:</b> {{ order?.buyer?.nickname }}
                             </td>
                             <td>
-                                {{ order?.shipping_fulfillment_location?.village }}
-                                <br /> {{ order?.shipping_fulfillment_location?.city }}
-                                <br /> {{ order?.shipping_fulfillment_location?.state }}
+                                <b>Village:</b> {{ order?.shipping_fulfillment_location?.village }}
+                                <br /> <b>City:</b> {{ order?.shipping_fulfillment_location?.city }}
+                                <br /> <b>State:</b> {{ order?.shipping_fulfillment_location?.state }}
                             </td>
                             <td>
                                 <BaseButton iconOnly variant="sky me-2" icon="fas fa-eye "

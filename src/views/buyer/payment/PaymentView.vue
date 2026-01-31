@@ -19,15 +19,14 @@
 
                             <th>Source Type</th>
                             <th>Source Code</th>
-
-                            <th>Currency</th>
-                            <th>Amount</th>
+                            <th>Amount </th>
 
                             <th>Gateway</th>
                             <th>Gateway Order ID</th>
 
                             <th>Paid Via</th>
                             <th>Failure Reason</th>
+                            <th>Created At</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -37,7 +36,7 @@
                             <td>{{ index + 1 }}</td>
                             <td>
                                 <b>Code: </b>{{ row?.user?.user_code }}
-                                <br /><b>Nickname: </b> {{ row?.user?.nickname }}
+                                <br /><b>Nick.: </b> {{ row?.user?.nickname }}
                             </td>
                             <td>{{ new Date(row?.payment_date).toLocaleDateString() }}</td>
                             <td>{{ row.payment_code }}</td>
@@ -49,14 +48,14 @@
                             <td>{{ row.source_type.split(/[\\/]/).pop() }}</td>
                             <td>{{ row.source_code }}</td>
 
-                            <td>{{ row.currency }}</td>
-                            <td>{{ row.amount }}</td>
+                            <td> {{ row.currency }}<br /> {{ row.amount }}</td>
 
                             <td>{{ row.gateway }}</td>
                             <td>{{ row.gateway_order_id }}</td>
 
                             <td>{{ row.paid_via }}</td>
                             <td>{{ row.failure_reason }}</td>
+                            <td>{{ new Date(row.created_at).toString() }}</td>
                             <td>
                                 <!-- <BaseButton iconOnly variant="sky me-2" icon="fas fa-eye "
                                     @click="showItemById(row.id)" /> -->

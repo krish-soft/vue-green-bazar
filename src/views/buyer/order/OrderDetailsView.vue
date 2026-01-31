@@ -165,9 +165,9 @@
                                 <th class="text-muted fw-normal">Rule No</th>
                                 <th class="text-muted fw-normal">Rule Desc</th>
 
-                                <th class="text-muted fw-normal">Taxable</th>
-                                <th class="text-muted fw-normal">Tax</th>
-                                <th class="text-muted fw-normal">Total</th>
+                                <th class="text-muted fw-normal">Taxable Amount</th>
+                                <th class="text-muted fw-normal">Tax Amount</th>
+                                <th class="text-muted fw-normal">Total Amount</th>
                             </tr>
                         </thead>
                         <tbody>
