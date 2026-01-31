@@ -42,9 +42,9 @@
                                 <br /> <b>Nick.:</b> {{ order?.buyer?.nickname }}
                             </td>
                             <td>
-                                <b>Village:</b> {{ order?.shipping_fulfillment_location?.village }}
-                                <br /> <b>City:</b> {{ order?.shipping_fulfillment_location?.city }}
-                                <br /> <b>State:</b> {{ order?.shipping_fulfillment_location?.state }}
+                                <b>Village:</b> {{ order?.shipping_fulfillment_location?.address?.village }}
+                                <br /> <b>City:</b> {{ order?.shipping_fulfillment_location?.address?.city }}
+                                <br /> <b>State:</b> {{ order?.shipping_fulfillment_location?.address?.state }}
                             </td>
                             <td>
                                 <BaseButton iconOnly variant="sky me-2" icon="fas fa-eye "

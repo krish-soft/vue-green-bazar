@@ -68,6 +68,210 @@
                     </table>
                 </div>
 
+
+                <!-- ================= Fulfillment Location ================= -->
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2">
+                        <h6 class="fw-semibold text-muted mb-0">Fulfillment Location</h6>
+                    </div>
+
+                    <table v-if="orderDetails?.shipping_fulfillment_location
+                        ?.address" class="table table-sm table-borderless align-middle mb-0">
+                        <tbody>
+
+                            <tr>
+                                <th class="text-muted fw-normal w-25">FL Code</th>
+                                <td class="fw-semibold">{{ orderDetails?.shipping_fulfillment_location
+                                    ?.fl_code }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-muted fw-normal w-25">Location Name</th>
+                                <td class="fw-semibold">{{ orderDetails?.shipping_fulfillment_location
+                                    ?.name }}</td>
+                            </tr>
+
+                            <tr>
+                                <th class="text-muted fw-normal w-25">Location Type</th>
+                                <td class="fw-semibold">{{ orderDetails?.shipping_fulfillment_location
+                                    ?.type }}</td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+
+                    <div v-else class="text-muted small">
+                        No information available.
+                    </div>
+
+                </div>
+
+
+                <!-- ================= ADDRESS ================= -->
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2">
+                        <h6 class="fw-semibold text-muted mb-0"> Address Details</h6>
+                    </div>
+
+                    <table
+                        v-if="!['cancelled', 'shipped', 'confirmed', 'delivered'].includes(orderDetails?.order_status?.toLowerCase())"
+                        class=" table table-sm table-borderless align-middle mb-0">
+                        <tbody>
+                            <!-- Address Name / Type -->
+                            <tr v-if="orderDetails?.shipping_fulfillment_location
+                                ?.address.addr_name">
+                                <th class="text-muted fw-normal w-25">Address Name</th>
+                                <td>{{ orderDetails?.shipping_fulfillment_location
+                                    ?.address.addr_name }}</td>
+                            </tr>
+
+                            <!-- Address Lines -->
+                            <tr>
+                                <th class="text-muted fw-normal">Address Line 1</th>
+                                <td>{{ orderDetails?.shipping_fulfillment_location
+                                    ?.address.address_line1 || "N/A" }}</td>
+                            </tr>
+
+                            <tr v-if="orderDetails?.shipping_fulfillment_location
+                                ?.address.address_line2">
+                                <th class="text-muted fw-normal">Address Line 2</th>
+                                <td>{{ orderDetails?.shipping_fulfillment_location
+                                    ?.address.address_line2 }}</td>
+                            </tr>
+
+                            <!-- Locality -->
+                            <tr v-if="orderDetails?.shipping_fulfillment_location
+                                ?.address.landmark">
+                                <th class="text-muted fw-normal">Landmark</th>
+                                <td>{{ orderDetails?.shipping_fulfillment_location
+                                    ?.address.landmark }}</td>
+                            </tr>
+
+                            <tr v-if="orderDetails?.shipping_fulfillment_location
+                                ?.address.village">
+                                <th class="text-muted fw-normal">Village</th>
+                                <td>{{ orderDetails?.shipping_fulfillment_location
+                                    ?.address.village }}</td>
+                            </tr>
+
+                            <tr v-if="orderDetails?.shipping_fulfillment_location
+                                ?.address.taluka">
+                                <th class="text-muted fw-normal">Taluka</th>
+                                <td>{{ orderDetails?.shipping_fulfillment_location
+                                    ?.address.taluka }}</td>
+                            </tr>
+
+                            <tr v-if="orderDetails?.shipping_fulfillment_location
+                                ?.address.district">
+                                <th class="text-muted fw-normal">District</th>
+                                <td>{{ orderDetails?.shipping_fulfillment_location
+                                    ?.address.district }}</td>
+                            </tr>
+
+                            <!-- City / State -->
+                            <tr>
+                                <th class="text-muted fw-normal">City</th>
+                                <td>{{ orderDetails?.shipping_fulfillment_location
+                                    ?.address.city || "N/A" }}</td>
+                            </tr>
+
+                            <tr>
+                                <th class="text-muted fw-normal">State</th>
+                                <td>
+                                    {{ orderDetails?.shipping_fulfillment_location
+                                        ?.address.state || "N/A" }}
+                                    <span v-if="orderDetails?.shipping_fulfillment_location
+                                        ?.address.state_iso" class="text-muted">
+                                        ({{ orderDetails?.shipping_fulfillment_location
+                                            ?.address.state_iso }})
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th class="text-muted fw-normal">Postal Code</th>
+                                <td>{{ orderDetails?.shipping_fulfillment_location
+                                    ?.address.postal_code || "N/A" }}</td>
+                            </tr>
+
+                            <!-- Country -->
+                            <tr v-if="orderDetails?.shipping_fulfillment_location
+                                ?.address.country">
+                                <th class="text-muted fw-normal">Country</th>
+                                <td>
+                                    {{ orderDetails?.shipping_fulfillment_location
+                                        ?.address.country }}
+                                    <span v-if="orderDetails?.shipping_fulfillment_location
+                                        ?.address.country_iso" class="text-muted">
+                                        ({{ orderDetails?.shipping_fulfillment_location
+                                            ?.address.country_iso }})
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <!-- Contact -->
+                            <tr v-if="orderDetails?.shipping_fulfillment_location
+                                ?.address.contact_name">
+                                <th class="text-muted fw-normal">Contact Name</th>
+                                <td>{{ orderDetails?.shipping_fulfillment_location
+                                    ?.address.contact_name }}</td>
+                            </tr>
+
+                            <tr v-if="orderDetails?.shipping_fulfillment_location
+                                ?.address.phone_number">
+                                <th class="text-muted fw-normal">Phone</th>
+                                <td>
+                                    <span v-if="orderDetails?.shipping_fulfillment_location
+                                        ?.address.dial_code">
+                                        +{{ orderDetails?.shipping_fulfillment_location
+                                            ?.address.dial_code }}
+                                    </span>
+                                    {{ orderDetails?.shipping_fulfillment_location
+                                        ?.address.phone_number }}
+                                </td>
+                            </tr>
+
+                            <tr v-if="orderDetails?.shipping_fulfillment_location
+                                ?.address.email">
+                                <th class="text-muted fw-normal">Email</th>
+                                <td class="text-break">{{ orderDetails?.shipping_fulfillment_location
+                                    ?.address.email }}</td>
+                            </tr>
+
+                            <!-- Geo -->
+                            <tr v-if="orderDetails?.shipping_fulfillment_location
+                                ?.address.latitude && orderDetails?.shipping_fulfillment_location
+                                    ?.address.longitude">
+                                <th class="text-muted fw-normal">Coordinates</th>
+                                <td>
+                                    {{ orderDetails?.shipping_fulfillment_location
+                                        ?.address.latitude }},
+                                    {{ orderDetails?.shipping_fulfillment_location
+                                        ?.address.longitude }}
+                                </td>
+                            </tr>
+
+                            <!-- Status -->
+                            <tr>
+                                <th class="text-muted fw-normal">Status</th>
+                                <td>
+                                    <span class="badge" :class="orderDetails?.shipping_fulfillment_location
+                                        ?.address.is_active ? 'bg-success' : 'bg-danger'">
+                                        {{ orderDetails?.shipping_fulfillment_location
+                                            ?.address.is_active ? "Active" : "Inactive" }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div v-else class="text-muted small">
+                        No address information available.
+                    </div>
+
+                </div>
+
+                <!-- Order Summary -->
                 <div class="mb-4">
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2">
                         <h6 class="fw-semibold text-muted mb-0">Order Information</h6>
@@ -96,6 +300,7 @@
                     </table>
                 </div>
 
+                <!-- ITEMS -->
                 <div class="mb-4 mt-4">
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2">
                         <h6 class="fw-semibold text-muted mb-0">Order Items Information</h6>
