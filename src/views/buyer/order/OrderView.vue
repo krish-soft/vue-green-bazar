@@ -12,6 +12,7 @@
                     <thead class="table-dark">
                         <tr>
                             <th>#</th>
+                            <th>Depot</th>
                             <th>Order Date</th>
                             <th>Order Number</th>
                             <th>Order Status</th>
@@ -25,6 +26,11 @@
                         <tr v-for="(order, index) in ordersList" :key="order.id" @click="showOrderById(order.id)"
                             style="cursor: pointer;">
                             <td>{{ index + 1 }}</td>
+                            <td>
+                                {{ order?.depot?.code }}<br />
+                                {{ order?.depot?.name }}
+
+                            </td>
                             <td>{{ new Date(order.order_date).toDateString() }}</td>
                             <td>{{ order.order_number }}</td>
                             <td>

@@ -43,7 +43,7 @@
 
                             <td>
                                 <b> Code:</b> {{ row?.seller?.user_code }}
-                                <br /> <b>Nick Name:</b> {{ row?.seller?.nickname }}
+                                <br /> <b>Nick.:</b> {{ row?.seller?.nickname }}
                             </td>
                             <td>
                                 <b> Code:</b> {{ row?.fulfillment_location?.fl_code }}

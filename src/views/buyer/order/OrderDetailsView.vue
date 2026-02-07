@@ -309,6 +309,7 @@
                         <thead class="table-dark">
                             <tr>
                                 <th>#</th>
+                                <th class="text-muted fw-normal">Seller</th>
                                 <th class="text-muted fw-normal">Product Code</th>
                                 <th class="text-muted fw-normal">Product Name</th>
                                 <th class="text-muted fw-normal">Order Qty</th>
@@ -326,6 +327,11 @@
                         <tbody>
                             <tr v-for="(item, index) in orderDetails.order_items" :key="item.id">
                                 <td>{{ index + 1 }}</td>
+                                <td>
+                                    <b>Code:</b> {{ item?.seller?.user_code }} <br />
+                                    <b>Nick.:</b> {{ item?.seller?.nickname }}
+
+                                </td>
                                 <td>{{ item.product_code }}</td>
                                 <td>{{ item.product_name }}</td>
 
@@ -345,7 +351,7 @@
                             </tr>
                             <!-- TOTAL ROW -->
                             <tr class="fw-bold">
-                                <td colspan="10" class="text-end">Total</td>
+                                <td colspan="11" class="text-end">Total</td>
                                 <td class="text-end">{{ orderItemsTotals.taxable }}</td>
                                 <td class="text-end">{{ orderItemsTotals.tax }}</td>
                                 <td class="text-end">{{ orderItemsTotals.total }}</td>
