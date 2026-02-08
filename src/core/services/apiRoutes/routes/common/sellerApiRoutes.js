@@ -4,7 +4,7 @@ import { Api } from "@/core/services/api/api.js";
 const sellerApiRoutes = {
 
     getProductListingsList(filters = {}) {
-        return Api.admin.get("/listing/", { queryParameters: filters });
+        return Api.admin.get("/listing/", { queryParams: filters });
     },
 
     getProductListingDetails(id) {

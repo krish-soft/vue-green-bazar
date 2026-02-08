@@ -5,11 +5,11 @@ const customerApiRoutes = {
     // Users
 
     searchCustomerAutocomplete(filters = {}) {
-        return Api.admin.get("/customer/search", { queryParameters: filters });
+        return Api.admin.get("/customer/search", { queryParams: filters });
     },
 
     getCustomerList(filters = {}) {
-        return Api.admin.get("/customer/customer", { queryParameters: filters });
+        return Api.admin.get("/customer/customer", { queryParams: filters });
     },
 
     createCustomer(data) {

@@ -69,6 +69,7 @@
             <td class="text-center">
               <BaseButton iconOnly variant="primary me-2" icon="fas fa-edit" @click="openEdit(row)" />
               <BaseButton iconOnly variant="sky me-2" icon="fas fa-eye " @click="showItemById(row.id)" />
+              <BaseButton iconOnly variant="secondary me-2" icon="fas fa-list" @click="showDepotOrdersById(row.id)" />
 
               <!-- <BaseButton
                 iconOnly
@@ -339,6 +340,12 @@ async function showItemById(id) {
   // Redirect To Details View have mroe informatiosn from users to orders 
 
   router.push({ name: "mstdepotdetails", params: { id: id } });
+
+}
+async function showDepotOrdersById(id) {
+  // Redirect To Details View have mroe informatiosn from users to orders 
+
+  router.push({ name: "mstdepotorders", params: { id: id } });
 
 }
 

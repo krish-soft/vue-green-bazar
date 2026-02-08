@@ -4,7 +4,7 @@ import { Api } from "@/core/services/api/api.js";
 const fulfillmentLocationApiRoutes = {
 
     getFulfillmentLocationsList(filters = {}) {
-        return Api.admin.get("/fulfillmentLocation", { queryParameters: filters });
+        return Api.admin.get("/fulfillmentLocation", { queryParams: filters });
     },
 
     createFulfillmentLocation(data) {

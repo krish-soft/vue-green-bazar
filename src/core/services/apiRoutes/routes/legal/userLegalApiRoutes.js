@@ -4,7 +4,7 @@ import { Api } from "@/core/services/api/api.js";
 const userLegalApiRoutes = {
 
     getKycList(filters = {}) {
-        return Api.admin.get("/legal/kyc", { queryParameters: filters });
+        return Api.admin.get("/legal/kyc", { queryParams: filters });
     },
 
     getKycDetails(id) {

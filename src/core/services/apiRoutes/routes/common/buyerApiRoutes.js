@@ -6,7 +6,7 @@ const buyerApiRoutes = {
     // Orders
 
     getOrdersList(filters = {}) {
-        return Api.admin.get("/order", { queryParameters: filters });
+        return Api.admin.get("/order", { queryParams: filters });
     },
 
     getOrderDetails(id) {
@@ -17,7 +17,7 @@ const buyerApiRoutes = {
     // payment
 
     getPaymentsList(filters = {}) {
-        return Api.admin.get("/payment", { queryParameters: filters });
+        return Api.admin.get("/payment", { queryParams: filters });
     },
 
     getPaymentDetails(id) {
