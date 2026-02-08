@@ -99,7 +99,7 @@
                         <tr>
                             <th>#</th>
                             <!-- <th>Ledger Code</th> -->
-                            <th>Source</th>
+                            <th>Source Type</th>
                             <th>Source Code</th>
                             <th>Description</th>
                             <th>Credit</th>
@@ -107,6 +107,8 @@
                             <th>Ledger Date</th>
                             <th>Entry Type</th>
                             <th>Status</th>
+                            <th>Reference</th>
+                            <th>Payment Reference</th>
                             <th>Remarks</th>
                             <th>Settled At</th>
                             <!-- <th>Tax</th>
@@ -130,6 +132,8 @@
                                     {{ ledger.status }}
                                 </span>
                             </td>
+                            <td>{{ ledger.reference || 'N/A' }}</td>
+                            <td>{{ ledger.payment_reference || 'N/A' }}</td>
                             <td>{{ ledger.remarks || 'N/A' }}</td>
                             <td>{{ ledger.settled_at || 'N/A' }}</td>
                             <!-- <td>

@@ -24,13 +24,7 @@ export const sideMenu = [
         module: AppModuleEnum.ORDERS,
         match: "exact",
       },
-      {
-        label: "Payments",
-        icon: "fas fa-credit-card",
-        to: { name: "paymentlist" },
-        module: AppModuleEnum.PAYMENTS,
-        match: "exact",
-      },
+
 
     ],
   },
@@ -92,6 +86,14 @@ export const sideMenu = [
     module: AppModuleEnum.ACCOUNTING,
     match: "children",
     children: [
+      {
+        label: "Payments",
+        icon: "fas fa-credit-card",
+        to: { name: "paymentlist" },
+        module: AppModuleEnum.PAYMENTS,
+        match: "exact",
+      },
+
       {
         label: "Accounts",
         icon: "fas fa-file-invoice-dollar",
