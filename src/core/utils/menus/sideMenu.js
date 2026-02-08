@@ -95,8 +95,8 @@ export const sideMenu = [
       },
 
       {
-        label: "Accounts",
-        icon: "fas fa-file-invoice-dollar",
+        label: "Accounts & Ledgers",
+        icon: "fas fa-book",
         to: { name: "accountlist" },
         module: AppModuleEnum.ACCOUNTING,
         match: "exact",

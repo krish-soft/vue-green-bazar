@@ -15,17 +15,32 @@ export const fetchAccountDetails = (id) =>
     });
 
 export const createAccount = (data) =>
-    withUI(() => apiRouteService.createAccount(data), {
-        showSuccessMessage: true,
-    });
+    withUI(() => apiRouteService.createAccount(data));
 
 export const updateAccount = (id, data) =>
-    withUI(() => apiRouteService.updateAccount(id, data), {
-        showSuccessMessage: true,
-    });
+    withUI(() => apiRouteService.updateAccount(id, data));
 
 export const deleteAccount = (id) =>
-    withUI(() => apiRouteService.deleteAccount(id), {
-        showSuccessMessage: true,
+    withUI(() => apiRouteService.deleteAccount(id));
+
+// Ledgers
+
+export const fetchLedgersList = (filters = {}) =>
+    withUI(() => apiRouteService.getLedgersList(filters), {
+        showSuccessMessage: false,
     });
+
+export const fetchLedgerDetails = (id) =>
+    withUI(() => apiRouteService.getLedgerDetails(id), {
+        showSuccessMessage: false,
+    });
+
+export const createLedger = (data) =>
+    withUI(() => apiRouteService.createLedger(data));
+
+export const updateLedger = (id, data) =>
+    withUI(() => apiRouteService.updateLedger(id, data));
+
+export const deleteLedger = (id) =>
+    withUI(() => apiRouteService.deleteLedger(id));
 

@@ -28,6 +28,27 @@ const accountingApiRoutes = {
 
     // Ledgers
 
+    getLedgersList(filters = {}) {
+        return Api.admin.get("/accounting/ledger", { queryParams: filters });
+    },
+
+    getLedgerDetails(id) {
+        return Api.admin.get(`/accounting/ledger/${id}`);
+    },
+
+    createLedger(data) {
+        return Api.admin.post("/accounting/ledger", { data });
+    },
+
+    updateLedger(id, data) {
+        return Api.admin.put(`/accounting/ledger/${id}`, { data });
+    },
+
+    deleteLedger(id) {
+        return Api.admin.delete(`/accounting/ledger/${id}`);
+    },
+
+
 
 
 }
