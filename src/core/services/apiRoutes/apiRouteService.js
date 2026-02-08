@@ -9,6 +9,7 @@ import fulfillmentLocationApiRoutes from "./routes/common/fulfillmentLocationApi
 import sellerApiRoutes from "./routes/common/sellerApiRoutes.js";
 import buyerApiRoutes from "./routes/common/buyerApiRoutes.js";
 import reportApiRoutes from "./routes/common/reportApiRoutes.js";
+import accountingApiRoutes from "./routes/common/accountingApiRoutes.js";
 // later add more
 
 const apiRouteService = {
@@ -22,6 +23,8 @@ const apiRouteService = {
   ...sellerApiRoutes,
   ...buyerApiRoutes,
   ...reportApiRoutes,
+
+  ...accountingApiRoutes,
   // ...productApiRoutes,
   // ...orderApiRoutes,
 };

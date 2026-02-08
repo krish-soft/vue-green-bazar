@@ -51,6 +51,8 @@ const router = createRouter({
       component: () => import("@/views/common/fulfillmentLocation/FulfillmentLocationDetailsView.vue"),
     },
 
+
+
     // Seller Product Listing
     {
       path: "/productlisting",
@@ -81,6 +83,27 @@ const router = createRouter({
       name: "paymentlist",
       component: () => import("@/views/buyer/payment/PaymentView.vue"),
     },
+
+
+    {
+      path: "/accounting",
+      meta: { requiresAuth: true },
+      children: [
+
+        {
+          path: "account",
+          name: "accountlist",
+          component: () => import("@/views/common/accounting/account/AccntAccountView.vue"),
+        },
+        {
+          path: "account/details/:id",
+          name: "accountdetails",
+          component: () => import("@/views/common/accounting/account/AccntAccountDetailsView.vue"),
+        },
+
+      ],
+    },
+
 
 
     // Master Routes

@@ -9,6 +9,7 @@ export const sideMenu = [
     match: "exact",
   },
 
+
   // Buyer/Trader menu
   {
     label: "Buyer",
@@ -79,6 +80,26 @@ export const sideMenu = [
         to: { name: "fulfillmentlocation" },
         match: "exact",
       },
+
+    ],
+  },
+
+
+  // Accounting menu
+  {
+    label: "Accounting",
+    icon: "fas fa-calculator",
+    module: AppModuleEnum.ACCOUNTING,
+    match: "children",
+    children: [
+      {
+        label: "Accounts",
+        icon: "fas fa-file-invoice-dollar",
+        to: { name: "accountlist" },
+        module: AppModuleEnum.ACCOUNTING,
+        match: "exact",
+      },
+
 
     ],
   },

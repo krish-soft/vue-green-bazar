@@ -18,6 +18,8 @@ export const AppModuleEnum = {
   SETTLEMENTS: 306,
   REFUNDS: 307,
   COMMISSIONS: 308,
+  ACCOUNTINGS: 309, // New module for accounting features
+
 
   // Logistics & Delivery (400–499)
   DRIVERS: 401,
