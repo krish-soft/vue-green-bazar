@@ -362,6 +362,7 @@
                     </table>
                 </div>
 
+                <!-- Charges -->
                 <div class="mb-4">
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2">
                         <h6 class="fw-semibold text-muted mb-0">Order Charges Information</h6>
@@ -406,6 +407,45 @@
                     </table>
                 </div>
 
+                <!-- Shipment Packages -->
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2">
+                        <h6 class="fw-semibold text-muted mb-0">Order Shipment Packages Information</h6>
+                    </div>
+                    <table class="table table-sm table-bordered table-striped align-middle mb-0">
+                        <thead class="table-info">
+                            <tr>
+                                <th>#</th>
+                                <th class="text-muted fw-normal">Order Number</th>
+                                <th class="text-muted fw-normal">Shipment Number</th>
+                                <th class="text-muted fw-normal">Package Number</th>
+
+                                <th class="text-muted fw-normal">Qty</th>
+                                <th class="text-muted fw-normal">Pack Size</th>
+                                <th class="text-muted fw-normal">Pack Unit</th>
+                                <th class="text-muted fw-normal">Pack Type Unit</th>
+                                <th class="text-muted fw-normal">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(pack, index) in orderDetails.shipment_packages" :key="pack.id">
+                                <td>{{ index + 1 }}</td>
+                                <td>{{ pack.order_number }}</td>
+                                <td>{{ pack.shipment_number }}</td>
+                                <td>{{ pack.package_number }}</td>
+                                <td class="text-end">{{ pack.qty }}</td>
+                                <td class="text-end">{{ pack.pack_size }}</td>
+                                <td>{{ pack.pack_unit }}</td>
+                                <td>{{ pack.pack_type_unit }}</td>
+                                <td>{{ pack.status }}</td>
+
+                            </tr>
+
+
+
+                        </tbody>
+                    </table>
+                </div>
 
 
             </div>

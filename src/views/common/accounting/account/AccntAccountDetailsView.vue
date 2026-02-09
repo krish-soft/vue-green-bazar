@@ -95,7 +95,7 @@
                     <h6 class="fw-semibold text-muted mb-0">Ledger Details</h6>
 
                     <BaseButton size="sm" variant="secondary" @click="openLedgerModal()">
-                        Add New Entry
+                        Add Manual Entry
                     </BaseButton>
                 </div>
 
@@ -168,7 +168,7 @@
 
     <BaseModal ref="ledgerModal" icon="fas fa-book" size="modal-lg" scrollable>
         <template #title>
-            Add Ledger Entry
+            Add Manual Entry
         </template>
 
         <form id="ledgerForm" @submit.prevent="submitLedgerForm">
