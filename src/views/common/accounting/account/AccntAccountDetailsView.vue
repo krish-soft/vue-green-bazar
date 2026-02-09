@@ -65,19 +65,19 @@
                             </tr>
                             <tr>
                                 <th class="text-muted fw-normal w-25">Available Balance</th>
-                                <td class="fw-semibold">{{ accountDetails.available_balance }}</td>
+                                <td class="fw-semibold text-success">{{ accountDetails.available_balance }}</td>
                             </tr>
                             <tr>
                                 <th class="text-muted fw-normal w-25">Hold Balance</th>
-                                <td class="fw-semibold">{{ accountDetails.hold_balance }}</td>
+                                <td class="fw-semibold text-info">{{ accountDetails.hold_balance }}</td>
                             </tr>
                             <tr>
                                 <th class="text-muted fw-normal w-25">Total Credit</th>
-                                <td class="fw-semibold">{{ accountDetails.total_credit }}</td>
+                                <td class="fw-semibold text-primary ">{{ accountDetails.total_credit }}</td>
                             </tr>
                             <tr>
                                 <th class="text-muted fw-normal w-25">Total Debit</th>
-                                <td class="fw-semibold">{{ accountDetails.total_debit }}</td>
+                                <td class="fw-semibold text-danger">{{ accountDetails.total_debit }}</td>
                             </tr>
                             <tr>
                                 <th class="text-muted fw-normal w-25">Remarks</th>
@@ -179,15 +179,17 @@
                     <BaseInput label="Account ID" v-model="ledgerForm.account_id" readonly />
                 </div>
 
+                <div class="col-md-8"></div>
+
                 <!-- <div class="col-md-4">
                     <BaseAutoCompleteSelect label="Financial Year" v-model="ledgerForm.financial_year_id"
                         :options="financialYears" :label-key="'id'" :value-key="'id'" required />
                 </div> -->
-
+                <!-- 
                 <div class="col-md-4">
                     <BaseAutoCompleteSelect label="Entry Type" v-model="ledgerForm.entry_type" :options="entryTypes"
                         :label-key="'label'" :value-key="'value'" required />
-                </div>
+                </div> -->
 
                 <div class="col-md-6">
 
@@ -424,6 +426,30 @@ watch(
             ledgerForm.value.status = 'available'; // ✅ ASSIGN
             ledgerForm.value.is_open_balance = false;
             ledgerForm.value.debit = 0;
+        }
+    }
+);
+
+watch(
+    () => ledgerForm.value.credit,
+    (credit) => {
+        if (credit > 0) {
+            ledgerForm.value.debit = 0;
+            isDebitEdit.value = false;
+        } else {
+            isDebitEdit.value = true;
+        }
+    }
+);
+
+watch(
+    () => ledgerForm.value.debit,
+    (debit) => {
+        if (debit > 0) {
+            ledgerForm.value.credit = 0;
+            isCreditEdit.value = false;
+        } else {
+            isCreditEdit.value = true;
         }
     }
 );
