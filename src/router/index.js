@@ -84,6 +84,22 @@ const router = createRouter({
       component: () => import("@/views/buyer/payment/PaymentView.vue"),
     },
 
+    // Shipping
+    {
+      path: "/shipping",
+      meta: { requiresAuth: true },
+      children: [
+
+        {
+          path: "shipment-summary",
+          name: "shipmentsummary",
+          component: () => import("@/views/common/shipping/ShipmentSummaryView.vue"),
+        },
+
+
+      ],
+    },
+
 
     {
       path: "/accounting",
@@ -103,6 +119,8 @@ const router = createRouter({
 
       ],
     },
+
+
 
 
 

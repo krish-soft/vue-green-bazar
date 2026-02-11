@@ -37,10 +37,28 @@ export const sideMenu = [
     match: "children",
     children: [
       {
-        label: "Listings",
+        label: "Product Listings",
         icon: "fas fa-list",
         to: { name: "productlisting" },
         module: AppModuleEnum.LISTINGS,
+        match: "exact",
+      },
+
+    ],
+  },
+
+  // Shipping menu
+  {
+    label: "Shipping",
+    icon: "fas fa-truck",
+    module: AppModuleEnum.SHIPPING,
+    match: "children",
+    children: [
+      {
+        label: "Shipment Summary",
+        icon: "fas fa-clipboard-list",
+        to: { name: "shipmentsummary" },
+        module: AppModuleEnum.SHIPPING,
         match: "exact",
       },
 
