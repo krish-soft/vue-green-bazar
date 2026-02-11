@@ -22,3 +22,39 @@ export const fetchShipmentPackageDetails = (id) =>
 
 export const updateShipmentPackageStatus = (packageId, payload) =>
     withUI(() => apiRouteService.updateShipmentPackageStatus(packageId, payload));
+
+
+
+// Shipment & Groups Related APIs
+
+export const fetchShipmentList = (filters = {}) =>
+    withUI(() => apiRouteService.getShipmentList(filters), {
+        showSuccessMessage: false,
+    });
+
+export const fetchShipmentDetails = (id) =>
+    withUI(() => apiRouteService.getShipmentDetails(id), {
+        showSuccessMessage: false,
+    });
+
+export const generateShipmentAndPackageGroups = (payload) =>
+    withUI(() => apiRouteService.generateShipmentAndPackageGroups(payload));
+
+
+
+export const splitGroup = (payload) =>
+    withUI(() => apiRouteService.splitGroup(payload));
+
+export const movePackage = (payload) =>
+    withUI(() => apiRouteService.movePackage(payload));
+
+export const mergeGroups = (payload) =>
+    withUI(() => apiRouteService.mergeGroups(payload));
+
+export const mergeShipments = (payload) =>
+    withUI(() => apiRouteService.mergeShipments(payload));
+
+
+export const rebuildShipment = (id, payload) =>
+    withUI(() => apiRouteService.rebuildShipment(id, payload));
+

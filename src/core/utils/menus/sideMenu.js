@@ -58,7 +58,12 @@ export const sideMenu = [
         label: "Summary",
         icon: "fas fa-clipboard-list",
         to: { name: "shipmentsummary" },
-        module: AppModuleEnum.SHIPPING,
+        match: "exact",
+      },
+      {
+        label: "Shipments & Groups",
+        icon: "fas fa-boxes",
+        to: { name: "shipmentandgroup" },
         match: "exact",
       },
 

@@ -95,6 +95,11 @@ const router = createRouter({
           name: "shipmentsummary",
           component: () => import("@/views/common/shipping/ShipmentSummaryView.vue"),
         },
+        {
+          path: "shipments-and-groups",
+          name: "shipmentandgroup",
+          component: () => import("@/views/common/shipping/ShipmentAndGroupView.vue"),
+        },
 
 
       ],
