@@ -55,7 +55,7 @@ export const sideMenu = [
     match: "children",
     children: [
       {
-        label: "Shipment Summary",
+        label: "Summary",
         icon: "fas fa-clipboard-list",
         to: { name: "shipmentsummary" },
         module: AppModuleEnum.SHIPPING,

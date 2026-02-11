@@ -186,7 +186,7 @@
 
                 <tbody>
                     <tr v-for="p in selectedPackages" :key="p.id">
-                        <td>{{ p.shipment_number }}</td>
+                        <td>{{ p.shipment_package_number }}</td>
                         <td>{{ p.package_number }}</td>
                         <td>{{ p.buyer?.nickname }}</td>
                         <td>{{ p.seller?.nickname }}</td>
