@@ -5,11 +5,16 @@
         <template #headerActions>
             <div class="d-flex flex-wrap gap-2 align-items-center">
 
-                <BaseButton variant="warning" icon="fas fa-truck-loading" @click="createPickupGroups">
+                <BaseButton variant="primary" icon="fas fa-truck-loading" @click="createPickupGroups">
                     Create Pickup Groups
                 </BaseButton>
 
-                <BaseButton variant="danger" icon="fas fa-shipping-fast" @click="createDispatchGroups"
+                <BaseButton variant="danger" icon="fas fa-exchange-alt" @click="createTransferGroups"
+                    :disabled="!shipmentList.length">
+                    Create Transfer Groups
+                </BaseButton>
+
+                <BaseButton variant="warning" icon="fas fa-shipping-fast" @click="createDispatchGroups"
                     :disabled="!shipmentList.length">
                     Create Dispatch Groups
                 </BaseButton>
@@ -49,8 +54,12 @@
                             <th>Group Number</th>
                             <th>Date</th>
                             <th>Type</th>
-                            <th>Origin</th>
-                            <th>Destination</th>
+                            <th>Origin<br />Location</th>
+                            <th>Origin<br />Depot</th>
+                            <th>Seller</th>
+                            <th>Destination<br />Location</th>
+                            <th>Destination<br />Depot</th>
+                            <th>Buyer</th>
                             <th>Status</th>
                             <th class="text-center">Total Packages</th>
                             <th class="text-center">Total Weight</th>
@@ -74,18 +83,72 @@
                             </td>
 
                             <td>
-                                <span class="badge" :class="row.shipment_type === 'pickup'
-                                    ? 'bg-warning text-dark'
-                                    : 'bg-info text-dark'">
+                                <span class="badge" :class="{
+                                    'bg-primary': row.shipment_type === 'pickup',
+                                    'bg-danger': row.shipment_type === 'transfer',
+                                    'bg-warning text-dark': row.shipment_type === 'dispatch',
+                                }">
                                     {{ row.shipment_type }}
                                 </span>
                             </td>
 
-                            <td>{{ row.origin_label || '-' }}</td>
-                            <td>{{ row.destination_label || '-' }}</td>
+                            <!-- Origin -->
+                            <td>
+                                <div v-if="row.origin_fulfillment_location">
+                                    <b>Code:</b> {{ row?.origin_fulfillment_location?.fl_code }}<br />
+                                    <b>Name:</b> {{ row?.origin_fulfillment_location?.name }}
+                                    <br />
+                                    <b>Village:</b> {{ row?.origin_fulfillment_location?.address?.village }} <br />
+                                    <b>Taluka:</b> {{ row?.origin_fulfillment_location?.address?.taluka }} <br />
+                                    <b>City:</b> {{ row?.origin_fulfillment_location?.address?.city }} <br />
+                                    <b>State:</b> {{ row?.origin_fulfillment_location?.address?.state }} <br />
+                                </div>
+                            </td>
+                            <td>
+                                <div v-if="row.origin_depot">
+                                    <b>Code:</b> {{ row?.origin_depot?.code }}<br />
+                                    <b>Name:</b> {{ row?.origin_depot?.name }}
+                                </div>
+                            </td>
+
+                            <td>
+                                <div v-if="row.seller">
+                                    <b>Code:</b> {{ row?.seller?.user_code }}<br />
+                                    <b>Nick.:</b> {{ row?.seller?.nickname }}
+                                </div>
+                            </td>
+
+
+                            <!-- Destination -->
+                            <td>
+                                <div v-if="row.destination_fulfillment_location">
+                                    <b>Code:</b> {{ row?.destination_fulfillment_location?.fl_code }}<br />
+                                    <b>Name:</b> {{ row?.destination_fulfillment_location?.name }}
+                                    <br />
+                                    <b>Village:</b> {{ row?.destination_fulfillment_location?.address?.village }} <br />
+                                    <b>Taluka:</b> {{ row?.destination_fulfillment_location?.address?.taluka }} <br />
+                                    <b>City:</b> {{ row?.destination_fulfillment_location?.address?.city }} <br />
+                                    <b>State:</b> {{ row?.destination_fulfillment_location?.address?.state }} <br />
+                                </div>
+                            </td>
+                            <td>
+                                <div v-if="row.destination_depot">
+                                    <b>Code:</b> {{ row?.destination_depot?.code }}<br />
+                                    <b>Name:</b> {{ row?.destination_depot?.name }}
+                                </div>
+                            </td>
+
+                            <td>
+                                <div v-if="row.buyer">
+                                    <b>Code:</b> {{ row?.buyer?.user_code }}<br />
+                                    <b>Nick.:</b> {{ row?.buyer?.nickname }}
+                                </div>
+                            </td>
+
+
+
                             <td>
                                 <StatusBadge :status="row.status" />
-
                             </td>
 
                             <td class="text-center fw-semibold">
@@ -287,6 +350,12 @@ async function createPickupGroups() {
     await loadList();
 }
 
+async function createTransferGroups() {
+    const ok = await showConfirmDialog("Generate Depot Transfer Shipment Groups", "Create transfer shipment routes?");
+    if (!ok) return;
+    await generateShipmentAndPackageGroups({ shipment_type: "transfer" });
+    await loadList();
+}
 async function createDispatchGroups() {
     const ok = await showConfirmDialog("Generate Dispatch Shipment Groups", "Create dispatch shipment routes?");
     if (!ok) return;

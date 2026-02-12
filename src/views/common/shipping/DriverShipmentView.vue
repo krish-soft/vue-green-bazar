@@ -63,9 +63,11 @@
                                 {{ row.shipment?.shipment_number }}
                             </td>
                             <td>
-                                <span class="badge" :class="row.shipment?.shipment_type === 'pickup'
-                                    ? 'bg-warning text-dark'
-                                    : 'bg-info text-dark'">
+                                <span class="badge" :class="{
+                                    'bg-primary': row.shipment?.shipment_type === 'pickup',
+                                    'bg-danger': row.shipment?.shipment_type === 'transfer',
+                                    'bg-warning text-dark': row.shipment?.shipment_type === 'dispatch',
+                                }">
                                     {{ row.shipment?.shipment_type }}
                                 </span>
                             </td>
