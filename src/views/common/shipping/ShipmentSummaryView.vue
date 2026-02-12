@@ -3,25 +3,28 @@
 
         <!-- ================= HEADER FILTERS ================= -->
         <template #headerActions>
-            <div class="d-flex flex-wrap gap-2 align-items-center">
 
-                <BaseInput v-model="filters.start_date" type="date" />
-                <BaseInput v-model="filters.end_date" type="date" />
-                <BaseInput v-model="filters.depot_id" placeholder="Depot ID (optional)" />
-
-                <BaseButton variant="success" icon="fas fa-search" @click="loadSummary">
-                    Load
-                </BaseButton>
-
-                <div v-if="summary.filters" class="small text-muted ms-2">
-                    {{ summary.filters.start_date }} → {{ summary.filters.end_date }}
-                </div>
-
-            </div>
         </template>
 
         <template #body>
 
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <BaseInput v-model="filters.start_date" type="date" />
+                </div>
+                <div class="col-md-3">
+                    <BaseInput v-model="filters.end_date" type="date" />
+                </div>
+                <div class="col-md-3">
+                    <BaseInput v-model="filters.depot_id" placeholder="Depot ID (optional)" />
+                </div>
+                <div class="col-md-3">
+                    <BaseButton variant="primary" icon="fas fa-search" @click="loadSummary">Load</BaseButton>
+                </div>
+                <div v-if="summary.filters" class="small text-muted ms-2"> Filters: {{ summary.filters.start_date }} →
+                    {{ summary.filters.end_date }} </div>
+            </div>
+            <hr>
             <!-- ================= STATUS SUMMARY ================= -->
             <div class="row mb-4" v-if="summary.status_summary?.length">
 
@@ -106,9 +109,7 @@
                             <td class="fw-semibold">{{ row.depot_name }}</td>
 
                             <td>
-                                <span class="badge bg-primary text-uppercase">
-                                    {{ row.status }}
-                                </span>
+                                <StatusBadge :status="row.status" />
                             </td>
 
                             <td class="text-end fw-bold">
@@ -164,7 +165,7 @@
     </BaseContainer>
 
     <!-- ================= PACKAGE DETAIL MODAL ================= -->
-    <BaseModal ref="packageModal" icon="fas fa-box">
+    <BaseModal ref="packageModal" icon="fas fa-box" size="modal-lg">
 
         <template #title>
             Package Details
@@ -190,7 +191,9 @@
                         <td>{{ p.package_number }}</td>
                         <td>{{ p.buyer?.nickname }}</td>
                         <td>{{ p.seller?.nickname }}</td>
-                        <td>{{ p.status }}</td>
+                        <td>
+                            <StatusBadge :status="p.status" />
+                        </td>
                         <td>{{ p.pack_size }} {{ p.pack_unit }}</td>
                     </tr>
                 </tbody>
@@ -210,6 +213,7 @@ import BaseInput from "@/components/common/inputs/BaseInput.vue";
 import BaseModal from "@/components/common/modal/BaseModal.vue";
 
 import { fetchShipmentPackageSummary } from "@/core/repos/admin/common/shippingRepos";
+import StatusBadge from "../../../components/common/badge/StatusBadge.vue";
 
 /* ---------------- STATE ---------------- */
 

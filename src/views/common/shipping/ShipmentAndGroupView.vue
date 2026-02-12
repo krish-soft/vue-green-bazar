@@ -31,11 +31,13 @@
                 </div>
 
                 <div class="col-md-3">
-                    <BaseButton variant="success" icon="fas fa-search" @click="loadList">
+                    <BaseButton variant="primary" icon="fas fa-search" @click="loadList">
                         Load
                     </BaseButton>
                 </div>
             </div>
+
+            <hr>
 
             <!-- SHIPMENT TABLE -->
             <div class="table-responsive">
