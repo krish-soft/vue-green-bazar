@@ -2,11 +2,12 @@
     <BaseContainer heading="Shipment Summary">
 
         <!-- ================= HEADER FILTERS ================= -->
-        <template #headerActions></template>
+        <template #headerActions>
+
+        </template>
 
         <template #body>
 
-            <!-- ================= FILTERS ================= -->
             <div class="row mb-4">
                 <div class="col-md-3">
                     <BaseInput v-model="filters.start_date" type="date" />
@@ -18,46 +19,12 @@
                     <BaseInput v-model="filters.depot_id" placeholder="Depot ID (optional)" />
                 </div>
                 <div class="col-md-3">
-                    <BaseButton variant="primary" icon="fas fa-search" @click="loadSummary">
-                        Load
-                    </BaseButton>
+                    <BaseButton variant="primary" icon="fas fa-search" @click="loadSummary">Load</BaseButton>
                 </div>
-
-                <div v-if="summary.filters" class="small text-muted ms-2">
-                    Filters: {{ summary.filters.start_date }} → {{ summary.filters.end_date }}
-                </div>
+                <div v-if="summary.filters" class="small text-muted ms-2"> Filters: {{ summary.filters.start_date }} →
+                    {{ summary.filters.end_date }} </div>
             </div>
-
             <hr>
-
-            <!-- ================= 🔥 DRIVER ACTION SUMMARY (NEW) ================= -->
-            <h6 class="fw-bold mb-2" v-if="summary.logistics_action_summary?.length">
-                Logistics Action Summary
-            </h6>
-
-            <div class="row mb-4" v-if="summary.logistics_action_summary?.length">
-
-                <div class="col-xl-3 col-lg-4 col-md-6 mb-3" v-for="row in summary.logistics_action_summary"
-                    :key="row.action_type">
-
-                    <div class="card text-center shadow-sm cursor-pointer" :class="actionCardClass(row.action_type)"
-                        @click="openPackages(row.packages)">
-
-                        <div class="card-body p-3">
-                            <div class="text-uppercase small fw-semibold">
-                                {{ formatAction(row.action_type) }}
-                            </div>
-
-                            <h3 class="fw-bold mb-0">
-                                {{ row.total_packages }}
-                            </h3>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-
             <!-- ================= STATUS SUMMARY ================= -->
             <div class="row mb-4" v-if="summary.status_summary?.length">
 
@@ -81,12 +48,13 @@
 
             </div>
 
-            <!-- ================= PACK COMBINATION ================= -->
+            <!-- ================= PACK COMBINATION SUMMARY ================= -->
             <h6 class="fw-bold mb-2" v-if="summary.pack_combination_summary?.length">
                 Pack Combination Summary
             </h6>
 
             <div class="table-responsive mb-4" v-if="summary.pack_combination_summary?.length">
+
                 <table class="table table-bordered table-sm align-middle">
                     <thead class="table-dark">
                         <tr>
@@ -120,7 +88,7 @@
                 </table>
             </div>
 
-            <!-- ================= REGULAR DEPOT ================= -->
+            <!-- ================= DEPOT SUMMARY ================= -->
             <h6 class="fw-bold mb-2">Depot (Pickup/Shipping) Summary</h6>
 
             <div class="table-responsive mb-4">
@@ -154,7 +122,7 @@
                 </table>
             </div>
 
-            <!-- ================= CROSS DEPOT ================= -->
+            <!-- ================= CROSS DEPOT SUMMARY ================= -->
             <h6 class="fw-bold mb-2">Cross Depot Summary</h6>
 
             <div class="table-responsive">
@@ -178,7 +146,9 @@
                             <td>{{ row.shipping_depot_name }}</td>
 
                             <td>
-                                <StatusBadge :status="row.status" />
+                                <span class="badge bg-warning text-dark text-uppercase">
+                                    {{ row.status }}
+                                </span>
                             </td>
 
                             <td class="text-end fw-bold">
@@ -194,7 +164,7 @@
         </template>
     </BaseContainer>
 
-    <!-- ================= PACKAGE MODAL ================= -->
+    <!-- ================= PACKAGE DETAIL MODAL ================= -->
     <BaseModal ref="packageModal" icon="fas fa-box" size="modal-lg">
 
         <template #title>
@@ -241,9 +211,9 @@ import BaseContainer from "@/components/common/cards/BaseContainer.vue";
 import BaseButton from "@/components/common/buttons/BaseButton.vue";
 import BaseInput from "@/components/common/inputs/BaseInput.vue";
 import BaseModal from "@/components/common/modal/BaseModal.vue";
-import StatusBadge from "../../../components/common/badge/StatusBadge.vue";
 
 import { fetchShipmentPackageSummary } from "@/core/repos/admin/common/shippingRepos";
+import StatusBadge from "../../../components/common/badge/StatusBadge.vue";
 
 /* ---------------- STATE ---------------- */
 
@@ -280,21 +250,5 @@ async function loadSummary() {
 function openPackages(packages) {
     selectedPackages.value = packages || [];
     packageModal.value.show();
-}
-
-/* ---------------- HELPERS ---------------- */
-
-function formatAction(action) {
-    if (action === "pickup_needed") return "Driver Pickup Required";
-    if (action === "delivery_needed") return "Driver Delivery Required";
-    if (action === "self_handled") return "Self Handled";
-    return action;
-}
-
-function actionCardClass(type) {
-    if (type === "pickup_needed") return "border-warning";
-    if (type === "delivery_needed") return "border-success";
-    if (type === "self_handled") return "border-secondary";
-    return "";
 }
 </script>
