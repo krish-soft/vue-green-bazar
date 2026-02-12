@@ -53,6 +53,7 @@ const STATUS_GROUP = {
 
     /* ---------- FINANCE ---------- */
     refunded: 'finance',
+    paid: 'finance',
 
     /* ---------- INVENTORY ---------- */
     out_of_stock: 'inventory',

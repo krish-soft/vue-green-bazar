@@ -261,9 +261,9 @@
                                             <td>{{ pkg.pack_size }}</td>
                                             <td>{{ pkg.pack_unit }}</td>
                                             <td>{{ pkg.pack_type_unit }}</td>
-                                            <td>{{ pkg.pack_price }}</td>
-                                            <td class="text-end">{{ pkg.qty }}</td>
-                                            <td class="text-end">{{ pkg.sold_qty }}</td>
+                                            <td class="fw-bolder">{{ pkg.pack_price }}</td>
+                                            <td class="text-end fw-bolder text-success">{{ pkg.qty }}</td>
+                                            <td class="text-end fw-bolder text-primary">{{ pkg.sold_qty }}</td>
                                             <td class="text-center"><span class="badge"
                                                     :class="pkg.is_locked ? 'bg-danger' : pkg.is_sold ? 'bg-success' : 'bg-warning'">
                                                     {{ pkg.is_locked ? 'Locked' : (pkg.is_sold

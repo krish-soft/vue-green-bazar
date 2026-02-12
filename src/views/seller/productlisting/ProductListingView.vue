@@ -55,8 +55,8 @@
                                 </span>
                             </td>
                             <td>
-                                <span class="badge" :class="row.is_seller_deliver_items ? 'bg-success' : 'bg-danger'">{{
-                                    row.is_seller_deliver_items ? "Yes" : "No" }}
+                                <span class="badge" :class="row.is_seller_dropoff ? 'bg-success' : 'bg-danger'">{{
+                                    row.is_seller_dropoff ? "Yes" : "No" }}
                                 </span>
                             </td>
                             <td>

@@ -16,6 +16,7 @@
                             <th>Order Date</th>
                             <th>Order Number</th>
                             <th>Order Status</th>
+                            <th>Delivery Status</th>
                             <th>Payment Status</th>
                             <th>Buyer</th>
                             <th>Ship To</th>
@@ -34,14 +35,19 @@
                             <td>{{ new Date(order.order_date).toDateString() }}</td>
                             <td>{{ order.order_number }}</td>
                             <td>
-                                <span class="badge" :class="`bg-${order.order_status}`">
+                                <!-- <span class="badge" :class="`bg-${order.order_status}`">
                                     {{ order.order_status }}
-                                </span>
+                                </span> -->
+                                <StatusBadge :status="order.order_status" />
                             </td>
                             <td>
-                                <span class="badge" :class="`bg-${order.payment_status}`">
+                                <StatusBadge :status="order.delivery_status" />
+                            </td>
+                            <td>
+                                <!-- <span class="badge" :class="`bg-${order.payment_status}`">
                                     {{ order.payment_status }}
-                                </span>
+                                </span> -->
+                                <StatusBadge :status="order.payment_status" />
                             </td>
                             <td>
                                 <b>Code:</b> {{ order?.buyer?.user_code }}
@@ -77,6 +83,7 @@ import BaseInput from "@/components/common/inputs/BaseInput.vue";
 import router from "@/router";
 
 import { fetchOrdersList } from "@/core/repos/admin/common/buyerRepos";
+import StatusBadge from "../../../components/common/badge/StatusBadge.vue";
 
 /* ---------------- STATE ---------------- */
 const uiStore = useUIStore();
