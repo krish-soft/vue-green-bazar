@@ -100,6 +100,11 @@ const router = createRouter({
           name: "shipmentandgroup",
           component: () => import("@/views/common/shipping/ShipmentAndGroupView.vue"),
         },
+        {
+          path: "driver-shipments",
+          name: "drivershipment",
+          component: () => import("@/views/common/shipping/DriverShipmentView.vue"),
+        },
 
 
       ],

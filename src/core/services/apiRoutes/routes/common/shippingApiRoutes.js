@@ -56,7 +56,27 @@ const shippingApiRoutes = {
     },
 
 
+    // Driver
 
+    getDriverList(filters = {}) {
+        return Api.admin.get("/shipping/drivers", { queryParams: filters });
+    },
+
+    getDriverShipmentList(filters = {}) {
+        return Api.admin.get(`/shipping/driver-shipments`, { queryParams: filters });
+    },
+
+    assignShipmentToDriver(data) {
+        return Api.admin.post("/shipping/assign-shipment-to-driver", { data });
+    },
+
+    changeDriverShipment(id, data) {
+        return Api.admin.post(`/shipping/change-driver-shipment/${id}`, { data });
+    },
+
+    cancelDriverShipment(id, data) {
+        return Api.admin.post(`/shipping/cancel-driver-shipment/${id}`, { data });
+    },
 
 
 

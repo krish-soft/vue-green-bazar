@@ -39,7 +39,7 @@
 
             <!-- SHIPMENT TABLE -->
             <div class="table-responsive">
-                <table class="table table-bordered table-hover align-middle table-sm">
+                <table class="table table-bordered table-striped table-hover align-middle table-sm" id="datatable">
                     <thead class="table-dark">
                         <tr>
                             <th>#</th>
@@ -57,7 +57,7 @@
 
                     <tbody>
                         <tr v-for="(row, i) in shipmentList" :key="row.id" class="cursor-pointer"
-                            @click="openPackages(row.shipment_groups)">
+                            @click="openPackages(row)">
                             <td>{{ i + 1 }}</td>
 
                             <td class="fw-bold text-primary">
@@ -74,14 +74,18 @@
                             <td>
                                 <span class="badge" :class="row.shipment_type === 'pickup'
                                     ? 'bg-warning text-dark'
-                                    : 'bg-danger'">
+                                    : 'bg-info text-dark'">
                                     {{ row.shipment_type }}
                                 </span>
                             </td>
 
                             <td>{{ row.origin_label || '-' }}</td>
                             <td>{{ row.destination_label || '-' }}</td>
-                            <td><span class="badge bg-dark">{{ row.status }}</span></td>
+                            <td>
+                                <StatusBadge :status="row.status" />
+
+                            </td>
+
                             <td class="text-center fw-semibold">
                                 {{ row.total_packages }}
                             </td>
@@ -133,9 +137,9 @@
                         <td>{{ g.shipment_package?.seller?.nickname || '-' }}</td>
 
                         <td>
-                            <span class="badge bg-secondary text-uppercase">
-                                {{ g.shipment_package?.status }}
-                            </span>
+
+
+                            <StatusBadge :status="g.shipment_package?.status" />
                         </td>
 
                         <td>
@@ -145,18 +149,21 @@
 
                         <!-- ✅ INLINE ADMIN ACTIONS -->
                         <td class="text-center">
+                            <div v-if="isPackageActionEnabled">
 
-                            <button class="btn btn-sm btn-outline-warning me-1" @click.stop="splitSingle(g)">
-                                Split
-                            </button>
+                                <button class="btn btn-sm btn-outline-warning me-1" @click.stop="splitSingle(g)">
+                                    Split
+                                </button>
 
-                            <button class="btn btn-sm btn-outline-primary me-1" @click.stop="startMove(g)">
-                                Move
-                            </button>
+                                <button class="btn btn-sm btn-outline-primary me-1" @click.stop="startMove(g)">
+                                    Move
+                                </button>
 
-                            <!-- <button class="btn btn-sm btn-outline-danger" @click.stop="startMerge(g)">
+                                <!-- <button class="btn btn-sm btn-outline-danger" @click.stop="startMerge(g)">
                                 Merge
                             </button> -->
+                            </div>
+
 
                         </td>
                     </tr>
@@ -200,7 +207,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 
 import BaseContainer from "@/components/common/cards/BaseContainer.vue";
 import BaseButton from "@/components/common/buttons/BaseButton.vue";
@@ -216,6 +223,7 @@ import {
 } from "@/core/repos/admin/common/shippingRepos";
 
 import { showConfirmDialog } from "@/core/utils/uiHelpers/swalUtils.js";
+import StatusBadge from "../../../components/common/badge/StatusBadge.vue";
 
 /* ---------------- STATE ---------------- */
 
@@ -227,6 +235,7 @@ const actionMode = ref(null); // move | merge
 const targetGroupNumber = ref("");
 
 const packageModal = ref(null);
+const isPackageActionEnabled = ref(true);
 
 const today = new Date();
 const yesterday = new Date();
@@ -252,8 +261,18 @@ async function loadList() {
 
 /* ---------------- MODAL ---------------- */
 
-function openPackages(groups) {
-    selectedShipmentGroups.value = groups || [];
+
+
+function openPackages(shipment) {
+    selectedShipmentGroups.value = shipment.shipment_groups || [];
+
+    if (shipment.status === 'grouped') {
+        isPackageActionEnabled.value = true;
+    } else {
+        isPackageActionEnabled.value = false;
+
+    }
+
     packageModal.value.show();
 }
 
@@ -272,6 +291,7 @@ async function createDispatchGroups() {
     await generateShipmentAndPackageGroups({ shipment_type: "dispatch" });
     await loadList();
 }
+
 
 /* ---------------- ADMIN ACTIONS ---------------- */
 
@@ -324,4 +344,6 @@ async function confirmMerge() {
     cancelAction();
     await loadList();
 }
+
+
 </script>

@@ -58,3 +58,26 @@ export const mergeShipments = (payload) =>
 export const rebuildShipment = (id, payload) =>
     withUI(() => apiRouteService.rebuildShipment(id, payload));
 
+
+// driver related APIs
+
+export const fetchDriverList = (filters = {}) =>
+    withUI(() => apiRouteService.getDriverList(filters), {
+        showSuccessMessage: false,
+    });
+
+export const fetchDriverShipmentList = (filters = {}) =>
+    withUI(() => apiRouteService.getDriverShipmentList(filters), {
+        showSuccessMessage: false,
+    });
+
+export const assignShipmentToDriver = (payload) =>
+    withUI(() => apiRouteService.assignShipmentToDriver(payload));
+
+export const changeDriverShipment = (id, payload) =>
+    withUI(() => apiRouteService.changeDriverShipment(id, payload));
+
+export const cancelDriverShipment = (id, payload) =>
+    withUI(() => apiRouteService.cancelDriverShipment(id, payload));
+
+

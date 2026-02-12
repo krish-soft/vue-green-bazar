@@ -66,6 +66,12 @@ export const sideMenu = [
         to: { name: "shipmentandgroup" },
         match: "exact",
       },
+      {
+        label: "Driver Shipment Assignment",
+        icon: "fas fa-truck-moving",
+        to: { name: "drivershipment" },
+        match: "exact",
+      },
 
     ],
   },
