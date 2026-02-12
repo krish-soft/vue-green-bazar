@@ -28,11 +28,12 @@
                 </div>
 
                 <div class="col-md-3">
-                    <BaseButton variant="success" icon="fas fa-search" @click="loadList">
+                    <BaseButton variant="primary" icon="fas fa-search" @click="loadList">
                         Load
                     </BaseButton>
                 </div>
             </div>
+            <hr>
 
             <!-- TABLE -->
             <div class="table-responsive">
@@ -81,7 +82,7 @@
 
                             </td>
 
-                            <td>{{ new Date(row.assigned_at).toLocaleString() }}</td>
+                            <td>{{ new Date(row.assigned_at).toDateString() }}</td>
 
                             <td>
                                 <b>Code:</b> {{ row.assigned_by?.user_code }}<br />

@@ -11,8 +11,9 @@
             </small>
           </div>
 
-          <div class="col-md-6 text-end">
+          <div class="col-md-6 text-end d-flex flex-wrap gap-2 justify-content-end" v-if="$slots.headerActions">
             <slot name="headerActions"></slot>
+
           </div>
         </div>
       </div>
