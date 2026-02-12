@@ -184,6 +184,8 @@
                         <th>Seller</th>
                         <th>Status</th>
                         <th>Pack</th>
+                        <th>Seller Dropoff</th>
+                        <th>Buyer Pickup</th>
                         <th class="text-center">Actions</th>
                     </tr>
                 </thead>
@@ -210,6 +212,12 @@
                         <td>
                             {{ g.shipment_package?.pack_size }}
                             {{ g.shipment_package?.pack_unit }}
+                        </td>
+                        <td>
+                            {{ g.shipment_package?.is_seller_dropoff ? 'Yes' : '' }}
+                        </td>
+                        <td>
+                            {{ g.shipment_package?.is_buyer_pickup ? 'Yes' : '' }}
                         </td>
 
                         <!-- ✅ INLINE ADMIN ACTIONS -->

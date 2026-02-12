@@ -222,13 +222,13 @@ async function loadChargesList() {
     if (mListCharges.value.length == 0) {
         mListCharges.value = await fetchCharges({ is_active: true });
         // Filter only word contains deliver
-        mListCharges.value = mListCharges.value.filter(charge => charge.name.toLowerCase().includes('deliver'));
+        // mListCharges.value = mListCharges.value.filter(charge => charge.name.toLowerCase().includes('deliver'));
     }
 
     if (mListChargeLevels.value.length == 0) {
         mListChargeLevels.value = await fetchChargeLevels({ is_active: true });
         // Filter not contains deliver because only apply to seller and buyer
-        mListChargeLevels.value = mListChargeLevels.value.filter(chargeLevel => !chargeLevel.name.toLowerCase().includes('deliver'));
+        // mListChargeLevels.value = mListChargeLevels.value.filter(chargeLevel => !chargeLevel.name.toLowerCase().includes('deliver'));
     }
 
     if (unitList.value.length == 0) {

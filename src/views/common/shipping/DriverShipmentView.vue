@@ -49,6 +49,7 @@
                             <th>Assigned At</th>
                             <th>Assigned By</th>
                             <th>Packages</th>
+                            <th>Remarks</th>
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
@@ -93,6 +94,10 @@
 
                             <td class="fw-semibold text-center">
                                 {{ row.shipment?.total_packages }}
+                            </td>
+
+                            <td class="text-center">
+                                {{ row.remarks }}
                             </td>
 
                             <td class="text-center">
