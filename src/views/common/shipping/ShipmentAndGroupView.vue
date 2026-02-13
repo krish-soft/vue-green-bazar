@@ -51,7 +51,7 @@
                         <tr>
                             <th>#</th>
                             <th>Shipment</th>
-                            <th>Group Number</th>
+
                             <th>Date</th>
                             <th>Type</th>
                             <th>Origin<br />Location</th>
@@ -74,10 +74,6 @@
                             <td class="fw-bold text-primary">
                                 {{ row.shipment_number }}
                             </td>
-                            <td class="fw-bold text-secondary">
-                                {{ row.group_number || '-' }}
-                            </td>
-
                             <td>
                                 {{ row.shipment_date ? new Date(row.shipment_date).toDateString() : "-" }}
                             </td>
