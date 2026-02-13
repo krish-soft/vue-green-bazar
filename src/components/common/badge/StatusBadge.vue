@@ -89,7 +89,8 @@ const badgeClass = computed(() => {
 })
 
 const formattedStatus = computed(() => {
-    return status.replaceAll('_', ' ')
+    // return status.replaceAll('_', ' ')
+    return status;
 })
 </script>
 
