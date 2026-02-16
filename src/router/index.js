@@ -88,6 +88,21 @@ const router = createRouter({
       component: () => import("@/views/buyer/order/OrderDetailsView.vue"),
     },
 
+
+    // Market Order
+    {
+      path: "/market/order/list",
+      name: "marketorderlist",
+      component: () => import("@/views/market/MarketOrderView.vue"),
+    },
+
+    {
+      path: "/market/order/:id",
+      name: "marketorderdetails",
+      component: () => import("@/views/market/MarketOrderDetailsView.vue"),
+    },
+
+
     {
       path: "/payment/list",
       name: "paymentlist",

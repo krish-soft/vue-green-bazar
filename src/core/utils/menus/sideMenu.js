@@ -28,6 +28,23 @@ export const sideMenu = [
 
     ],
   },
+  {
+    label: "Market",
+    icon: "fas fa-store-alt",
+    module: AppModuleEnum.ORDERS,
+    match: "children",
+    children: [
+      {
+        label: "Orders",
+        icon: "fas fa-shopping-bag",
+        to: { name: "marketorderlist" },
+        module: AppModuleEnum.ORDERS,
+        match: "exact",
+      },
+
+
+    ],
+  },
 
   // Seller/Farmer menu
   {
