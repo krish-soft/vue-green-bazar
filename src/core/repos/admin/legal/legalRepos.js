@@ -16,3 +16,18 @@ export const updateKycStatus = (id, data) =>
 
 export const addKycWithDataFiles = (data, files) =>
     withUI(() => apiRouteService.uploadKycWithData(data, files));
+
+// Vehicle KYC
+
+export const fetchVehicleKycList = (filters = {}) =>
+    withUI(() => apiRouteService.getVehicleKycList(filters), {
+        showSuccessMessage: false,
+    });
+
+export const fetchVehicleKycDetails = (id) =>
+    withUI(() => apiRouteService.getVehicleKycDetails(id), {
+        showSuccessMessage: false,
+    });
+
+export const updateVehicleKycStatus = (id, data) =>
+    withUI(() => apiRouteService.updateVehicleKycStatus(id, data));

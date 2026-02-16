@@ -37,7 +37,17 @@ const router = createRouter({
       component: () => import("@/views/legal/kyc/UserKycViewDetailsView.vue"),
     },
 
+    {
+      path: "/legal/kyc/vehicle",
+      name: "vehiclekyc",
+      component: () => import("@/views/legal/kyc/VehicleKycView.vue"),
+    },
 
+    {
+      path: "/legal/kyc/vehicle/:id",
+      name: "vehiclekycdetails",
+      component: () => import("@/views/legal/kyc/VehicleKycDetailsView.vue"),
+    },
 
     // FulFillmentLocationView
     {

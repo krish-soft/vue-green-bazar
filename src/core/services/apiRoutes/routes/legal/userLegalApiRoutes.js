@@ -21,6 +21,21 @@ const userLegalApiRoutes = {
     },
 
 
+    // Vehicle kyc routes
+
+    getVehicleKycList(filters = {}) {
+        return Api.admin.get("/legal/kyc/vehicle/list", { queryParams: filters });
+    },
+
+    getVehicleKycDetails(id) {
+        return Api.admin.get(`/legal/kyc/vehicle/details/${id}`);
+    },
+
+    updateVehicleKycStatus(id, data) {
+        return Api.admin.put(`/legal/kyc/vehicle/status/${id}`, { data });
+    },
+
+
 
 
 };

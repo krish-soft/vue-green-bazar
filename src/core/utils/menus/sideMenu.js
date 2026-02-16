@@ -91,9 +91,15 @@ export const sideMenu = [
         match: "exact",
       },
       {
-        label: "KYC Verification",
+        label: "User KYC Verification",
         icon: "fas fa-id-card",
         to: { name: "userkyc" },
+        match: "exact",
+      },
+      {
+        label: "Vehicle KYC Verification",
+        icon: "fas fa-id-card",
+        to: { name: "vehiclekyc" },
         match: "exact",
       },
 
