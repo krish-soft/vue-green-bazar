@@ -12,6 +12,7 @@
           <tr>
             <th>#</th>
             <th>Zone Details</th>
+            <th>Market Details</th>
             <th>Depot Details</th>
 
             <th>Capacity</th>
@@ -33,6 +34,11 @@
               <br /><b>State:</b> <br />{{ row?.zone?.state?.name }} ({{
                 row?.zone?.state?.iso_code
               }})
+            </td>
+            <td>
+              <!-- {{ row.market_id }} -->
+              <b> Code:</b> <br />{{ row?.market?.code }} <br />
+              <b> Name:</b> <br /> {{ row?.market?.name }}
             </td>
             <td>
               <b> Name:</b> <br />{{ row.name }}<br />
@@ -93,14 +99,21 @@
 
     <form id="newForm" @submit.prevent="submitForm">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
           <BaseInput label="Depot Name" v-model="form.name" placeholder="Enter depot name" required />
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
           <BaseAutoCompleteSelect v-model="form.zone_id" :options="zoneData" label="Zone" :label-key="(z) =>
             ` ${z.code}- ${z.name}  | ${z?.state?.name} (${z?.state?.iso_code})`
             " value-key="id" required />
         </div>
+
+        <div class="col-md-4">
+          <BaseAutoCompleteSelect v-model="form.market_id" :options="marketData" label="Market" :label-key="(m) =>
+            ` ${m.code}- ${m.name}`" value-key="id" required />
+        </div>
+
+
       </div>
 
       <div class="row">
@@ -192,13 +205,16 @@ import {
   deleteDepot,
   fetchZones,
 } from "@/core/repos/admin/master/masterRepos.js";
+
+import { fetchMarkets } from "@/core/repos/utils/utilsRepos";
+
 import BaseAutoCompleteSelect from "../../../components/common/inputs/BaseAutoCompleteSelect.vue";
 
 /* ---------------- STATE ---------------- */
 const uiStore = useUIStore();
 const mListData = ref([]);
 const zoneData = ref([]);
-
+const marketData = ref([]);
 const aModal = ref(null);
 const isEdit = ref(false);
 
@@ -208,6 +224,7 @@ const form = ref({
   addr_code: null, // will add later
 
   zone_id: null,
+  market_id: null,
   name: "",
   max_capacity_kg: "",
   current_load_kg: "",
@@ -228,6 +245,7 @@ function resetForm() {
     code: null, // from system
     addr_code: null, // will add later
     zone_id: null,
+    market_id: null,
 
     name: "",
     max_capacity_kg: "",
@@ -261,10 +279,18 @@ async function loadZones() {
   zoneData.value = await fetchZones({ is_active: true });
 }
 
+async function loadMarkets() {
+  // check if already loaded
+  if (marketData.value.length) return;
+  marketData.value = [];
+  marketData.value = await fetchMarkets({ is_active: true });
+}
+
 /* ---------------- MODAL ---------------- */
 async function openAdd() {
   isEdit.value = false;
   await loadZones();
+  await loadMarkets();
 
   resetForm();
   aModal.value.show();
@@ -273,6 +299,7 @@ async function openAdd() {
 async function openEdit(row) {
   isEdit.value = true;
   await loadZones();
+  await loadMarkets();
 
   form.value = { ...row };
   aModal.value.show();

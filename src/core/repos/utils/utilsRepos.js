@@ -9,6 +9,13 @@ export const fetchStates = (filters = {}) =>
     withUI(() => apiRouteService.getStates(filters), {
         showSuccessMessage: false,
     });
+
+export const fetchMarkets = (filters = {}) =>
+    withUI(() => apiRouteService.getMarkets(filters), {
+        showSuccessMessage: false,
+    });
+
+
 export const fetchUnits = (filters = {}) =>
     withUI(() => apiRouteService.getUnits(filters), {
         showSuccessMessage: false,
