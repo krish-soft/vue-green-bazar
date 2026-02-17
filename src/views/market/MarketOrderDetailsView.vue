@@ -366,7 +366,8 @@
                         </div>
                         <div class="col-auto">
                             <BaseInput type="number" step="0.01" v-model="amountForm.tax_amount" id="amount"
-                                class="form-control" placeholder="Enter new tax amount" required label="Tax Amount:" />
+                                class="form-control" placeholder="Enter new tax amount" required label="Tax Amount:"
+                                readonly />
                         </div>
                         <div class="col-auto">
                             <BaseInput type="number" step="0.01" v-model="amountForm.total_amount" id="amount"
@@ -441,8 +442,8 @@
                         <thead class="table-info">
                             <tr>
                                 <th>#</th>
-                                <th class="text-muted fw-normal">Order Number</th>
-                                <th class="text-muted fw-normal">Shipment Package Number</th>
+
+                                <th class="text-muted fw-normal">Shipment Pkg. Number</th>
                                 <th class="text-muted fw-normal">Package Number</th>
 
                                 <th class="text-muted fw-normal">Qty</th>
@@ -450,12 +451,13 @@
                                 <th class="text-muted fw-normal">Pack Unit</th>
                                 <th class="text-muted fw-normal">Pack Type Unit</th>
                                 <th class="text-muted fw-normal">Status</th>
+                                <th class="text-muted fw-normal">Action Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(pack, index) in orderDetails.shipment_packages" :key="pack.id">
                                 <td>{{ index + 1 }}</td>
-                                <td>{{ pack.order_number }}</td>
+
                                 <td>{{ pack.shipment_package_number }}</td>
                                 <td>{{ pack.package_number }}</td>
                                 <td class="text-end">{{ pack.qty }}</td>
@@ -463,6 +465,7 @@
                                 <td>{{ pack.pack_unit }}</td>
                                 <td>{{ pack.pack_type_unit }}</td>
                                 <td>{{ pack.status }}</td>
+                                <td>{{ pack.action_status }}</td>
 
                             </tr>
 

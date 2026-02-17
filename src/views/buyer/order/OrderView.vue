@@ -83,7 +83,7 @@ import BaseInput from "@/components/common/inputs/BaseInput.vue";
 import router from "@/router";
 
 import { fetchOrdersList } from "@/core/repos/admin/common/buyerRepos";
-import StatusBadge from "../../../components/common/badge/StatusBadge.vue";
+import StatusBadge from "@/components/common/badge/StatusBadge.vue";
 
 /* ---------------- STATE ---------------- */
 const uiStore = useUIStore();

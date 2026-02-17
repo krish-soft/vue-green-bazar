@@ -37,16 +37,22 @@
 
                             <tr>
                                 <th class="text-muted fw-normal w-25">Order Status</th>
-                                <td class="fw-semibold"><span class="badge"
-                                        :class="`bg-${orderDetails.order_status}`">{{ orderDetails.order_status
-                                        }}</span></td>
+                                <td class="fw-semibold">
+                                    <!-- <span class="badge" :class="`bg-${orderDetails.order_status}`">{{
+                                        orderDetails.order_status
+                                        }}</span> -->
+                                    <StatusBadge :status="orderDetails.order_status" />
+                                </td>
                             </tr>
 
                             <tr>
                                 <th class="text-muted fw-normal w-25">Payment Status</th>
-                                <td class="fw-semibold"> <span class="badge"
+                                <td class="fw-semibold">
+                                    <!-- <span class="badge"
                                         :class="`bg-${orderDetails.payment_status}`">{{ orderDetails.payment_status
-                                        }}</span></td>
+                                        }}</span> -->
+                                    <StatusBadge :status="orderDetails.payment_status" />
+                                </td>
                             </tr>
 
                             <tr>
@@ -425,6 +431,7 @@
                                 <th class="text-muted fw-normal">Pack Unit</th>
                                 <th class="text-muted fw-normal">Pack Type Unit</th>
                                 <th class="text-muted fw-normal">Status</th>
+                                <th class="text-muted fw-normal">Action Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -438,6 +445,7 @@
                                 <td>{{ pack.pack_unit }}</td>
                                 <td>{{ pack.pack_type_unit }}</td>
                                 <td>{{ pack.status }}</td>
+                                <td>{{ pack.action_status }}</td>
 
                             </tr>
 
@@ -466,6 +474,7 @@ import BaseContainer from "@/components/common/cards/BaseContainer.vue";
 import BaseButton from "@/components/common/buttons/BaseButton.vue";
 import BaseInput from "@/components/common/inputs/BaseInput.vue";
 import BaseModal from "@/components/common/modal/BaseModal.vue";
+import StatusBadge from "@/components/common/badge/StatusBadge.vue";
 
 import { fetchOrderDetails } from "@/core/repos/admin/common/buyerRepos";
 

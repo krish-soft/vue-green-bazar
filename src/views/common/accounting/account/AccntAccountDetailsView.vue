@@ -117,6 +117,7 @@
                                 <th>Status</th>
                                 <th>Reference</th>
                                 <th>Payment Reference</th>
+                                <th>Common Reference</th>
                                 <th>Remarks</th>
                                 <th>Settled At</th>
                                 <th>Tax</th>
@@ -127,7 +128,9 @@
                             <tr v-for="(ledger, index) in accountDetails.ledgers" :key="ledger.id">
                                 <td>{{ index + 1 }}</td>
                                 <!-- <td class="fw-semibold">{{ ledger.ledger_txn_code }}</td> -->
-                                <td>{{ ledger.source_type }}</td>
+                                <!-- <td>{{ ledger.source_type }}</td>-->
+                                <td>{{ ledger.source_type?.split('\\').pop() }}</td>
+
                                 <td>{{ ledger.source_code }}</td>
                                 <td>{{ ledger.description }}</td>
                                 <td class="fw-semibold">{{ ledger.credit }}</td>
@@ -142,6 +145,7 @@
                                 </td>
                                 <td>{{ ledger.reference || 'N/A' }}</td>
                                 <td>{{ ledger.payment_reference || 'N/A' }}</td>
+                                <td>{{ ledger.common_reference || 'N/A' }}</td>
                                 <td>{{ ledger.remarks || 'N/A' }}</td>
                                 <td>{{ ledger.settled_at || 'N/A' }}</td>
                                 <td>
