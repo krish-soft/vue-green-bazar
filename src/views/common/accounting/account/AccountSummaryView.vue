@@ -1,39 +1,39 @@
 <template>
-    <BaseContainer heading="Accounting Summary Dashboard">
+    <BaseContainer heading="Accounting Summary Dashboard" class="mb-4">
         <template #body>
-
-            <!-- ===================================================== -->
-            <!-- 1️⃣ PLATFORM ACCOUNTS (ONLY REAL ACCOUNTS FROM DB) -->
-            <!-- ===================================================== -->
-            <AccountCards title="Platform Accounts" :rows="summary.platform_accounts" />
-
-
-            <!-- ===================================================== -->
-            <!-- 2️⃣ SELLER / BUYER / DELIVERY STATUS TABLES -->
-            <!-- ===================================================== -->
-            <div class="row mt-4">
-
-                <StatusTable title="Seller Accounts" :rows="summary.seller_accounts" />
-
-                <StatusTable title="Buyer Accounts" :rows="summary.buyer_accounts" />
-
-                <StatusTable title="Delivery Accounts" :rows="summary.delivery_accounts" />
-
-            </div>
-
-
-            <!-- ===================================================== -->
-            <!-- 3️⃣ FINANCIAL SUMMARY (LAST BLOCK) -->
-            <!-- ===================================================== -->
-            <div class="row mb-4 mt-4">
-
-                <FinancialCard v-for="(card, i) in financialCards" :key="i" :title="card.title" :value="f(card.value)"
-                    :color="card.color" />
-
-            </div>
-
         </template>
     </BaseContainer>
+    <!-- ===================================================== -->
+    <!-- 1️⃣ PLATFORM ACCOUNTS (ONLY REAL ACCOUNTS FROM DB) -->
+    <!-- ===================================================== -->
+    <AccountCards title="Platform Accounts" :rows="summary.platform_accounts" />
+
+
+    <!-- ===================================================== -->
+    <!-- 2️⃣ SELLER / BUYER / DELIVERY STATUS TABLES -->
+    <!-- ===================================================== -->
+    <div class="row mt-4">
+
+        <StatusTable title="Seller Accounts" :rows="summary.seller_accounts" />
+
+        <StatusTable title="Buyer Accounts" :rows="summary.buyer_accounts" />
+
+        <StatusTable title="Delivery Accounts" :rows="summary.delivery_accounts" />
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- 3️⃣ FINANCIAL SUMMARY (LAST BLOCK) -->
+    <!-- ===================================================== -->
+    <div class="row mb-4 mt-4">
+
+        <FinancialCard v-for="(card, i) in financialCards" :key="i" :title="card.title" :value="f(card.value)"
+            :color="card.color" />
+
+    </div>
+
+
 </template>
 
 <script setup>
