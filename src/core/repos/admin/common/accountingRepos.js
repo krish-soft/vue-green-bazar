@@ -4,6 +4,11 @@ import apiRouteService from "@/core/services/apiRoutes/apiRouteService.js";
 
 // Account
 
+export const fetchAccountingSummary = (filters = {}) =>
+    withUI(() => apiRouteService.getAccountingSummary(filters), {
+        showSuccessMessage: false,
+    });
+
 export const fetchAccountsList = (filters = {}) =>
     withUI(() => apiRouteService.getAccountsList(filters), {
         showSuccessMessage: false,

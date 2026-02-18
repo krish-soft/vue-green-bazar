@@ -147,6 +147,13 @@ export const sideMenu = [
       },
 
       {
+        label: "Account Summary",
+        icon: "fas fa-chart-pie",
+        to: { name: "accountsummary" },
+        module: AppModuleEnum.ACCOUNTING,
+        match: "exact",
+      },
+      {
         label: "Accounts & Ledgers",
         icon: "fas fa-book",
         to: { name: "accountlist" },

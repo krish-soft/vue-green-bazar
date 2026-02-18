@@ -142,6 +142,11 @@ const router = createRouter({
       children: [
 
         {
+          path: "account/summary",
+          name: "accountsummary",
+          component: () => import("@/views/common/accounting/account/AccountSummaryView.vue"),
+        },
+        {
           path: "account",
           name: "accountlist",
           component: () => import("@/views/common/accounting/account/AccntAccountView.vue"),

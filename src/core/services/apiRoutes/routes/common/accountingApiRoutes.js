@@ -6,6 +6,10 @@ const accountingApiRoutes = {
 
     // Accounts 
 
+    getAccountingSummary(filters = {}) {
+        return Api.admin.get("/accounting/summary", { queryParams: filters });
+    },
+
     getAccountsList(filters = {}) {
         return Api.admin.get("/accounting/account", { queryParams: filters });
     },
