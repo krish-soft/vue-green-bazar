@@ -8,12 +8,12 @@
             <div class="row g-3">
 
                 <div class="col-md-2">
-                    <BaseInput v-model="form.cut_off_date" type="date" label="Cut Off Date" />
+                    <BaseInput v-model="form.cut_off_date" type="date" label="Cut Off Date" required />
                 </div>
 
                 <div class="col-md-2">
-                    <label class="form-label fw-semibold">Owner Type</label>
-                    <select v-model="form.owner_type" class="form-control">
+                    <label class="form-label fw-semibold">Owner Type *</label>
+                    <select v-model="form.owner_type" class="form-control" required>
                         <option value="seller">Seller</option>
                         <option value="buyer">Buyer</option>
                         <option value="delivery">Delivery</option>
@@ -21,8 +21,8 @@
                 </div>
 
                 <div class="col-md-2">
-                    <label class="form-label fw-semibold">Filter Type</label>
-                    <select v-model="form.filter_type" class="form-control">
+                    <label class="form-label fw-semibold">Filter Type *</label>
+                    <select v-model="form.filter_type" class="form-control" required>
                         <option value="need_to_pay_online">Need To Pay (Online)</option>
                         <option value="need_to_pay_cash">Need To Pay (Cash)</option>
                         <option value="need_to_receive_online">Need To Receive</option>
@@ -33,7 +33,7 @@
                 <div class="col-md-3">
                     <BaseAutoCompleteSelect label="Platform Account" v-model="form.platform_account_id"
                         :options="platformAccounts" :label-key="['accnt_code']" value-key="id"
-                        placeholder="Select Platform Account" />
+                        placeholder="Select Platform Account" required />
                 </div>
 
                 <div class="col-md-1">
@@ -139,7 +139,7 @@
                     <thead class="table-dark">
                         <tr>
                             <th>Owner</th>
-                            <th>Account ID</th>
+                            <!-- <th>Account ID</th> -->
                             <th>Code</th>
                             <th>Name</th>
                             <th>Currency</th>
@@ -154,7 +154,7 @@
                         <tr v-for="row in preview" :key="row.account_id" style="cursor:pointer"
                             @click="openLedgerModal(row)">
                             <td>{{ row.owner_type }}</td>
-                            <td>{{ row.account_id }}</td>
+                            <!-- <td>{{ row.account_id }}</td> -->
                             <td>{{ row.accnt_code }}</td>
                             <td class="fw-semibold">{{ row.account_name }}</td>
                             <td>{{ row.currency }}</td>
