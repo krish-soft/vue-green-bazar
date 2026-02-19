@@ -151,10 +151,18 @@ const router = createRouter({
           name: "accountlist",
           component: () => import("@/views/common/accounting/account/AccntAccountView.vue"),
         },
+
         {
           path: "account/details/:id",
           name: "accountdetails",
           component: () => import("@/views/common/accounting/account/AccntAccountDetailsView.vue"),
+        },
+
+        // Settlement Preview
+        {
+          path: "account/settlement-preview",
+          name: "settlementpreview",
+          component: () => import("@/views/common/accounting/account/settlement/SettlementPreviewView.vue"),
         },
 
       ],

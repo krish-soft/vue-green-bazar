@@ -115,12 +115,12 @@
                                 <th>Ledger Date</th>
                                 <th>Entry Type</th>
                                 <th>Status</th>
-                                <th>Reference</th>
-                                <th>Payment Reference</th>
+                                <!-- <th>Reference</th>
+                                <th>Payment Reference</th> -->
                                 <th>Common Reference</th>
                                 <th>Remarks</th>
                                 <th>Settled At</th>
-                                <th>Tax</th>
+                                <!-- <th>Tax</th> -->
                                 <th>Open Balance</th>
                             </tr>
                         </thead>
@@ -143,16 +143,16 @@
                                         {{ ledger.status }}
                                     </span>
                                 </td>
-                                <td>{{ ledger.reference || 'N/A' }}</td>
-                                <td>{{ ledger.payment_reference || 'N/A' }}</td>
+                                <!-- <td>{{ ledger.reference || 'N/A' }}</td>
+                                <td>{{ ledger.payment_reference || 'N/A' }}</td> -->
                                 <td>{{ ledger.common_reference || 'N/A' }}</td>
                                 <td>{{ ledger.remarks || 'N/A' }}</td>
                                 <td>{{ ledger.settled_at || 'N/A' }}</td>
-                                <td>
+                                <!-- <td>
                                     <span class="badge" :class="ledger.is_tax ? 'bg-info' : 'bg-secondary'">
                                         {{ ledger.is_tax ? 'Taxed' : 'Non-Taxed' }}
                                     </span>
-                                </td>
+                                </td> -->
                                 <td>
                                     <span class="badge" :class="ledger.is_open_balance ? 'bg-primary' : 'bg-light'">
                                         {{ ledger.is_open_balance ? 'Open Balance' : '' }}

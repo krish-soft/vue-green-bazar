@@ -53,6 +53,11 @@ const accountingApiRoutes = {
     },
 
 
+    // settlements
+    getSettlementPreviewList(filters = {}) {
+        return Api.admin.get("/accounting/settlement/preview", { queryParams: filters });
+    }
+
 
 
 }

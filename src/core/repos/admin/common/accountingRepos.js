@@ -49,3 +49,9 @@ export const updateLedger = (id, data) =>
 export const deleteLedger = (id) =>
     withUI(() => apiRouteService.deleteLedger(id));
 
+
+// settlements
+export const fetchSettlementPreviewList = (filters = {}) =>
+    withUI(() => apiRouteService.getSettlementPreviewList(filters), {
+        showSuccessMessage: false,
+    });

@@ -160,6 +160,20 @@ export const sideMenu = [
         module: AppModuleEnum.ACCOUNTING,
         match: "exact",
       },
+      {
+        label: "Settlement",
+        icon: "fas fa-hand-holding-usd",
+        module: AppModuleEnum.SETTLEMENTS,
+        match: "children",
+        children: [
+          {
+            label: "Settlement Preview",
+            icon: "fas fa-money-check-alt",
+            to: { name: "settlementpreview" },
+            match: "exact",
+          },
+        ]
+      }
 
 
     ],
