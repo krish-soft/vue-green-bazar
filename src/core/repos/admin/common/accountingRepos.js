@@ -55,3 +55,6 @@ export const fetchSettlementPreviewList = (filters = {}) =>
     withUI(() => apiRouteService.getSettlementPreviewList(filters), {
         showSuccessMessage: false,
     });
+
+export const createSettlementBatch = (data) =>
+    withUI(() => apiRouteService.createSettlementBatch(data));

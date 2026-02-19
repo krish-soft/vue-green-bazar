@@ -172,6 +172,12 @@ export const sideMenu = [
             to: { name: "settlementpreview" },
             match: "exact",
           },
+          {
+            label: "Settlement Batch",
+            icon: "fas fa-money-check",
+            to: { name: "settlementbatch" },
+            match: "exact",
+          },
         ]
       }
 
