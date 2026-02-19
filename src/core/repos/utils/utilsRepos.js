@@ -30,3 +30,9 @@ export const fetchAllEnums = (filters = {}) =>
     withUI(() => apiRouteService.getAllEnums(filters), {
         showSuccessMessage: false,
     });
+
+
+export const fetchPlatformAccounts = (filters = {}) =>
+    withUI(() => apiRouteService.getPlatformAccounts(filters), {
+        showSuccessMessage: false,
+    });

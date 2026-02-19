@@ -27,6 +27,10 @@ const utilsApiRoutes = {
         return Api.public.get("/utils/pack-type-units", { queryParams: filters, auth: true });
     }, //
 
+    getPlatformAccounts(filters = {}) {
+        return Api.public.get("/utils/platform-accounts", { queryParams: filters, auth: true });
+    }, //
+
 
 }
 

@@ -7,11 +7,11 @@
 
             <div class="row g-3">
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <BaseInput v-model="form.cut_off_date" type="date" label="Cut Off Date" />
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label class="form-label fw-semibold">Owner Type</label>
                     <select v-model="form.owner_type" class="form-control">
                         <option value="seller">Seller</option>
@@ -20,7 +20,7 @@
                     </select>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label class="form-label fw-semibold">Filter Type</label>
                     <select v-model="form.filter_type" class="form-control">
                         <option value="need_to_pay_online">Need To Pay (Online)</option>
@@ -29,20 +29,25 @@
                     </select>
                 </div>
 
+                <!-- ✅ FIXED HERE -->
+                <div class="col-md-3">
+                    <BaseAutoCompleteSelect label="Platform Account" v-model="form.platform_account_id"
+                        :options="platformAccounts" :label-key="['accnt_code']" value-key="id"
+                        placeholder="Select Platform Account" />
+                </div>
+
                 <div class="col-md-1">
                     <br />
-
                     <BaseButton variant="secondary" class="w-100 mt-2" @click="loadPreview">
                         Preview
                     </BaseButton>
                 </div>
-                <div class="col-md-1">
+
+                <div class="col-md-2">
                     <br />
-                    <!-- CREATE BUTTON -->
                     <BaseButton variant="primary" class="w-100 mt-2" @click="submitBatch">
                         Create Batch
                     </BaseButton>
-
                 </div>
 
             </div>
@@ -53,47 +58,68 @@
 
 
     <!-- ================= SUMMARY ================= -->
-    <div v-if="summary" class="row mt-4">
+    <div v-if="summary" class="row g-3 mt-4">
 
-        <div class="col-md-3">
-            <div class="card shadow-sm">
+        <div class="col-xl-2 col-md-4">
+            <div class="card shadow-sm h-100">
                 <div class="card-body">
-                    <small class="text-muted">Total Credit</small>
-                    <div class="fw-bold text-success">{{ f(summary.total_credit) }}</div>
+                    <small class="text-muted">TOTAL CREDIT</small>
+                    <div class="fs-3 fw-bold text-success">{{ f(summary.total_credit) }}</div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="card shadow-sm">
+        <div class="col-xl-2 col-md-4">
+            <div class="card shadow-sm h-100">
                 <div class="card-body">
-                    <small class="text-muted">Total Debit</small>
-                    <div class="fw-bold text-danger">{{ f(summary.total_debit) }}</div>
+                    <small class="text-muted">TOTAL DEBIT</small>
+                    <div class="fs-3 fw-bold text-danger">{{ f(summary.total_debit) }}</div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="card shadow-sm">
+        <div class="col-xl-2 col-md-4">
+            <div class="card shadow-sm h-100">
                 <div class="card-body">
-                    <small class="text-muted">Net Amount</small>
-                    <div class="fw-bold" :class="netClass(summary.net_amount)">
+                    <small class="text-muted">NET SETTLEMENT</small>
+                    <div class="fs-3 fw-bold" :class="netClass(summary.net_amount)">
                         {{ f(summary.net_amount) }}
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="card shadow-sm">
+        <div class="col-xl-2 col-md-6">
+            <div class="card shadow-sm h-100 bg-light">
                 <div class="card-body">
+                    <small class="text-muted">PLATFORM BALANCE</small>
+                    <div class="fs-4 fw-bold text-primary">
+                        {{ f(summary.platform_current_balance) }}
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                    <small class="text-muted">Accounts</small>
-                    <div class="fw-bold">{{ totalAccounts }}</div>
+        <div class="col-xl-2 col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <small class="text-muted">AFTER SETTLEMENT</small>
+                    <div class="fs-4 fw-bold"
+                        :class="summary.platform_remaining_balance_after_settlement < 0 ? 'text-danger' : 'text-success'">
+                        {{ f(summary.platform_remaining_balance_after_settlement) }}
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                    <small class="text-muted mt-2 d-block">Ledgers</small>
-                    <div class="fw-bold">{{ totalLedgers }}</div>
+        <div class="col-xl-2 col-md-12">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <small class="text-muted">ACCOUNTS</small>
+                    <div class="fs-4 fw-bold">{{ totalAccounts }}</div>
 
+                    <small class="text-muted mt-2">LEDGERS</small>
+                    <div class="fs-5 fw-semibold">{{ totalLedgers }}</div>
                 </div>
             </div>
         </div>
@@ -106,11 +132,7 @@
 
         <template #body>
 
-            <div v-if="isLoading" class="text-center py-4">
-                Loading...
-            </div>
-
-            <div v-else class="table-responsive">
+            <div class="table-responsive">
 
                 <table class="table table-bordered table-hover align-middle">
 
@@ -170,26 +192,9 @@
 
             <div class="border-bottom pb-2 mb-3">
                 <div class="fw-bold">{{ selectedAccount.account_name }}</div>
-                <small class="text-muted">
-                    Owner : {{ selectedAccount.owner_type }} |
-                    ID : {{ selectedAccount.account_id }} |
-                    Code : {{ selectedAccount.accnt_code }}
-                </small>
             </div>
 
             <table class="table table-sm table-bordered">
-                <thead class="table-dark">
-                    <tr>
-                        <th>#</th>
-                        <th>Date</th>
-                        <th>Common Ref</th>
-                        <th>Description</th>
-                        <th class="text-end">Credit</th>
-                        <th class="text-end">Debit</th>
-                        <th class="text-end">Net</th>
-                    </tr>
-                </thead>
-
                 <tbody>
                     <tr v-for="(ledger, i) in selectedAccount.ledgers" :key="ledger.id">
                         <td>{{ i + 1 }}</td>
@@ -209,46 +214,55 @@
 
 </template>
 
-
 <script setup>
 
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
 
 import BaseContainer from "@/components/common/cards/BaseContainer.vue";
 import BaseModal from "@/components/common/modal/BaseModal.vue";
 import BaseButton from "@/components/common/buttons/BaseButton.vue";
 import BaseInput from "@/components/common/inputs/BaseInput.vue";
+import BaseAutoCompleteSelect from "@/components/common/inputs/BaseAutoCompleteSelect.vue";
 
 import {
     fetchSettlementPreviewList,
     createSettlementBatch
 } from "@/core/repos/admin/common/accountingRepos";
 
+import { fetchPlatformAccounts } from "@/core/repos/utils/utilsRepos";
+
 const form = ref({
     cut_off_date: "",
     owner_type: "seller",
-    filter_type: "need_to_pay_online"
+    filter_type: "need_to_pay_online",
+    platform_account_id: null
 });
 
 const summary = ref(null);
 const preview = ref([]);
-const isLoading = ref(false);
 
 const ledgerModal = ref(null);
 const selectedAccount = ref(null);
 
+const platformAccounts = ref([]);
 
-/* RESET WHEN FILTER CHANGE */
 watch(
     () => [form.value.cut_off_date, form.value.owner_type, form.value.filter_type],
     () => {
         summary.value = null;
         preview.value = [];
+        form.value.platform_account_id = null;
     }
 );
 
+onMounted(loadPlatformAccounts);
 
-/* PREVIEW API */
+async function loadPlatformAccounts() {
+    const data = await fetchPlatformAccounts();
+    if (!data) return;
+    platformAccounts.value = data;
+}
+
 async function loadPreview() {
 
     if (!form.value.cut_off_date) {
@@ -256,13 +270,10 @@ async function loadPreview() {
         return;
     }
 
-    isLoading.value = true;
     summary.value = null;
     preview.value = [];
 
     const data = await fetchSettlementPreviewList(form.value);
-
-    isLoading.value = false;
 
     if (!data) return;
 
@@ -270,31 +281,21 @@ async function loadPreview() {
     preview.value = data.preview || [];
 }
 
-
-/* CREATE BATCH API */
 async function submitBatch() {
 
     if (!preview.value.length) {
-        alert("Preview data required before creating batch");
+        alert("Preview first");
         return;
     }
 
-    const data = await createSettlementBatch(form.value);
-
-    if (!data) return;
-
+    await createSettlementBatch(form.value);
 }
 
-
-/* COUNTERS */
 const totalAccounts = computed(() => preview.value.length);
 
 const totalLedgers = computed(() => {
-    return preview.value.reduce((t, row) => {
-        return t + (row.ledgers?.length || 0);
-    }, 0);
+    return preview.value.reduce((t, row) => t + (row.ledgers?.length || 0), 0);
 });
-
 
 function openLedgerModal(row) {
     selectedAccount.value = row;
