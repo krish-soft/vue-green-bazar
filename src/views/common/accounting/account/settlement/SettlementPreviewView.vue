@@ -308,4 +308,58 @@ function netClass(v) {
     return Number(v) < 0 ? "text-danger" : "text-warning";
 }
 
+
+
+watch(
+    () => [form.value.owner_type, form.value.filter_type, platformAccounts.value],
+    () => {
+
+        if (!platformAccounts.value.length) return;
+
+        let code = null;
+
+        /* ================= RULE ENGINE ================= */
+
+        // CASH MODE
+        if (form.value.filter_type === "need_to_pay_cash") {
+            code = "PLATFORM_MARKET";
+        }
+
+        // DELIVERY ONLINE
+        else if (
+            form.value.owner_type === "delivery" &&
+            form.value.filter_type === "need_to_pay_online"
+        ) {
+            code = "PLATFORM_REVENUE";
+        }
+
+        // RECEIVE ONLINE → CLEARING
+        else if (form.value.filter_type === "need_to_receive_online") {
+            code = "PLATFORM_CLEARING";
+        }
+
+        // SELLER / BUYER ONLINE
+        else if (
+            ["seller", "buyer"].includes(form.value.owner_type)
+        ) {
+            code = "PLATFORM_CLEARING";
+        }
+
+        /* ================= APPLY SELECTION ================= */
+
+        if (!code) return;
+
+        const found = platformAccounts.value.find(
+            a => a.accnt_code === code
+        );
+
+        if (found) {
+            form.value.platform_account_id = found.id;
+        }
+
+    },
+    { immediate: true }
+);
+
+
 </script>
