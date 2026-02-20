@@ -389,7 +389,7 @@ const resetLedgerForm = ref({
     debit: 0,
     ledger_date: null,
     entry_type: null,
-    status: "pending",
+    status: "available",
     is_tax: false,
     is_open_balance: false,
     reference: null,
@@ -398,9 +398,9 @@ const resetLedgerForm = ref({
 });
 
 const statusOptions = [
-    { label: 'Pending', value: 'pending' },
+    // { label: 'Pending', value: 'pending' },
     { label: 'Available', value: 'available' },
-    { label: 'Settled', value: 'settled' },
+    // { label: 'Settled', value: 'settled' },
 ];
 
 /* STATUS → BOOLEAN (SOURCE OF TRUTH = STATUS) */
@@ -408,13 +408,13 @@ watch(
     () => ledgerForm.value.is_open_balance,
     (isOpen) => {
         if (isOpen) {
-            ledgerForm.value.status = 'settled';   // ✅ ASSIGN
+            // ledgerForm.value.status = 'settled';   // ✅ ASSIGN
             ledgerForm.value.is_tax = false;
             ledgerForm.value.debit = 0;
             isDebitEdit.value = false;
         } else {
             isDebitEdit.value = true;
-            ledgerForm.value.status = 'pending';   // ✅ ASSIGN
+            // ledgerForm.value.status = 'pending';   // ✅ ASSIGN
             ledgerForm.value.debit = 0;
             ledgerForm.value.credit = 0;
         }
