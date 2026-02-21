@@ -8,7 +8,7 @@
             <div class="row g-3">
 
                 <div class="col-md-2">
-                    <BaseInput v-model="form.cut_off_date" type="date" label="Cut Off Date" required />
+                    <BaseInput v-model="form.cutoff_date" type="date" label="Cut Off Date" required />
                 </div>
 
                 <div class="col-md-2">
@@ -16,7 +16,7 @@
                     <select v-model="form.owner_type" class="form-control" required>
                         <option value="seller">Seller</option>
                         <option value="buyer">Buyer</option>
-                        <option value="delivery">Delivery</option>
+                        <!-- <option value="delivery">Delivery</option> -->
                     </select>
                 </div>
 
@@ -232,7 +232,7 @@ import {
 import { fetchPlatformAccounts } from "@/core/repos/utils/utilsRepos";
 
 const form = ref({
-    cut_off_date: "",
+    cutoff_date: "",
     owner_type: "seller",
     filter_type: "need_to_pay_online",
     platform_account_id: null
@@ -247,7 +247,7 @@ const selectedAccount = ref(null);
 const platformAccounts = ref([]);
 
 watch(
-    () => [form.value.cut_off_date, form.value.owner_type, form.value.filter_type],
+    () => [form.value.cutoff_date, form.value.owner_type, form.value.filter_type],
     () => {
         summary.value = null;
         preview.value = [];
@@ -265,7 +265,7 @@ async function loadPlatformAccounts() {
 
 async function loadPreview() {
 
-    if (!form.value.cut_off_date) {
+    if (!form.value.cutoff_date) {
         alert("Select cut off date");
         return;
     }
@@ -285,6 +285,11 @@ async function submitBatch() {
 
     if (!preview.value.length) {
         alert("Preview first");
+        return;
+    }
+
+    if (!form.value.cutoff_date) {
+        alert("Select cut off date");
         return;
     }
 

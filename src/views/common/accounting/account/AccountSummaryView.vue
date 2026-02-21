@@ -26,12 +26,12 @@
     <!-- ===================================================== -->
     <!-- 3️⃣ FINANCIAL SUMMARY (LAST BLOCK) -->
     <!-- ===================================================== -->
-    <div class="row mb-4 mt-4">
+    <!-- <div class="row mb-4 mt-4">
 
         <FinancialCard v-for="(card, i) in financialCards" :key="i" :title="card.title" :value="f(card.value)"
             :color="card.color" />
 
-    </div>
+    </div> -->
 
 
 </template>
