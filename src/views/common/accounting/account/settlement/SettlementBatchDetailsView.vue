@@ -88,7 +88,15 @@
                                 <td>
 
                                     <BaseButton iconOnly variant="sky me-2" icon="fas fa-book"
-                                        @click="openLedgerModal(accnt)" />
+                                        @click="openLedgerModal(accnt)" title="View Ledger" />
+
+                                    <BaseButton v-if="accnt.status == 'pending'" iconOnly variant="info me-2"
+                                        icon="fas fa-university" @click="openBankDetailsModal(accnt.id)"
+                                        title="View Bank Details" />
+
+                                    <BaseButton v-if="accnt.status == 'pending'" iconOnly variant="warning"
+                                        icon="fas fa-edit" @click="openUpdateStatusModal(accnt)"
+                                        title="Update Status" />
 
                                 </td>
 
@@ -108,6 +116,7 @@
     </BaseContainer>
 
 
+    <!-- =================Ledger Modal ================= -->
     <BaseModal ref="ledgerModal" icon="fas fa-book" size="modal-lg" scrollable>
         <template #title>
             Account Ledgers
@@ -154,6 +163,56 @@
 
     </BaseModal>
 
+    <!-- =================Bank Details Modal ================= -->
+
+    <BaseModal ref="bankDetailsModal" icon="fas fa-university" size="modal-lg" scrollable>
+        <template #title>
+            Bank Details
+        </template>
+
+        <p>Accnt. Account Code: {{ bankDetails.accnt_account_code }}</p>
+
+        <div v-if="bankDetails">
+            <p><b>Bank Name</b>: {{ bankDetails.bank_name }}</p>
+            <p><b>Branch Name</b>: {{ bankDetails.branch_name }}</p>
+            <p><b>Bank Account No</b>: <span class="masked-value">{{ bankDetails.bank_account_number }} </span> </p>
+            <p><b>Bank Account Holder Name</b>: <span class="masked-value"> {{ bankDetails.account_holder_name }}</span>
+            </p>
+        </div>
+
+        <template #footer>
+            <BaseButton variant="secondary" @click="bankDetailsModal.hide()">
+                Close
+            </BaseButton>
+
+        </template>
+
+    </BaseModal>
+
+
+    <!-- Update Status account modal -->
+
+    <BaseModal ref="updateStatusModal" icon="fas fa-edit" size="modal-lg" scrollable>
+        <template #title>
+            Update Settlement Account Status
+        </template>
+
+        <div class="mb-4 mt-4">
+            <BaseAutoCompleteSelect label="Select status" v-model="selectedSettlementAccountStatus"
+                :options="settlementAccountStatusOptions" value-key="value" label-key="label" required />
+        </div>
+
+
+        <template #footer>
+            <BaseButton variant="primary" @click="confirmUpdateStatus">
+                Update
+            </BaseButton>
+            <BaseButton variant="secondary" @click="updateStatusModal.hide()">
+                Cancel
+            </BaseButton>
+        </template>
+
+    </BaseModal>
 
 
 
@@ -173,16 +232,31 @@ import { useRoute } from "vue-router";
 
 import {
     fetchSettlementBatchDetails,
+    fetchSettlementAccountBankDetails,
+    updateSettlementAccountStatus
 } from "@/core/repos/admin/common/accountingRepos";
 const route = useRoute();
 
 const ledgerModal = ref(null);
+const bankDetailsModal = ref(null);
+const updateStatusModal = ref(null);
+
+
 const accntLedgers = ref(null);
+const settlementAccountStatusOptions = [
+    { label: "Pending", value: "pending" },
+    { label: "Settled", value: "settled" },
+    { label: "Failed", value: "failed" },
+];
+const selectedSettlementAccountStatus = ref(null);
+const selectedAccountId = ref(null);
+
 
 
 const batchId = ref(route.params.id);
 
 const batchDetails = ref({});
+const bankDetails = ref({});
 
 onMounted(loadSettlementBatchDetails);
 
@@ -197,16 +271,52 @@ async function loadSettlementBatchDetails() {
 /* ---------------- LEDGER MODAL ---------------- */
 
 async function openLedgerModal(selectedAccnt) {
-
     accntLedgers.value = selectedAccnt.settlement_account_ledgers;
     ledgerModal.value.show();
-
-
 }
 
 function closeLedgerModal() {
     accntLedgers.value = null;
     ledgerModal.value.hide();
+}
+
+/* ---------------- BANK DETAILS MODAL ---------------- */
+async function openBankDetailsModal(accountId) {
+    const data = await fetchSettlementAccountBankDetails(accountId);
+    if (!data) return;
+    bankDetails.value = data;
+    bankDetailsModal.value.show();
+}
+
+function closeBankDetailsModal() {
+    bankDetails.value = null;
+    bankDetailsModal.value.hide();
+}
+
+/* ---------------- UPDATE STATUS MODAL ---------------- */
+function openUpdateStatusModal(account) {
+    selectedAccountId.value = account.id;
+    selectedSettlementAccountStatus.value = account.status;
+    updateStatusModal.value.show();
+}
+
+async function confirmUpdateStatus() {
+    if (!selectedSettlementAccountStatus.value) return;
+
+    // Call API to update status
+    const success = await updateSettlementAccountStatus(selectedAccountId.value, { status: selectedSettlementAccountStatus.value });
+    if (success) {
+        // Refresh batch details to reflect the updated status
+        await loadSettlementBatchDetails();
+        updateStatusModal.value.hide();
+    }
+}
+
+
+function closeUpdateStatusModal() {
+    selectedAccountId.value = null;
+    selectedSettlementAccountStatus.value = null;
+    updateStatusModal.value.hide();
 }
 
 

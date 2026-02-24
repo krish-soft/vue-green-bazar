@@ -77,7 +77,9 @@ const accountingApiRoutes = {
 
     updateSettlementAccountStatus(accountId, data) {
         return Api.admin.put(`/accounting/settlement/account/status/${accountId}`, { data });
-    }
+    },
+
+}
 
 
 export default accountingApiRoutes;
