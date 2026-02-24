@@ -169,6 +169,11 @@ const router = createRouter({
           name: "settlementbatch",
           component: () => import("@/views/common/accounting/account/settlement/SettlementBatchView.vue"),
         },
+        {
+          path: "account/settlement-batch/:id",
+          name: "settlementbatchdetails",
+          component: () => import("@/views/common/accounting/account/settlement/SettlementBatchDetailsView.vue"),
+        },
 
       ],
     },

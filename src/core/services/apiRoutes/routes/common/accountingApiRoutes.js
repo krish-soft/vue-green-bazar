@@ -62,9 +62,23 @@ const accountingApiRoutes = {
         return Api.admin.post("/accounting/settlement/create-batch", { data });
     },
 
+    getSettlementBatchList(filters = {}) {
+        return Api.admin.get("/accounting/settlement/batch", { queryParams: filters });
+    },
+
+    getSettlementBatchDetails(id) {
+        return Api.admin.get(`/accounting/settlement/batch/${id}`);
+    },
 
 
-}
+    getSettlementAccountBankDetails(accountId) {
+        return Api.admin.get(`/accounting/settlement/account-bank-details/${accountId}`);
+    },
+
+    updateSettlementAccountStatus(accountId, data) {
+        return Api.admin.put(`/accounting/settlement/account/status/${accountId}`, { data });
+    }
+
 
 export default accountingApiRoutes;
 

@@ -58,3 +58,23 @@ export const fetchSettlementPreviewList = (filters = {}) =>
 
 export const createSettlementBatch = (data) =>
     withUI(() => apiRouteService.createSettlementBatch(data));
+
+
+export const fetchSettlementBatchList = (filters = {}) =>
+    withUI(() => apiRouteService.getSettlementBatchList(filters), {
+        showSuccessMessage: false,
+    });
+
+export const fetchSettlementBatchDetails = (id) =>
+    withUI(() => apiRouteService.getSettlementBatchDetails(id), {
+        showSuccessMessage: false,
+    });
+
+
+export const fetchSettlementAccountBankDetails = (accountId) =>
+    withUI(() => apiRouteService.getSettlementAccountBankDetails(accountId), {
+        showSuccessMessage: false,
+    });
+
+export const updateSettlementAccountStatus = (accountId, data) =>
+    withUI(() => apiRouteService.updateSettlementAccountStatus(accountId, data));
