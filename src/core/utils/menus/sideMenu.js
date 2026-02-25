@@ -93,42 +93,58 @@ export const sideMenu = [
     ],
   },
 
-  // Legal Menu
   {
-    label: "Customer Onboarding",
-    // icon: "fas fa-gavel",
-    icon: "fas fa-user-check",
-    module: AppModuleEnum.LEGALS,
+    label: "Customer",
+    icon: "fas fa-user",
+    module: AppModuleEnum.CUSTOMERS,
     match: "children",
     children: [
       {
-        label: "New Customer",
-        icon: "fas fa-user-plus",
-        to: { name: "newcustomer" },
+        label: "Customer Details",
+        icon: "fas fa-user-edit",
+        to: { name: "customerdetails" },
         match: "exact",
       },
       {
-        label: "User KYC Verification",
-        icon: "fas fa-id-card",
-        to: { name: "userkyc" },
-        match: "exact",
-      },
-      {
-        label: "Vehicle KYC Verification",
-        icon: "fas fa-id-card",
-        to: { name: "vehiclekyc" },
-        match: "exact",
-      },
+        label: "Customer Onboarding",
+        // icon: "fas fa-gavel",
+        icon: "fas fa-user-check",
+        module: AppModuleEnum.LEGALS,
+        match: "children",
+        children: [
+          {
+            label: "New Customer",
+            icon: "fas fa-user-plus",
+            to: { name: "newcustomer" },
+            match: "exact",
+          },
+          {
+            label: "User KYC Verification",
+            icon: "fas fa-id-card",
+            to: { name: "userkyc" },
+            match: "exact",
+          },
+          {
+            label: "Vehicle KYC Verification",
+            icon: "fas fa-id-card",
+            to: { name: "vehiclekyc" },
+            match: "exact",
+          },
 
-      {
-        label: "Fulfillment Location Verification",
-        icon: "fas fa-map-marker-alt",
-        to: { name: "fulfillmentlocation" },
-        match: "exact",
+          {
+            label: "Fulfillment Location Verification",
+            icon: "fas fa-map-marker-alt",
+            to: { name: "fulfillmentlocation" },
+            match: "exact",
+          },
+
+        ],
       },
 
     ],
   },
+
+  // Legal Menu
 
 
   // Accounting menu

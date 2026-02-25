@@ -23,6 +23,11 @@ export const updateCustomer = (id, data) =>
 export const deleteCustomer = (id) =>
     withUI(() => apiRouteService.deleteCustomer(id));
 
+export const getCustomDetailsByCode = (data) =>
+    withUI(() => apiRouteService.getCustomDetailsByCode(data), {
+        showSuccessMessage: false,
+    });
+
 // Depot add or details
 export const addCustomerDepot = (data) =>
     withUI(() => apiRouteService.addCustomerDepot(data));

@@ -1,6 +1,7 @@
 export const AppModuleEnum = {
   // Users & Auth (100–199)
   USERS: 101, // Login, OTP, KYC, roles, permissions
+  CUSTOMERS: 102, // Buyer and seller profiles
 
   // Catalog & Supply (200–299)
   CATEGORIES: 201,

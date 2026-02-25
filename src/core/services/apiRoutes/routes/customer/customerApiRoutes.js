@@ -17,7 +17,6 @@ const customerApiRoutes = {
     },
 
 
-
     updateCustomer(id, data) {
         return Api.admin.put(`/customer/customer/${id}`, { data });
     }, // Update
@@ -25,6 +24,10 @@ const customerApiRoutes = {
     deleteCustomer(id) {
         return Api.admin.delete(`/customer/customer/${id}`);
     }, // Delete
+
+    getCustomDetailsByCode(data) {
+        return Api.admin.post(`/customer/details-by-code/`, { data });
+    },
 
     // Depot add or detials
     addCustomerDepot(data) {

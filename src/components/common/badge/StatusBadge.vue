@@ -50,6 +50,7 @@ const STATUS_GROUP = {
     verified: 'success',
     active: 'success',
     approve: 'success',
+    approved: 'success',
 
     /* ---------- FINANCE ---------- */
     refunded: 'finance',
@@ -69,6 +70,7 @@ const STATUS_GROUP = {
     returned: 'danger',
     failed_payment: 'danger',
     rejected: 'danger',
+    inactive: 'danger',
 }
 
 const GROUP_STYLE = {
