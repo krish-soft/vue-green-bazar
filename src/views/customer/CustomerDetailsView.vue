@@ -69,7 +69,7 @@
                             <td>
                                 <StatusBadge :status="customerDetails?.is_active ? 'active' : 'inactive'" />
                                 <br> <span v-if="!customerDetails.is_active">{{ customerDetails?.inactive_reason
-                                    }}</span>
+                                }}</span>
                             </td>
                         </tr>
                         <tr>
@@ -405,7 +405,7 @@
 
                 <div class="d-flex align-items-center justify-content-between">
                     <span class="text-muted">
-                        Charge Level is
+                        Active Status is
                         <b :class="userDepotForm.is_primary ? 'text-success' : 'text-danger'">
                             {{ userDepotForm.is_primary ? "Primary" : "Not" }}
                         </b>
