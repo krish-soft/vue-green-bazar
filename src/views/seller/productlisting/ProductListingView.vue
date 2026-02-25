@@ -6,6 +6,25 @@
 
         <template #body>
 
+            <div class="row g-3">
+
+                <div class="col-md-2">
+                    <BaseInput v-model="filters.start_date" type="date" label="Start Date" required />
+                </div>
+                <div class="col-md-2">
+                    <BaseInput v-model="filters.end_date" type="date" label="End Date" required />
+                </div>
+                <div class="col-md-2">
+                    <br />
+                    <BaseButton @click="loadList" variant="primary" class="mt-2">
+                        Filter
+                    </BaseButton>
+                </div>
+            </div>
+
+            <hr>
+
+
             <div class="table-responsive">
                 <table class="table table-bordered table-striped table-hover" id="datatable">
                     <thead class="table-dark">
@@ -110,12 +129,24 @@ const uiStore = useUIStore();
 
 const productListingList = ref([]);
 
+// Filter dates
+const today = new Date();
+const yesterday = new Date();
+yesterday.setDate(today.getDate() - 1);
+const formatDate = (d) => d.toISOString().slice(0, 10);
+
+const filters = ref({
+    start_date: formatDate(yesterday),
+    end_date: formatDate(today),
+});
+
+
 /* ---------------- INIT ---------------- */
 onMounted(loadList);
 
 /* ---------------- LOAD ---------------- */
 async function loadList() {
-    const data = await fetchProductListingsList();
+    const data = await fetchProductListingsList(filters.value);
     if (!data) {
         return;
     }
