@@ -74,6 +74,18 @@
                                             listingDetails.is_expired ? 'Expired' : 'not' }} </span> </td>
                             </tr>
 
+                            <tr>
+                                <th class="text-muted   fw-normal w-25">View Invoice</th>
+                                <td class="fw-semibold">
+                                    <BaseButton v-if="listingDetails?.product_listing_invoice?.invoice_url"
+                                        @click="viewInvoice(listingDetails?.product_listing_invoice?.invoice_url)"
+                                        size="sm" variant="primary">
+                                        View Invoice
+                                    </BaseButton>
+                                    <span v-else class="text-muted">No invoice available</span>
+                                </td>
+                            </tr>
+
 
                         </tbody>
                     </table>
@@ -519,6 +531,10 @@ async function submitPackageForm() {
     listingDetails.value = [];
     await loadDetails(listingId.value);
 };
+
+const viewInvoice = (url) => {
+    window.open(url, "_blank");
+}
 
 
 

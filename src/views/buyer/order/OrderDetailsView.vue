@@ -70,6 +70,18 @@
                                 <td class="fw-semibold">{{ orderDetails.remarks }}</td>
                             </tr>
 
+                            <tr>
+                                <th class="text-muted   fw-normal w-25">View Invoice</th>
+                                <td class="fw-semibold">
+                                    <BaseButton v-if="orderDetails?.order_invoice?.invoice_url"
+                                        @click="viewInvoice(orderDetails.order_invoice.invoice_url)" size="sm"
+                                        variant="primary">
+                                        View Invoice
+                                    </BaseButton>
+                                    <span v-else class="text-muted">No invoice available</span>
+                                </td>
+                            </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -523,6 +535,9 @@ const orderChargesTotals = computed(() => {
     }
 })
 
+const viewInvoice = (url) => {
+    window.open(url, "_blank");
+}
 
 
 const orderItemsTotals = computed(() => {
