@@ -1,0 +1,25 @@
+import { withUI } from "@/core/repos/_helpers/repoHelper";
+import apiRouteService from "@/core/services/apiRoutes/apiRouteService.js";
+
+
+
+// Cutoff
+export const cmdCutoffProductListing = (data) =>
+    withUI(() => apiRouteService.cmdCutoffProductListing(data),);
+
+// Accounting
+export const cmdAccountingOrder = (data) =>
+    withUI(() => apiRouteService.cmdAccountingOrder(data));
+
+export const cmdAccountingMarketOrder = (data) =>
+    withUI(() => apiRouteService.cmdAccountingMarketOrder(data));
+
+export const cmdAccountingDriverShipment = (data) =>
+    withUI(() => apiRouteService.cmdAccountingDriverShipment(data));
+
+// Invoices
+export const cmdInvoiceGenerateBuyerOrder = (data) =>
+    withUI(() => apiRouteService.cmdInvoiceGenerateBuyerOrder(data));
+
+export const cmdInvoiceGenerateProductListing = (data) =>
+    withUI(() => apiRouteService.cmdInvoiceGenerateProductListing(data));
