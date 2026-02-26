@@ -41,6 +41,7 @@
                     <thead class="table-dark">
                         <tr>
                             <th>#</th>
+                            <th>ID</th>
                             <th>Shipment</th>
                             <th>Shipment Type</th>
                             <th>Driver</th>
@@ -59,6 +60,10 @@
                             @click="openShipmentDetails(row)">
 
                             <td>{{ i + 1 }}</td>
+
+                            <td class="fw-bold text-warning">
+                                {{ row.id }}
+                            </td>
 
                             <td class="fw-bold text-primary">
                                 {{ row.shipment?.shipment_number }}
@@ -102,12 +107,12 @@
 
                             <td class="text-center">
                                 <button class="btn btn-sm btn-outline-primary me-1" @click.stop="openChangeDriver(row)"
-                                    :disabled="row.status == 'cancelled'">
+                                    :disabled="row.status === 'cancelled' || row.status === 'completed'">
                                     Change
                                 </button>
 
                                 <button class="btn btn-sm btn-outline-danger" @click.stop="cancelDriver(row)"
-                                    :disabled="row.status == 'cancelled'">
+                                    :disabled="row.status === 'cancelled' || row.status === 'completed'">
                                     Cancel
                                 </button>
                             </td>
