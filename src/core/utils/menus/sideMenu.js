@@ -10,6 +10,24 @@ export const sideMenu = [
   },
 
 
+
+  // Seller/Farmer menu
+  {
+    label: "Seller",
+    icon: "fas fa-store",
+    module: AppModuleEnum.SELLERS,
+    match: "children",
+    children: [
+      {
+        label: "Product Listings",
+        icon: "fas fa-list",
+        to: { name: "productlisting" },
+        module: AppModuleEnum.LISTINGS,
+        match: "exact",
+      },
+
+    ],
+  },
   // Buyer/Trader menu
   {
     label: "Buyer",
@@ -46,23 +64,7 @@ export const sideMenu = [
     ],
   },
 
-  // Seller/Farmer menu
-  {
-    label: "Seller",
-    icon: "fas fa-store",
-    module: AppModuleEnum.SELLERS,
-    match: "children",
-    children: [
-      {
-        label: "Product Listings",
-        icon: "fas fa-list",
-        to: { name: "productlisting" },
-        module: AppModuleEnum.LISTINGS,
-        match: "exact",
-      },
 
-    ],
-  },
 
   // Shipping menu
   {
@@ -208,6 +210,12 @@ export const sideMenu = [
     module: AppModuleEnum.MASTERS,
     match: "children",
     children: [
+      {
+        label: "CMD Control",
+        icon: "fas fa-cogs",
+        to: { name: "cmdcontrol" },
+        match: "exact",
+      },
       {
         label: "Product",
         icon: "fas fa-box",

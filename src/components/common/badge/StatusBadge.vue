@@ -71,6 +71,7 @@ const STATUS_GROUP = {
     failed_payment: 'danger',
     rejected: 'danger',
     inactive: 'danger',
+    not_picked_up: 'danger',
 }
 
 const GROUP_STYLE = {

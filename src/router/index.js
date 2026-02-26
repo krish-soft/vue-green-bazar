@@ -115,6 +115,13 @@ const router = createRouter({
       component: () => import("@/views/buyer/payment/PaymentView.vue"),
     },
 
+    // CMD Control
+    {
+      path: "/cmd/control",
+      name: "cmdcontrol",
+      component: () => import("@/views/common/cmd/CmdControlView.vue"),
+    },
+
     // Shipping
     {
       path: "/shipping",
