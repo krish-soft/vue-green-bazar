@@ -35,16 +35,23 @@
 
                             <tr>
                                 <th class="text-muted fw-normal w-25">Order Status</th>
-                                <td class="fw-semibold"><span class="badge"
-                                        :class="`bg-${orderDetails.order_status}`">{{ orderDetails.order_status
-                                        }}</span></td>
+                                <td class="fw-semibold">
+                                    <StatusBadge :status="orderDetails.order_status" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th class="text-muted fw-normal w-25">Delivery Status</th>
+                                <td class="fw-semibold">
+                                    <StatusBadge :status="orderDetails.delivery_status" />
+                                </td>
                             </tr>
 
                             <tr>
                                 <th class="text-muted fw-normal w-25">Payment Status</th>
-                                <td class="fw-semibold"> <span class="badge"
-                                        :class="`bg-${orderDetails.payment_status}`">{{ orderDetails.payment_status
-                                        }}</span></td>
+                                <td class="fw-semibold">
+                                    <StatusBadge :status="orderDetails.payment_status" />
+                                </td>
                             </tr>
 
                             <tr>
@@ -355,44 +362,50 @@
                         </tbody>
                     </table>
 
-                    <!-- Form To update amount -->
-                    <form class="row g-3 align-items-center mt-2" @submit.prevent="updateAmount">
+                    <div v-if="orderDetails.order_status != 'settled'">
+
+                        <h5>Update Amount</h5>
+
+                        <!-- Form To update amount -->
+                        <form class="row g-3 align-items-center mt-2" @submit.prevent="updateAmount">
 
 
-                        <div class="col-auto">
-                            <BaseInput type="number" step="0.01" v-model="amountForm.subtotal" id="amount"
-                                class="form-control" placeholder="Enter new subtotal amount" required
-                                label="Subtotal Amount:" />
-                        </div>
-                        <div class="col-auto">
-                            <BaseInput type="number" step="0.01" v-model="amountForm.tax_amount" id="amount"
-                                class="form-control" placeholder="Enter new tax amount" required label="Tax Amount:"
-                                readonly />
-                        </div>
-                        <div class="col-auto">
-                            <BaseInput type="number" step="0.01" v-model="amountForm.total_amount" id="amount"
-                                class="form-control" placeholder="Enter new total amount" required
-                                label="Total Amount:" />
-                        </div>
+                            <div class="col-auto">
+                                <BaseInput type="number" step="0.01" v-model="amountForm.subtotal" id="amount"
+                                    class="form-control" placeholder="Enter new subtotal amount" required
+                                    label="Subtotal Amount:" />
+                            </div>
+                            <div class="col-auto">
+                                <BaseInput type="number" step="0.01" v-model="amountForm.tax_amount" id="amount"
+                                    class="form-control" placeholder="Enter new tax amount" required label="Tax Amount:"
+                                    readonly />
+                            </div>
+                            <div class="col-auto">
+                                <BaseInput type="number" step="0.01" v-model="amountForm.total_amount" id="amount"
+                                    class="form-control" placeholder="Enter new total amount" required
+                                    label="Total Amount:" />
+                            </div>
 
-                        <div class="col-auto">
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </div>
-                    </form>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </div>
+                        </form>
 
-                    <!-- Form To upload document -->
-                    <form class="row g-3 align-items-center mt-2" @submit.prevent="uploadDocument">
-                        <div class="col-md-3">
-                            <BaseInput v-model="documentType" label="Document Type:" required />
-                        </div>
-                        <div class="col-md-6">
-                            <BaseFileInput label="Select Picture" v-model="documentFile" accept=".jpg,.jpeg,.png"
-                                required help-text="Allowed formats: JPG, JPEG, PNG" />
-                        </div>
-                        <div class="col-auto">
-                            <button type="submit" class="btn btn-primary">Upload Document</button>
-                        </div>
-                    </form>
+                        <!-- Form To upload document -->
+                        <form class="row g-3 align-items-center mt-2" @submit.prevent="uploadDocument">
+                            <div class="col-md-3">
+                                <BaseInput v-model="documentType" label="Document Type:" required />
+                            </div>
+                            <div class="col-md-6">
+                                <BaseFileInput label="Select Picture" v-model="documentFile" accept=".jpg,.jpeg,.png"
+                                    required help-text="Allowed formats: JPG, JPEG, PNG" />
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary">Upload Document</button>
+                            </div>
+                        </form>
+
+                    </div>
 
                 </div>
 
@@ -450,8 +463,9 @@
                                 <th class="text-muted fw-normal">Pack Size</th>
                                 <th class="text-muted fw-normal">Pack Unit</th>
                                 <th class="text-muted fw-normal">Pack Type Unit</th>
-                                <th class="text-muted fw-normal">Status</th>
-                                <th class="text-muted fw-normal">Action Status</th>
+                                <th class="text-muted fw-normal">Main Status</th>
+                                <th class="text-muted fw-normal">Buyer Status</th>
+                                <th class="text-muted fw-normal">Seller Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -464,10 +478,17 @@
                                 <td class="text-end">{{ pack.pack_size }}</td>
                                 <td>{{ pack.pack_unit }}</td>
                                 <td>{{ pack.pack_type_unit }}</td>
-                                <td>{{ pack.status }}</td>
-                                <td>{{ pack.action_status }}</td>
-
+                                <td>
+                                    <StatusBadge :status="pack.status" />
+                                </td>
+                                <td>
+                                    <StatusBadge :status="pack.buyer_status" />
+                                </td>
+                                <td>
+                                    <StatusBadge :status="pack.seller_status" />
+                                </td>
                             </tr>
+
 
                         </tbody>
                     </table>
@@ -494,6 +515,7 @@ import BaseModal from "@/components/common/modal/BaseModal.vue";
 import BaseFileInput from "@/components/common/inputs/BaseFileInput.vue";
 import ImageZoomViewer from "@/components/common/other/ImageZoomViewer.vue";
 import { showConfirmDialog } from "@/core/utils/uiHelpers/swalUtils.js";
+import StatusBadge from "@/components/common/badge/StatusBadge.vue";
 
 import {
     fetchMarketOrderDetails,

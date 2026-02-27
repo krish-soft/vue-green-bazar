@@ -442,6 +442,7 @@
                                 <th class="text-muted fw-normal">Pack Type Unit</th>
                                 <th class="text-muted fw-normal">Main Status</th>
                                 <th class="text-muted fw-normal">Buyer Status</th>
+                                <th class="text-muted fw-normal">Seller Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -458,6 +459,9 @@
                                 </td>
                                 <td>
                                     <StatusBadge :status="pack.buyer_status" />
+                                </td>
+                                <td>
+                                    <StatusBadge :status="pack.seller_status" />
                                 </td>
 
                             </tr>

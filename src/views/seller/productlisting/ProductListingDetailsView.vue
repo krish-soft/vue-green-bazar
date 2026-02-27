@@ -260,6 +260,7 @@
                                             <th>Pkg Price</th>
                                             <th>Qty</th>
                                             <th>Sold Qty</th>
+                                            <th>Reverse Qty</th>
 
                                             <th>Status</th>
                                             <!-- <th>Action</th> -->
@@ -276,6 +277,7 @@
                                             <td class="fw-bolder">{{ pkg.pack_price }}</td>
                                             <td class="text-end fw-bolder text-success">{{ pkg.qty }}</td>
                                             <td class="text-end fw-bolder text-primary">{{ pkg.sold_qty }}</td>
+                                            <td class="text-end fw-bolder text-danger">{{ pkg.reverse_qty }}</td>
                                             <td class="text-center"><span class="badge"
                                                     :class="pkg.is_locked ? 'bg-danger' : pkg.is_sold ? 'bg-success' : 'bg-warning'">
                                                     {{ pkg.is_locked ? 'Locked' : (pkg.is_sold
@@ -326,6 +328,7 @@
                                 <th class="text-muted fw-normal">Pack Type Unit</th>
                                 <th class="text-muted fw-normal">Main Status</th>
                                 <th class="text-muted fw-normal">Seller Status</th>
+                                <th class="text-muted fw-normal">Buyer Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -343,6 +346,9 @@
                                 </td>
                                 <td>
                                     <StatusBadge :status="pack.seller_status" />
+                                </td>
+                                <td>
+                                    <StatusBadge :status="pack.buyer_status" />
                                 </td>
 
                             </tr>
