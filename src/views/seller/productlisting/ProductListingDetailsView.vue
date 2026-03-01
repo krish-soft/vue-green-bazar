@@ -10,8 +10,9 @@
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2">
                         <h6 class="fw-semibold text-muted mb-0">Basic Information</h6>
 
-                        <BaseButton :disabled="!listingDetails.is_active || listingDetails.is_sold" size="sm"
-                            variant="danger" @click="opencancelListingModal()">
+                        <BaseButton
+                            :disabled="!listingDetails.is_active || listingDetails.is_sold || listingDetails.is_expired"
+                            size="sm" variant="danger" @click="opencancelListingModal()">
                             Cancel Listing
                         </BaseButton>
                     </div>

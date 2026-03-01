@@ -32,8 +32,7 @@
                             <th>#</th>
                             <th>Listing Status</th>
                             <th>Listing Code</th>
-                            <th>Doc No</th>
-                            <th>Doc Date</th>
+                            <th>Listing Date</th>
 
                             <th>Seller</th>
                             <th>Pickup Location</th>
@@ -57,8 +56,7 @@
                                 </span>
                             </td>
                             <td>{{ row.listing_code }}</td>
-                            <td>{{ row.doc_no }}</td>
-                            <td>{{ new Date(row.doc_date).toISOString().slice(0, 10) }}</td>
+                            <td>{{ new Date(row.listing_date).toISOString().slice(0, 10) }}</td>
 
                             <td>
                                 <b> Code:</b> {{ row?.seller?.user_code }}

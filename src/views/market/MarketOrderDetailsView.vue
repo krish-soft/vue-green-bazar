@@ -362,7 +362,7 @@
                         </tbody>
                     </table>
 
-                    <div v-if="orderDetails.order_status != 'settled'">
+                    <div>
 
                         <h5>Update Amount</h5>
 
