@@ -55,10 +55,6 @@
 
                 <div class="d-flex gap-2 flex-wrap">
 
-                    <!-- <BaseButton variant="primary" :disabled="!isSection2Allowed || isRunning"
-                        @click="runCmd(cmdAccountingProductListing, 'Accounting Product Listing', isSection2Allowed)">
-                        Accounting Product Listing
-                    </BaseButton> -->
 
                     <BaseButton variant="primary" :disabled="!isSection2Allowed || isRunning"
                         @click="runCmd(cmdAccountingOrder, 'Accounting Order', isSection2Allowed)">
@@ -76,8 +72,8 @@
             <!-- ================= SECTION 3 ================= -->
             <div class="border rounded-3 p-3">
                 <h5 class="fw-semibold mb-3">
-                    3. Invoice Commands
-                    <small class="text-info">(Allowed 3 PM – 6 PM)</small>
+                    3. Invoicing Data Generation Commands
+                    <small class="text-info">(Allowed 3 PM – 4 PM)</small>
                 </h5>
 
                 <div class="d-flex gap-2 flex-wrap">
@@ -90,6 +86,22 @@
                     <BaseButton variant="warning" :disabled="!isSection3Allowed || isRunning"
                         @click="runCmd(cmdInvoiceGenerateProductListing, 'Generate Product Listings Invoice', isSection3Allowed)">
                         2. Generate Product Listings Invoices [For Sellers]
+                    </BaseButton>
+
+                </div>
+            </div>
+
+            <div class="border rounded-3 p-3 mb-4">
+                <h5 class="fw-semibold mb-3">
+                    4. Accounting For Remains
+                    <small class="text-muted">(Allowed 4 PM – 6 PM)</small>
+                </h5>
+
+                <div class="d-flex gap-2 flex-wrap">
+
+                    <BaseButton variant="secondary" :disabled="!isSection3Allowed || isRunning"
+                        @click="runCmd(cmdAccountingInvoice, 'Accounting Invoice', isSection3Allowed)">
+                        1. Accounting Invoice
                     </BaseButton>
 
                 </div>
@@ -111,7 +123,8 @@ import {
     cmdAccountingMarketOrder,
     cmdAccountingProductListing,
     cmdInvoiceGenerateBuyerOrder,
-    cmdInvoiceGenerateProductListing
+    cmdInvoiceGenerateProductListing,
+    cmdAccountingInvoice
 } from "@/core/repos/admin/common/cmdRepos";
 
 import Swal from "sweetalert2";

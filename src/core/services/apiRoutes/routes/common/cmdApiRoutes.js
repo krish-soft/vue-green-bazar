@@ -17,6 +17,10 @@ const cmdApiRoutes = {
         return Api.admin.post('/cmd/accounting/market-order', { data });
     },
 
+    cmdAccountingInvoice(data) {
+        return Api.admin.post('/cmd/accounting/invoice', { data });
+    },
+
     cmdAccountingProductListing(data) {
         return Api.admin.post('/cmd/accounting/product-listing', { data });
     },

@@ -17,6 +17,9 @@ export const cmdAccountingMarketOrder = (data) =>
 export const cmdAccountingProductListing = (data) =>
     withUI(() => apiRouteService.cmdAccountingProductListing(data));
 
+export const cmdAccountingInvoice = (data) =>
+    withUI(() => apiRouteService.cmdAccountingInvoice(data));
+
 // Invoices
 export const cmdInvoiceGenerateBuyerOrder = (data) =>
     withUI(() => apiRouteService.cmdInvoiceGenerateBuyerOrder(data));
