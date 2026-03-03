@@ -16,7 +16,7 @@
                         <BaseInput type="date" label="End Date" v-model="cmdForm.end_date" />
                     </div>
 
-                    <div class="col-md-4 ms-3">
+                    <!-- <div class="col-md-4 ms-3">
                         <label class="form-label fw-semibold d-block mb-2">
                             Enforce Mode
                         </label>
@@ -27,7 +27,9 @@
                                 {{ cmdForm.is_enforce ? 'Enabled' : 'Disabled' }}
                             </label>
                         </div>
-                    </div>
+                    </div> -->
+
+
                 </div>
             </div>
 
@@ -82,12 +84,12 @@
 
                     <BaseButton variant="warning" :disabled="!isSection3Allowed || isRunning"
                         @click="runCmd(cmdInvoiceGenerateBuyerOrder, 'Generate Buyer Orders Invoice', isSection3Allowed)">
-                        Generate Buyer Orders Invoice
+                        1. Generate Order Invoices [For Buyers]
                     </BaseButton>
 
                     <BaseButton variant="warning" :disabled="!isSection3Allowed || isRunning"
                         @click="runCmd(cmdInvoiceGenerateProductListing, 'Generate Product Listings Invoice', isSection3Allowed)">
-                        Generate Product Listings Invoice
+                        2. Generate Product Listings Invoices [For Sellers]
                     </BaseButton>
 
                 </div>
