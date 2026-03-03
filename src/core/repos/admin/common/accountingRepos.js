@@ -49,6 +49,11 @@ export const updateLedger = (id, data) =>
 export const deleteLedger = (id) =>
     withUI(() => apiRouteService.deleteLedger(id));
 
+export const reverseLedger = (id) =>
+    withUI(() => apiRouteService.reverseLedger(id));
+
+export const markLedgerSettled = (id) =>
+    withUI(() => apiRouteService.markLedgerSettled(id));
 
 // settlements
 export const fetchSettlementPreviewList = (filters = {}) =>

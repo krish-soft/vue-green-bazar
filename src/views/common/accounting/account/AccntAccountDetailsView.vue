@@ -122,6 +122,7 @@
                                 <th>Settled At</th>
                                 <!-- <th>Tax</th> -->
                                 <th>Open Balance</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -157,6 +158,19 @@
                                     <span class="badge" :class="ledger.is_open_balance ? 'bg-primary' : 'bg-light'">
                                         {{ ledger.is_open_balance ? 'Open Balance' : '' }}
                                     </span>
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <BaseButton icon="fas fa-undo" iconOnly="true" size="sm" variant="danger"
+                                            @click="reverseLedgerById(ledger.id)"
+                                            :disabled="ledger.status === 'settled' || ledger.is_open_balance"
+                                            title="Reverse ledger entry" />
+
+                                        <BaseButton class="ms-1" icon="fas fa-check" iconOnly="true" size="sm"
+                                            variant="success" @click="markLedgerSettledById(ledger.id)"
+                                            :disabled="ledger.status === 'settled'"
+                                            title="Mark ledger status settled" />
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
@@ -321,7 +335,7 @@
 
 import { ref, onMounted, watch } from "vue";
 import { useUIStore } from "@/core/utils/stores/uiStore";
-import { fetchAccountDetails, createLedger } from "@/core/repos/admin/common/accountingRepos";
+import { fetchAccountDetails, createLedger, reverseLedger, markLedgerSettled } from "@/core/repos/admin/common/accountingRepos";
 import { fetchAllEnums } from "@/core/repos/utils/utilsRepos";
 
 import BaseContainer from "@/components/common/cards/BaseContainer.vue";
@@ -344,6 +358,9 @@ const entryTypes = ref([]);
 
 const isCreditEdit = ref(true);
 const isDebitEdit = ref(true);
+
+import { showConfirmDialog } from "@/core/utils/uiHelpers/swalUtils.js";
+
 
 /* ---------------- INIT ---------------- */
 onMounted(loadDetails);
@@ -500,5 +517,36 @@ const submitLedgerForm = async () => {
     closeLedgerModal();
 }
 
+
+async function reverseLedgerById(ledgerId) {
+
+    const confirmed = await showConfirmDialog(
+        "Reverse Ledger Entry",
+        "Are you sure you want to reverse this ledger entry?"
+    );
+    if (!confirmed) return;
+
+
+    const data = await reverseLedger(ledgerId);
+
+    if (data) {
+        await loadDetails();
+    }
+}
+
+async function markLedgerSettledById(ledgerId) {
+
+    const confirmed = await showConfirmDialog(
+        "Mark Ledger Settled",
+        "Are you sure you want to mark this ledger entry as settled?"
+    );
+    if (!confirmed) return;
+
+    markLedgerSettled(ledgerId).then((data) => {
+        if (data) {
+            loadDetails();
+        }
+    });
+}
 
 </script>

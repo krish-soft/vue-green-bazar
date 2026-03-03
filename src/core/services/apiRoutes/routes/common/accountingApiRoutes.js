@@ -52,6 +52,15 @@ const accountingApiRoutes = {
         return Api.admin.delete(`/accounting/ledger/${id}`);
     },
 
+    reverseLedger(id) {
+        return Api.admin.get(`/accounting/ledger/reverse/${id}`);
+    },
+
+
+    markLedgerSettled(id) {
+        return Api.admin.get(`/accounting/ledger/status/settle/${id}`);
+    },
+
 
     // settlements
     getSettlementPreviewList(filters = {}) {

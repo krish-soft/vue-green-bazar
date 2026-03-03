@@ -53,19 +53,19 @@
 
                 <div class="d-flex gap-2 flex-wrap">
 
-                    <BaseButton variant="primary" :disabled="!isSection2Allowed || isRunning"
+                    <!-- <BaseButton variant="primary" :disabled="!isSection2Allowed || isRunning"
                         @click="runCmd(cmdAccountingProductListing, 'Accounting Product Listing', isSection2Allowed)">
                         Accounting Product Listing
-                    </BaseButton>
+                    </BaseButton> -->
 
                     <BaseButton variant="primary" :disabled="!isSection2Allowed || isRunning"
                         @click="runCmd(cmdAccountingOrder, 'Accounting Order', isSection2Allowed)">
-                        Accounting Order
+                        1. Accounting Order
                     </BaseButton>
 
                     <BaseButton variant="primary" :disabled="!isSection2Allowed || isRunning"
                         @click="runCmd(cmdAccountingMarketOrder, 'Accounting Market Order', isSection2Allowed)">
-                        Accounting Market Order
+                        2. Accounting Market Order
                     </BaseButton>
 
                 </div>
