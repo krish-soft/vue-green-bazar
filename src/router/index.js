@@ -68,8 +68,28 @@ const router = createRouter({
     },
 
 
+    // invoice
+    {
+      path: "/invoice/list",
+      name: "invoicelist",
+      component: () => import("@/views/common/invoice/InvoiceView.vue"),
+    },
+    {
+      path: "/invoice/create",
+      name: "invoicecreate",
+      component: () => import("@/views/common/invoice/InvoiceCreateEditView.vue"),
+    },
+
+    {
+      path: "/invoice/modify/:id",
+      name: "invoiceedit",
+      component: () => import("@/views/common/invoice/InvoiceCreateEditView.vue"),
+    },
+
+
 
     // Seller Product Listing
+
     {
       path: "/productlisting",
       name: "productlisting",

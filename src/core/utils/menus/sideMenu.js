@@ -46,6 +46,7 @@ export const sideMenu = [
 
     ],
   },
+
   {
     label: "Market",
     icon: "fas fa-store-alt",
@@ -161,6 +162,13 @@ export const sideMenu = [
         icon: "fas fa-credit-card",
         to: { name: "paymentlist" },
         module: AppModuleEnum.PAYMENTS,
+        match: "exact",
+      },
+      {
+        label: "Invoices",
+        icon: "fas fa-file-invoice",
+        to: { name: "invoicelist" },
+        module: AppModuleEnum.SETTLEMENTS,
         match: "exact",
       },
 

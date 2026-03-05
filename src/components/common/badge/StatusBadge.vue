@@ -59,9 +59,11 @@ const STATUS_GROUP = {
     /* ---------- INVENTORY ---------- */
     out_of_stock: 'inventory',
     price_changed: 'inventory',
+    invoiced: 'inventory',
 
     /* ---------- SECURITY ---------- */
     locked: 'secure',
+    accounted: 'secure',
 
     /* ---------- DANGER ---------- */
     cancelled: 'danger',

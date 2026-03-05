@@ -16,7 +16,7 @@ export const AppModuleEnum = {
   ORDER_ITEMS: 303,
   PAYMENTS: 304,
   WALLETS: 305,
-  SETTLEMENTS: 306,
+  SETTLEMENTS: 306, // USED
   REFUNDS: 307,
   COMMISSIONS: 308,
   ACCOUNTINGS: 309, // New module for accounting features

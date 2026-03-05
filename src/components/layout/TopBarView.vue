@@ -6,7 +6,7 @@
     <div class="container-fluid">
       <!-- Brand -->
       <RouterLink class="navbar-brand fw-bold" :to="{ name: 'home' }">
-        Green Bazar
+        KHET BAJAR
       </RouterLink>
 
       <!-- Right Icons (ALWAYS VISIBLE) -->
