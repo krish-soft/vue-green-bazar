@@ -1,5 +1,6 @@
 ```vue
 <template>
+
     <BaseContainer :heading="isEdit ? 'Edit Invoice' : 'Create Invoice'">
 
         <template #headerActions>
@@ -10,26 +11,34 @@
 
         <template #body>
 
+            <div class="row">
+                <div class="col-md-5">
+                    <CustomerSearchComponent v-model="selectedCustomer" required />
+                </div>
+            </div>
+
             <div class="row g-3 mb-4">
 
-                <div class="col-md-3">
-                    <BaseInput v-model="form.user_id" label="User ID" type="number" :disabled="isEdit"
-                        :required="!isEdit" />
+                <div class="col-md-2">
+                    <BaseInput v-model="form.user_id" label="User ID" type="number" readonly :required="!isEdit"
+                        :disabled="isEdit" />
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <BaseInput v-model="form.invoice_date" label="Invoice Date" type="date" required />
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label class="form-label">Invoice Type</label>
-                    <select class="form-control" v-model="form.invoice_type">
-                        <option value="sale">Sale</option>
+                    <select class="form-control" v-model="form.invoice_type" :disabled="isEdit" readonly>
+                        <option value="sales">Sales</option>
                         <option value="purchase">Purchase</option>
-                        <option value="refund">Refund</option>
-                        <option value="return">Return</option>
-                        <option value="delivery">Delivery</option>
                     </select>
+                </div>
+
+                <div class="col-md-2">
+                    <BaseInput v-if="isEdit" v-model="form.invoice_number" label="Invoice Number" type="text"
+                        disabled />
                 </div>
 
             </div>
@@ -39,10 +48,12 @@
             <h5 class="mb-3">Invoice Items</h5>
 
             <table class="table table-bordered">
+
                 <thead class="table-dark">
                     <tr>
                         <th>Item Name</th>
                         <th width="120">Qty</th>
+                        <th width="150">Unit Price</th>
                         <th width="150">Taxable</th>
                         <th width="150">Tax</th>
                         <th width="150">Total</th>
@@ -59,17 +70,22 @@
                         </td>
 
                         <td>
-                            <input class="form-control" type="number" v-model.number="item.order_qty" />
+                            <input class="form-control" type="number" step="0.01" v-model.number="item.order_qty"
+                                @input="recalcItem(index)" />
                         </td>
 
                         <td>
-                            <input class="form-control" type="number" v-model.number="item.taxable_amount"
-                                @input="calcItem(index)" />
+                            <input class="form-control" type="number" step="0.01" v-model.number="item.unit_price"
+                                @input="recalcItem(index)" />
+                        </td>
+
+                        <td class="text-end">
+                            {{ Number(item.taxable_amount || 0).toFixed(2) }}
                         </td>
 
                         <td>
-                            <input class="form-control" type="number" v-model.number="item.tax_amount"
-                                @input="calcItem(index)" readonly />
+                            <input class="form-control" type="number" step="0.01" v-model.number="item.tax_amount"
+                                @input="recalcItem(index)" readonly />
                         </td>
 
                         <td class="text-end">
@@ -120,12 +136,12 @@
 
                         <td>
                             <input class="form-control" type="number" v-model.number="charge.taxable_amount"
-                                @input="calcCharge(index)" />
+                                @input="recalcCharge(index)" />
                         </td>
 
                         <td>
                             <input class="form-control" type="number" v-model.number="charge.tax_amount"
-                                @input="calcCharge(index)" />
+                                @input="recalcCharge(index)" />
                         </td>
 
                         <td class="text-end">
@@ -146,10 +162,31 @@
                 + Add Charge
             </BaseButton>
 
+
             <hr class="my-4">
 
-            <div class="row justify-content-end">
+            <div class="row">
 
+                <!-- REMARKS LEFT -->
+                <div class="col-md-6">
+
+                    <label class="form-label">Remarks</label>
+
+                    <textarea class="form-control" rows="5" maxlength="255" v-model="form.remarks"
+                        placeholder="Add notes or remarks (max 255 characters)"></textarea>
+
+                    <small class="text-muted">
+                        {{ form.remarks.length }}/255 characters
+                    </small>
+
+                </div>
+
+                <div class="col-md-2">
+
+                </div>
+
+
+                <!-- TOTALS RIGHT -->
                 <div class="col-md-4">
 
                     <table class="table table-bordered">
@@ -158,8 +195,9 @@
                             <th>Base Amount</th>
                             <td class="text-end">{{ totals.base }}</td>
                         </tr>
+
                         <tr>
-                            <th>Subtotal [Items + Charges]</th>
+                            <th>Subtotal</th>
                             <td class="text-end">{{ totals.subtotal }}</td>
                         </tr>
 
@@ -167,8 +205,6 @@
                             <th>Tax</th>
                             <td class="text-end">{{ totals.tax }}</td>
                         </tr>
-
-
 
                         <tr class="table-success">
                             <th>Total</th>
@@ -179,15 +215,29 @@
 
                 </div>
 
+                <!-- <div class="mt-4 p-4 rounded border bg-light">
+
+                    <div class="fw-bold text-primary mb-2 fs-5">
+                        Amount Explanation
+                    </div>
+
+                    <div class="fs-6 text-dark" style="line-height:1.6; white-space:pre-line;"
+                        v-html="coloredExplanation"></div>
+
+                </div> -->
+
             </div>
+
+
 
         </template>
     </BaseContainer>
 </template>
 
+
 <script setup>
 
-import { reactive, computed, onMounted } from "vue"
+import { reactive, computed, onMounted, ref, watch } from "vue"
 import { useRoute } from "vue-router"
 
 import BaseContainer from "@/components/common/cards/BaseContainer.vue"
@@ -199,16 +249,21 @@ import {
     createInvoice,
     updateInvoice
 } from "@/core/repos/admin/common/invoiceRepos"
+import CustomerSearchComponent from "@/components/common/forms/CustomerSearchComponent.vue";
+
+import { showConfirmDialog } from "@/core/utils/uiHelpers/swalUtils.js";
 
 const route = useRoute()
 
 const invoiceId = route.params.id
 const isEdit = !!invoiceId
+const selectedCustomer = ref(null);
 
 const form = reactive({
     user_id: "",
     invoice_date: new Date().toISOString().slice(0, 10),
     invoice_type: "sale",
+    remarks: "",
     items: [],
     charges: []
 })
@@ -217,6 +272,7 @@ function addItem() {
     form.items.push({
         item_name: "",
         order_qty: 1,
+        unit_price: 0,
         taxable_amount: 0,
         tax_amount: 0,
         total_amount: 0
@@ -227,11 +283,36 @@ function removeItem(i) {
     form.items.splice(i, 1)
 }
 
-function calcItem(i) {
+watch(() => selectedCustomer.value, (newVal) => {
+    if (newVal) {
+        form.user_id = newVal.id;
+
+        if (!isEdit) {
+            form.invoice_date = new Date().toISOString().slice(0, 10);
+
+            if (newVal.is_buyer) {
+                form.invoice_type = "sales"
+            } else {
+                form.invoice_type = "purchase"
+            }
+        }
+    } else {
+        form.user_id = "";
+    }
+})
+
+function recalcItem(i) {
+
     const item = form.items[i]
+
+    item.taxable_amount =
+        Number(item.order_qty || 0) *
+        Number(item.unit_price || 0)
+
     item.total_amount =
         Number(item.taxable_amount || 0) +
         Number(item.tax_amount || 0)
+
 }
 
 function addCharge() {
@@ -248,41 +329,92 @@ function removeCharge(i) {
     form.charges.splice(i, 1)
 }
 
-function calcCharge(i) {
+function recalcCharge(i) {
+
     const c = form.charges[i]
+
     c.total_amount =
         Number(c.taxable_amount || 0) +
         Number(c.tax_amount || 0)
+
 }
+
 const totals = computed(() => {
 
-    let baseAmount = 0
-    let itemTax = 0
+    let base = 0
     let chargeTaxable = 0
-    let chargeTax = 0
+    let tax = 0
 
-    // ITEMS
     form.items.forEach(i => {
-        baseAmount += Number(i.taxable_amount || 0)
-        itemTax += Number(i.tax_amount || 0)
+        base += Number(i.taxable_amount || 0)
+        tax += Number(i.tax_amount || 0)
     })
 
-    // CHARGES
     form.charges.forEach(c => {
         chargeTaxable += Number(c.taxable_amount || 0)
-        chargeTax += Number(c.tax_amount || 0)
+        tax += Number(c.tax_amount || 0)
     })
 
-    const subtotal = baseAmount + chargeTaxable
-    const tax = itemTax + chargeTax
+    const subtotal = base + chargeTaxable
     const total = subtotal + tax
 
+
     return {
-        base: baseAmount.toFixed(2),
+        base: base.toFixed(2),
         subtotal: subtotal.toFixed(2),
         tax: tax.toFixed(2),
         total: total.toFixed(2)
     }
+
+})
+
+const amountExplanation = computed(() => {
+
+    const isSalesInvoice = form.invoice_type === "sales"
+    const isBuyer = selectedCustomer.value ? selectedCustomer.value.is_buyer : null
+
+    const base = Number(totals.value.base)
+    const subtotal = Number(totals.value.subtotal)
+    const tax = Number(totals.value.tax)
+    const total = Number(totals.value.total)
+
+    const charges = subtotal - base
+
+    let explanation = ""
+
+    if (isBuyer) {
+
+        explanation += `Total ${total.toFixed(2)} will be debited from the buyer's account (purchase from platform). The Platform Clearance account already holds the received payment.\n`
+        explanation += `Tax of ${tax.toFixed(2)} will be recorded as platform tax liability.\n`
+
+        if (charges !== 0) {
+            explanation += `Platform charges of ${charges.toFixed(2)} will be adjusted through the Platform Clearance account.\n`
+        }
+
+    } else {
+
+        explanation += `Total ${total.toFixed(2)} will be credited to the seller/supplier (their sale, our purchase). The Platform Clearance account will be used to settle the payment.\n`
+        explanation += `Tax of ${tax.toFixed(2)} will be recorded as input tax credit.\n`
+
+        if (charges !== 0) {
+            explanation += `Additional charges of ${charges.toFixed(2)} will be added to the purchase value.\n`
+        }
+
+    }
+
+    return explanation
+})
+
+
+
+const coloredExplanation = computed(() => {
+
+    if (!amountExplanation.value) return ""
+
+    return amountExplanation.value.replace(
+        /(-?\d+(\.\d+)?)/g,
+        '<span class="fw-bold text-success">$1</span>'
+    )
 
 })
 
@@ -297,11 +429,14 @@ onMounted(async () => {
 
     form.user_id = data.user_id
     form.invoice_date = data.invoice_date.slice(0, 10)
-    form.invoice_type = (data.invoice_type || "sale").toLowerCase()
+    form.invoice_type = data.invoice_type
+    form.remarks = data.remarks || ""
+    form.invoice_number = data.invoice_number
 
     form.items = (data.invoice_items || []).map(i => ({
         item_name: i.item_name,
         order_qty: Number(i.order_qty),
+        unit_price: Number(i.unit_price),
         taxable_amount: Number(i.taxable_amount),
         tax_amount: Number(i.tax_amount),
         total_amount: Number(i.total_amount)
@@ -319,16 +454,28 @@ onMounted(async () => {
 
 async function submitInvoice() {
 
+    const confirmed = await showConfirmDialog(
+        "Submit Invoice",
+        "Are you sure you want to submit this invoice?"
+    );
+
+    if (!confirmed) return;
+
+
     const payload = {
         user_id: Number(form.user_id),
         invoice_date: form.invoice_date,
         invoice_type: form.invoice_type,
+        remarks: form.remarks,
+
         items: form.items.map(i => ({
             item_name: i.item_name,
             order_qty: Number(i.order_qty),
+            unit_price: Number(i.unit_price),
             taxable_amount: Number(i.taxable_amount || 0),
             tax_amount: Number(i.tax_amount || 0)
         })),
+
         charges: form.charges
             .filter(c => c.charge_name !== "")
             .map(c => ({
@@ -337,6 +484,7 @@ async function submitInvoice() {
                 taxable_amount: Number(c.taxable_amount || 0),
                 tax_amount: Number(c.tax_amount || 0)
             }))
+
     }
 
     if (isEdit) {
