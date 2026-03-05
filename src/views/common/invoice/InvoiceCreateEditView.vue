@@ -107,7 +107,8 @@
 
             <hr class="my-4">
 
-            <h5 class="mb-3">Extra Charges</h5>
+            <h5 class="mb-3">Charges</h5>
+            <span class="text-primary fw-semibold mb-4">[ This value will be added to Platform accounts ]</span>
 
             <table class="table table-bordered">
 
@@ -215,7 +216,7 @@
 
                 </div>
 
-                <!-- <div class="mt-4 p-4 rounded border bg-light">
+                <div class="mt-4 p-4 rounded border bg-light">
 
                     <div class="fw-bold text-primary mb-2 fs-5">
                         Amount Explanation
@@ -224,7 +225,7 @@
                     <div class="fs-6 text-dark" style="line-height:1.6; white-space:pre-line;"
                         v-html="coloredExplanation"></div>
 
-                </div> -->
+                </div>
 
             </div>
 
@@ -384,20 +385,30 @@ const amountExplanation = computed(() => {
 
     if (isBuyer) {
 
-        explanation += `Total ${total.toFixed(2)} will be debited from the buyer's account (purchase from platform). The Platform Clearance account already holds the received payment.\n`
-        explanation += `Tax of ${tax.toFixed(2)} will be recorded as platform tax liability.\n`
+        if (total < 0) {
+            explanation += `Total ${Math.abs(total).toFixed(2)} will be credited to the buyer's account (refund to buyer). The Platform Clearance account will be used to settle the refund.\n`
+        } else {
+            explanation += `Total ${total.toFixed(2)} will be debited from the buyer's account (purchase from platform). The Platform Clearance account already holds the received payment.\n`
+        }
+
+        explanation += `Tax of ${Math.abs(tax).toFixed(2)} will be recorded as platform tax liability.\n`
 
         if (charges !== 0) {
-            explanation += `Platform charges of ${charges.toFixed(2)} will be adjusted through the Platform Clearance account.\n`
+            explanation += `Platform charges of ${Math.abs(charges).toFixed(2)} will be recorded as Platform clearance account.\n`
         }
 
     } else {
 
-        explanation += `Total ${total.toFixed(2)} will be credited to the seller/supplier (their sale, our purchase). The Platform Clearance account will be used to settle the payment.\n`
+        if (total < 0) {
+            explanation += `Total ${total.toFixed(2)} will be credited to the seller/supplier (their sale, our purchase). The Platform Clearance account will be used to settle the payment.\n`
+        } else {
+            explanation += `Total ${total.toFixed(2)} will be debited from the seller/supplier (their purchase, our sale). The Platform Clearance account already holds the payment to be made.\n`
+        }
+
         explanation += `Tax of ${tax.toFixed(2)} will be recorded as input tax credit.\n`
 
         if (charges !== 0) {
-            explanation += `Additional charges of ${charges.toFixed(2)} will be added to the purchase value.\n`
+            explanation += `Additional charges of ${charges.toFixed(2)} will be recorded as Platform clearance account.\n`
         }
 
     }
