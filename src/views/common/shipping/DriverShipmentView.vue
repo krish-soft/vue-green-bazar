@@ -107,7 +107,7 @@
 
                             <td class="text-center">
                                 <button class="btn btn-sm btn-outline-primary me-1" @click.stop="openChangeDriver(row)"
-                                    :disabled="row.status === 'cancelled' || row.status === 'completed'">
+                                    :disabled="row.status !== 'pending' && row.status !== 'accepted'">
                                     Change
                                 </button>
 
