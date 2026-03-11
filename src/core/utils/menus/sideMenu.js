@@ -22,7 +22,15 @@ export const sideMenu = [
         label: "Product Listings",
         icon: "fas fa-list",
         to: { name: "productlisting" },
-        module: AppModuleEnum.LISTINGS,
+        // module: AppModuleEnum.LISTINGS,
+        match: "exact",
+      },
+
+      {
+        label: "Market Orders",
+        icon: "fas fa-shopping-bag",
+        to: { name: "marketorderlist" },
+        // module: AppModuleEnum.ORDERS,
         match: "exact",
       },
 
@@ -39,7 +47,7 @@ export const sideMenu = [
         label: "Orders",
         icon: "fas fa-shopping-bag",
         to: { name: "orderlist" },
-        module: AppModuleEnum.ORDERS,
+        // module: AppModuleEnum.ORDERS,
         match: "exact",
       },
 
@@ -47,31 +55,23 @@ export const sideMenu = [
     ],
   },
 
-  {
-    label: "Market",
-    icon: "fas fa-store-alt",
-    module: AppModuleEnum.ORDERS,
-    match: "children",
-    children: [
-      {
-        label: "Orders",
-        icon: "fas fa-shopping-bag",
-        to: { name: "marketorderlist" },
-        module: AppModuleEnum.ORDERS,
-        match: "exact",
-      },
+  // {
+  //   label: "Market",
+  //   icon: "fas fa-store-alt",
+  //   module: AppModuleEnum.ORDERS,
+  //   match: "children",
+  //   children: [
 
 
-    ],
-  },
 
-
+  //   ],
+  // },
 
   // Shipping menu
   {
     label: "Shipping",
     icon: "fas fa-truck",
-    module: AppModuleEnum.SHIPPING,
+    module: AppModuleEnum.SHIPMENTS,
     match: "children",
     children: [
       {
@@ -112,7 +112,6 @@ export const sideMenu = [
         label: "Customer Onboarding",
         // icon: "fas fa-gavel",
         icon: "fas fa-user-check",
-        module: AppModuleEnum.LEGALS,
         match: "children",
         children: [
           {
@@ -154,21 +153,19 @@ export const sideMenu = [
   {
     label: "Accounting",
     icon: "fas fa-calculator",
-    module: AppModuleEnum.ACCOUNTING,
+    module: AppModuleEnum.ACCOUNTINGS,
     match: "children",
     children: [
       {
         label: "Payments",
         icon: "fas fa-credit-card",
         to: { name: "paymentlist" },
-        module: AppModuleEnum.PAYMENTS,
         match: "exact",
       },
       {
         label: "Invoices",
         icon: "fas fa-file-invoice",
         to: { name: "invoicelist" },
-        module: AppModuleEnum.SETTLEMENTS,
         match: "exact",
       },
 
@@ -176,20 +173,17 @@ export const sideMenu = [
         label: "Account Summary",
         icon: "fas fa-chart-pie",
         to: { name: "accountsummary" },
-        module: AppModuleEnum.ACCOUNTING,
         match: "exact",
       },
       {
         label: "Accounts & Ledgers",
         icon: "fas fa-book",
         to: { name: "accountlist" },
-        module: AppModuleEnum.ACCOUNTING,
         match: "exact",
       },
       {
         label: "Settlement",
         icon: "fas fa-hand-holding-usd",
-        module: AppModuleEnum.SETTLEMENTS,
         match: "children",
         children: [
           {
@@ -228,7 +222,7 @@ export const sideMenu = [
         label: "Product",
         icon: "fas fa-box",
         match: "children",
-        module: AppModuleEnum.PRODUCTS,
+        // module: AppModuleEnum.PRODUCTS,
         children: [
           {
             label: "Categories",
@@ -261,7 +255,6 @@ export const sideMenu = [
         label: "Charge",
         icon: "fa-solid fa-hand-holding-dollar",
         match: "children",
-        module: AppModuleEnum.COMMISSIONS,
         children: [
           {
             label: "Charges",
@@ -295,7 +288,6 @@ export const sideMenu = [
         label: "Geography",
         icon: "fas fa-earth-americas",
         match: "children",
-        module: AppModuleEnum.GEOGRAPHY,
         children: [
           {
             label: "States",
@@ -322,7 +314,6 @@ export const sideMenu = [
         label: "Settings",
         icon: "fas fa-cogs",
         match: "children",
-        module: AppModuleEnum.SETTINGS,
         children: [
           {
             label: "Financial Years",
@@ -389,13 +380,10 @@ export const sideMenu = [
           },
         ],
       },
-
-
       {
         label: "Admin",
         icon: "fa-solid fa-user-shield",
         match: "children",
-        module: AppModuleEnum.ADMIN,
         children: [
           {
             label: "Users",

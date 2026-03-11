@@ -2,23 +2,51 @@ export function normalizeAccessModules(accessModules) {
   if (!accessModules) return [];
 
   // Full access
-  if (accessModules === "*" || (Array.isArray(accessModules) && accessModules.length === 1 && accessModules[0] === "*")) return "*";
+  if (
+    accessModules === "*" ||
+    (Array.isArray(accessModules) &&
+      accessModules.length === 1 &&
+      accessModules[0] === "*")
+  ) {
+    return "*";
+  }
 
-  // "101,103,205"
+  // If already array like [101,102]
+  if (Array.isArray(accessModules)) {
+    return accessModules.map(Number).filter(Boolean);
+  }
+
+  // If string like "101,102"
   if (typeof accessModules === "string") {
     return accessModules
       .split(",")
-      .map((v) => Number(v.trim()))
+      .map(v => Number(v.trim()))
       .filter(Boolean);
-  }
-
-  // [101,103]
-  if (Array.isArray(accessModules)) {
-    return accessModules.map(Number);
   }
 
   return [];
 }
+// export function normalizeAccessModules(accessModules) {
+//   if (!accessModules) return [];
+
+//   // Full access
+//   if (accessModules === "*" || (Array.isArray(accessModules) && accessModules.length === 1 && accessModules[0] === "*")) return "*";
+
+//   // "101,103,205"
+//   if (typeof accessModules === "string") {
+//     return accessModules
+//       .split(",")
+//       .map((v) => Number(v.trim()))
+//       .filter(Boolean);
+//   }
+
+//   // [101,103]
+//   if (Array.isArray(accessModules)) {
+//     return accessModules.map(Number);
+//   }
+
+//   return [];
+// }
 
 export function filterSideMenu(menu, rawAccessModules) {
   const accessModules = normalizeAccessModules(rawAccessModules);

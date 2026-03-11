@@ -123,7 +123,7 @@
 
                     <label class="form-label">Access Modules</label>
 
-                    <select multiple class="form-control" v-model="adminUserForm.access_modules"
+                    <select multiple size="10" class="form-control" v-model="adminUserForm.access_modules"
                         :disabled="isEdit && isSuperAdminEdit">
 
                         <option v-for="m in appModuleList" :key="m.value" :value="m.value">
