@@ -41,19 +41,19 @@ export const AppModuleEnum = {
   DASHBOARDS: 603,
 
   // System & Configuration (700–799)
-  MASTERS: 701,
-  SETTINGS: 702,
-  CMS: 703,
-  LEGALS: 704,
-  GEOGRAPHY: 705,
+  MASTERS: 701, // USED
+  SETTINGS: 702, // USED
+  // CMS: 703,
+  LEGALS: 704, // USED
+  GEOGRAPHY: 705, // USED
 
   // Admin & Operations (800–899)
-  ADMIN: 801,
+  ADMIN: 801, // USED
   AUDIT_LOGS: 802,
 
-  SELLERS: 900,
-  BUYERS: 901,
+  SELLERS: 900, // USED
+  BUYERS: 901, // USED
   DELIVERY_PARTNERS: 902,
-  AFFILIATES: 903,
+  // AFFILIATES: 903,
 
 };

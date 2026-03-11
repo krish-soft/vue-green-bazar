@@ -389,6 +389,28 @@ export const sideMenu = [
           },
         ],
       },
+
+
+      {
+        label: "Admin",
+        icon: "fa-solid fa-user-shield",
+        match: "children",
+        module: AppModuleEnum.ADMIN,
+        children: [
+          {
+            label: "Users",
+            icon: "fas fa-users",
+            to: { name: "adminuserlist" },
+            match: "exact",
+          },
+
+        ],
+      },
+
+
+
+
+      //
     ],
   },
 ];

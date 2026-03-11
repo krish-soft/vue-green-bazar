@@ -211,7 +211,21 @@ const router = createRouter({
       ],
     },
 
+    // Admin 
 
+    {
+      path: "/admin",
+      meta: { requiresAuth: true },
+      children: [
+
+        {
+          path: "admin-user",
+          name: "adminuserlist",
+          component: () => import("@/views/admin/AdminUserListView.vue"),
+        }
+      ],
+
+    },
 
 
 

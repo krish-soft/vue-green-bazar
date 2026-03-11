@@ -2,7 +2,7 @@ export function normalizeAccessModules(accessModules) {
   if (!accessModules) return [];
 
   // Full access
-  if (accessModules === "*") return "*";
+  if (accessModules === "*" || (Array.isArray(accessModules) && accessModules.length === 1 && accessModules[0] === "*")) return "*";
 
   // "101,103,205"
   if (typeof accessModules === "string") {

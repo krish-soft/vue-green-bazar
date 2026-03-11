@@ -14,6 +14,7 @@ import shippingApiRoutes from "./routes/common/shippingApiRoutes.js";
 import marketApiRoutes from "./routes/common/marketApiRoutes.js";
 import cmdApiRoutes from "./routes/common/cmdApiRoutes.js";
 import invoiceApiRoutes from "./routes/common/invoiceApiRoutes.js";
+import adminUserApiRoutes from "./routes/common/adminUserApiRoutes.js";
 // later add more
 
 const apiRouteService = {
@@ -33,6 +34,8 @@ const apiRouteService = {
   ...marketApiRoutes,
   ...cmdApiRoutes,
   ...invoiceApiRoutes,
+
+  ...adminUserApiRoutes,
   // ...productApiRoutes,
   // ...orderApiRoutes,
 };
