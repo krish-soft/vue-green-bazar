@@ -25,6 +25,12 @@ const adminUserApiRoutes = {
         return Api.admin.delete(`/adminUser/${id}`);
     },
 
+    // get Dashboard data
+
+    getDashboardData() {
+        return Api.admin.get("/dashboard");
+    },
+
 
 }
 

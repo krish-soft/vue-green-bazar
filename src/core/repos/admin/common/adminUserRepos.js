@@ -24,3 +24,10 @@ export const updateAdminUser = (id, payload) =>
 
 export const deleteAdminUser = (id) =>
     withUI(() => apiRouteService.deleteAdminUser(id));
+
+
+// Dashboard Data
+export const fetchDashboardData = () =>
+    withUI(() => apiRouteService.getDashboardData(), {
+        showSuccessMessage: false,
+    });
