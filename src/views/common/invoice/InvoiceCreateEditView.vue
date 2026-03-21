@@ -540,7 +540,9 @@ const signedCharge = (value) => {
     const type = form.invoice_type
 
     // Charges & tax go OUT in these cases
-    if (type === "purchase" || type === "sales_return") {
+    if (type === "purchase"
+        // || type === "sales_return"
+    ) {
         return (-Math.abs(Number(value || 0))).toFixed(2)
     }
 
