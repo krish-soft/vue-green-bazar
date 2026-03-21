@@ -27,7 +27,7 @@
                 <tbody v-if="mListData.length">
                     <tr v-for="(row, i) in mListData" :key="row.id">
                         <td>{{ i + 1 }}</td>
-                        <td><img v-if="row.picture" :src="row.pictureUrl" alt="..."
+                        <td><img v-if="row.picture" :src="row.picture_url" alt="..."
                                 style="width: 50px; height: 50px; object-fit: cover;">
                             <span v-else class="text-muted">No Image</span>
                         </td>
@@ -60,6 +60,19 @@
         </template>
 
         <form id="newForm" @submit.prevent="submitForm">
+
+            <div class="mb-3">
+                <BaseFileInput label="Select Image" v-model="form.file" accept=".jpg,.jpeg,.png"
+                    help-text="Allowed formats: JPG, JPEG, PNG" />
+
+                <div v-if="isEdit && form.picture" class="form-check mt-2">
+                    <input class="form-check-input" type="checkbox" id="removePicture" v-model="form.is_remove_picture">
+                    <label class="form-check-label" for="removePicture">
+                        Remove existing picture
+                    </label>
+                </div>
+            </div>
+
 
             <div class="mb-3">
 
@@ -134,6 +147,7 @@ import BaseInput from "@/components/common/inputs/BaseInput.vue";
 
 import { useUIStore } from "@/core/utils/stores/uiStore";
 import { showConfirmDialog } from "@/core/utils/uiHelpers/swalUtils.js";
+import BaseFileInput from "@/components/common/inputs/BaseFileInput.vue";
 
 import {
     fetchProducts,
@@ -155,7 +169,7 @@ const isEdit = ref(false);
 const form = ref({
     id: null,
     product_code: null, // system generated
-
+    file: null,
     category_id: "",
     name: "",
     description: "",
@@ -165,13 +179,14 @@ const form = ref({
     hsn: "",
 
     is_active: true,
+    is_remove_picture: false,
 });
 
 function resetForm() {
     form.value = {
         id: null,
         product_code: null, // system generated
-
+        file: null,
         category_id: "",
         name: "",
         description: "",
@@ -180,6 +195,8 @@ function resetForm() {
         sku: "",
         hsn: "",
         is_active: true,
+        is_remove_picture: false,
+
     };
 }
 
@@ -221,9 +238,17 @@ function closeModal() {
 
 /* ---------------- SAVE ---------------- */
 async function submitForm() {
+
+    const filesData = {
+        file: form.value.file
+    };
+
+
+
+
     await (isEdit.value
-        ? updateProduct(form.value.id, form.value)
-        : createProduct(form.value));
+        ? updateProduct(form.value.id, form.value, filesData)
+        : createProduct(form.value, filesData));
 
     closeModal();
     mListData.value = [];

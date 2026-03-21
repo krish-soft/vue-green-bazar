@@ -142,10 +142,10 @@ export const fetchProducts = (filters = {}) =>
   withUI(() => apiRouteService.getMstProductList(filters), {
     showSuccessMessage: false,
   });
-export const createProduct = (payload) =>
-  withUI(() => apiRouteService.createMstProduct(payload));
-export const updateProduct = (id, payload) =>
-  withUI(() => apiRouteService.updateMstProduct(id, payload));
+export const createProduct = (data, files) =>
+  withUI(() => apiRouteService.createMstProduct(data, files));
+export const updateProduct = (id, data, files) =>
+  withUI(() => apiRouteService.updateMstProduct(id, data, files));
 export const deleteProduct = (id) =>
   withUI(() => apiRouteService.deleteMstProduct(id));
 

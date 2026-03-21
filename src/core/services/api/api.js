@@ -158,51 +158,153 @@ export const Api = {
         upload(
             url,
             {
-                files = {},          // can be File | File[] | { key: File | File[] }
+                method = "post",
+                files = {},
                 data = {},
                 headers = {},
                 auth = true,
+                useMethodOverride = false,
             } = {}
         ) {
             const formData = new FormData();
 
-            // Case 1: files is a File or File[]
+            /* ---------------- NORMALIZER ---------------- */
+            const normalizeValue = (value) => {
+                if (value === null || value === undefined) return "";
+
+                if (typeof value === "boolean") return value ? 1 : 0;
+
+                if (typeof value === "number") return value;
+
+                if (typeof value === "string") return value;
+
+                if (value instanceof Date) return value.toISOString();
+
+                return JSON.stringify(value); // fallback for objects
+            };
+
+            /* ---------------- FILE HANDLING ---------------- */
             if (files instanceof File) {
                 formData.append("file", files);
             }
             else if (Array.isArray(files)) {
                 files.forEach((file) => {
-                    formData.append("files[]", file);
-                });
-            }
-            // Case 2: files is an object with custom keys
-            else if (typeof files === "object") {
-                Object.entries(files).forEach(([key, value]) => {
-                    if (Array.isArray(value)) {
-                        value.forEach((file) => {
-                            formData.append(`${key}[]`, file);
-                        });
-                    } else if (value instanceof File) {
-                        formData.append(key, value);
+                    if (file instanceof File) {
+                        formData.append("files[]", file);
                     }
                 });
             }
+            else if (typeof files === "object" && files !== null) {
+                Object.entries(files).forEach(([key, value]) => {
 
-            // Append other form fields
+                    // ✅ Multiple files
+                    if (Array.isArray(value)) {
+                        value.forEach((file) => {
+                            if (file instanceof File) {
+                                formData.append(`${key}[]`, file);
+                            }
+                        });
+                    }
+
+                    // ✅ Single file
+                    else if (value instanceof File) {
+                        formData.append(key, value);
+                    }
+
+                    // ❌ Ignore null / invalid
+                });
+            }
+
+            /* ---------------- DATA HANDLING ---------------- */
             Object.entries(data).forEach(([key, value]) => {
-                formData.append(key, value);
+
+                if (value === null || value === undefined) return;
+
+                // ✅ Array
+                if (Array.isArray(value)) {
+                    value.forEach((item) => {
+                        formData.append(`${key}[]`, normalizeValue(item));
+                    });
+                }
+
+                // ✅ File inside data (edge case)
+                else if (value instanceof File) {
+                    formData.append(key, value);
+                }
+
+                // ✅ Normal values
+                else {
+                    formData.append(key, normalizeValue(value));
+                }
             });
 
-            return request(adminApi, "post", url, {
+            /* ---------------- METHOD HANDLING ---------------- */
+            let finalMethod = method.toLowerCase();
+
+            if (useMethodOverride && ["put", "patch"].includes(finalMethod)) {
+                formData.append("_method", finalMethod.toUpperCase());
+                finalMethod = "post";
+            }
+
+            /* ---------------- REQUEST ---------------- */
+            return request(adminApi, finalMethod, url, {
                 data: formData,
                 headers: {
                     ...headers,
-                    // DO NOT manually set multipart boundary
-                    "Content-Type": "multipart/form-data",
+                    // ❌ DO NOT manually set Content-Type
                 },
                 auth,
             });
         },
+        // Working 2026-03-21
+        // upload(
+        //     url,
+        //     {
+        //         files = {},          // can be File | File[] | { key: File | File[] }
+        //         data = {},
+        //         headers = {},
+        //         auth = true,
+        //     } = {}
+        // ) {
+        //     const formData = new FormData();
+
+        //     // Case 1: files is a File or File[]
+        //     if (files instanceof File) {
+        //         formData.append("file", files);
+        //     }
+        //     else if (Array.isArray(files)) {
+        //         files.forEach((file) => {
+        //             formData.append("files[]", file);
+        //         });
+        //     }
+        //     // Case 2: files is an object with custom keys
+        //     else if (typeof files === "object") {
+        //         Object.entries(files).forEach(([key, value]) => {
+        //             if (Array.isArray(value)) {
+        //                 value.forEach((file) => {
+        //                     formData.append(`${key}[]`, file);
+        //                 });
+        //             } else if (value instanceof File) {
+        //                 formData.append(key, value);
+        //             }
+        //         });
+        //     }
+
+        //     // Append other form fields
+        //     Object.entries(data).forEach(([key, value]) => {
+        //         formData.append(key, value);
+        //     });
+
+        //     return request(adminApi, "post", url, {
+        //         data: formData,
+        //         headers: {
+        //             ...headers,
+        //             // DO NOT manually set multipart boundary
+        //             "Content-Type": "multipart/form-data",
+        //         },
+        //         auth,
+        //     });
+        // },
 
 
         // upload(url, { files, data = {}, headers = {}, auth = true } = {}) {

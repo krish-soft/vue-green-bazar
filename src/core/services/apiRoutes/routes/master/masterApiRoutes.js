@@ -155,11 +155,12 @@ const masterApiRoutes = {
       queryParams: filters,
     });
   }, // List
-  createMstProduct(data) {
-    return Api.admin.post("/master/mstProduct", { data });
+  createMstProduct(data, files) {
+    return Api.admin.upload("/master/mstProduct", { data: data, files: files });
   }, // Create
-  updateMstProduct(id, data) {
-    return Api.admin.put(`/master/mstProduct/${id}`, { data });
+
+  updateMstProduct(id, data, files) {
+    return Api.admin.upload(`/master/mstProduct/${id}`, { data: data, files: files, method: "put", useMethodOverride: true });
   }, // Update
 
   deleteMstProduct(id) {
