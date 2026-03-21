@@ -30,9 +30,14 @@
 
                 <div class="col-md-2">
                     <label class="form-label">Invoice Type</label>
-                    <select class="form-control" v-model="form.invoice_type" :disabled="isEdit" readonly>
-                        <option value="sales">Sales</option>
+                    <select class="form-control" v-model="form.invoice_type" :disabled="isEdit" required="">
+                        <!-- Show SALES only if editing OR existing value is sales -->
+                        <option value="sales" v-if="isEdit && form.invoice_type === 'sales'">
+                            Sales
+                        </option>
+                        <option value="sales_return">Sales Return</option>
                         <option value="purchase">Purchase</option>
+                        <option value="purchase_return">Purchase Return</option>
                     </select>
                 </div>
 
@@ -194,9 +199,97 @@
 
                         <tr>
                             <th>Base Amount</th>
+                            <td class="text-end"> {{ Number(totals.base).toFixed(2) }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Charges</th>
+                            <td class="text-end"> {{ signedCharge(totals.chargeTaxable) }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Subtotal</th>
+                            <td class="text-end">
+                                {{
+                                    (
+                                        Number(totals.base) +
+                                        parseFloat(signedCharge(totals.chargeTaxable))
+                                    ).toFixed(2)
+                                }}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Tax</th>
+                            <td class="text-end"> {{ signedCharge(totals.tax) }}</td>
+                        </tr>
+
+                        <tr class="table-success">
+                            <th>Total</th>
+                            <td class="text-end">
+                                <div>
+                                    ₹ {{
+                                        (
+                                            Number(totals.base) +
+                                            parseFloat(signedCharge(totals.chargeTaxable)) +
+                                            parseFloat(signedCharge(totals.tax))
+                                        ).toFixed(2)
+                                    }}
+                                </div>
+
+                                <div class="small fw-semibold" :class="totalClass">
+                                    {{ totalLabel }}
+                                </div>
+                            </td>
+                        </tr>
+
+                    </table>
+
+                    <!-- <table class="table table-bordered">
+
+                        <tr>
+                            <th>Base Amount</th>
+                            <td class="text-end"> {{ totals.base }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Charges</th>
+                            <td class="text-end"> {{ totals.chargeTaxable }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Subtotal</th>
+                            <td class="text-end"> {{ totals.subtotal }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Tax</th>
+                            <td class="text-end"> {{ totals.tax }}</td>
+                        </tr>
+
+                        <tr class="table-success">
+                            <th>Total</th>
+                            <td class="text-end">
+                                <div> {{ totals.total }}</div>
+                                <div class="small fw-semibold" :class="totalClass">
+                                    {{ totalLabel }}
+                                </div>
+                            </td>
+                        </tr>
+
+                    </table> -->
+
+                    <!-- <table class="table table-bordered">
+
+                        <tr>
+                            <th>Base Amount</th>
                             <td class="text-end">{{ totals.base }}</td>
                         </tr>
 
+                        <tr>
+                            <th>Charges</th>
+                            <td class="text-end">{{ totals.chargeTaxable }}</td>
+                        </tr>
                         <tr>
                             <th>Subtotal</th>
                             <td class="text-end">{{ totals.subtotal }}</td>
@@ -212,7 +305,7 @@
                             <td class="text-end">{{ totals.total }}</td>
                         </tr>
 
-                    </table>
+                    </table> -->
 
                 </div>
 
@@ -339,7 +432,6 @@ function recalcCharge(i) {
         Number(c.tax_amount || 0)
 
 }
-
 const totals = computed(() => {
 
     let base = 0
@@ -359,9 +451,9 @@ const totals = computed(() => {
     const subtotal = base + chargeTaxable
     const total = subtotal + tax
 
-
     return {
         base: base.toFixed(2),
+        chargeTaxable: chargeTaxable.toFixed(2),
         subtotal: subtotal.toFixed(2),
         tax: tax.toFixed(2),
         total: total.toFixed(2)
@@ -371,52 +463,67 @@ const totals = computed(() => {
 
 const amountExplanation = computed(() => {
 
-    const isSalesInvoice = form.invoice_type === "sales"
-    const isBuyer = selectedCustomer.value ? selectedCustomer.value.is_buyer : null
+    const type = form.invoice_type
 
     const base = Number(totals.value.base)
-    const subtotal = Number(totals.value.subtotal)
     const tax = Number(totals.value.tax)
     const total = Number(totals.value.total)
-
-    const charges = subtotal - base
+    const charges = Number(totals.value.chargeTaxable)
 
     let explanation = ""
 
-    if (isBuyer) {
+    if (type === "sales") {
+        explanation += `Customer will pay ${total.toFixed(2)} (Debit to customer).\n`
+    }
 
-        if (total < 0) {
-            explanation += `Total ${Math.abs(total).toFixed(2)} will be credited to the buyer's account (refund to buyer). The Platform Clearance account will be used to settle the refund.\n`
-        } else {
-            explanation += `Total ${total.toFixed(2)} will be debited from the buyer's account (purchase from platform). The Platform Clearance account already holds the received payment.\n`
-        }
+    if (type === "sales_return") {
+        explanation += `Refund ${total.toFixed(2)} to customer (Credit to customer).\n`
+    }
 
-        explanation += `Tax of ${Math.abs(tax).toFixed(2)} will be recorded as platform tax liability.\n`
+    if (type === "purchase") {
+        explanation += `We need to pay ${total.toFixed(2)} to supplier (Credit to supplier).\n`
+    }
 
-        if (charges !== 0) {
-            explanation += `Platform charges of ${Math.abs(charges).toFixed(2)} will be recorded as Platform clearance account.\n`
-        }
+    if (type === "purchase_return") {
+        explanation += `Supplier needs to pay ${total.toFixed(2)} (Debit to supplier).\n`
+    }
 
-    } else {
+    if (tax > 0) {
+        explanation += `Tax ${tax.toFixed(2)} will be recorded.\n`
+    }
 
-        if (total < 0) {
-            explanation += `Total ${total.toFixed(2)} will be credited to the seller/supplier (their sale, our purchase). The Platform Clearance account will be used to settle the payment.\n`
-        } else {
-            explanation += `Total ${total.toFixed(2)} will be debited from the seller/supplier (their purchase, our sale). The Platform Clearance account already holds the payment to be made.\n`
-        }
-
-        explanation += `Tax of ${tax.toFixed(2)} will be recorded as input tax credit.\n`
-
-        if (charges !== 0) {
-            explanation += `Additional charges of ${charges.toFixed(2)} will be recorded as Platform clearance account.\n`
-        }
-
+    if (charges > 0) {
+        explanation += `Charges ${charges.toFixed(2)} handled via platform clearing.\n`
     }
 
     return explanation
 })
 
+const totalLabel = computed(() => {
 
+    const type = form.invoice_type
+
+    if (type === "sales") return "Receivable from Customer"
+    if (type === "sales_return") return "Refund to Customer"
+
+    if (type === "purchase") return "Payable to Supplier"
+    if (type === "purchase_return") return "Receivable from Supplier"
+
+    return ""
+})
+
+const totalClass = computed(() => {
+
+    const type = form.invoice_type
+
+    // Money coming IN
+    if (type === "sales" || type === "purchase_return") {
+        return "text-success"
+    }
+
+    // Money going OUT
+    return "text-danger"
+})
 
 const coloredExplanation = computed(() => {
 
@@ -428,6 +535,17 @@ const coloredExplanation = computed(() => {
     )
 
 })
+
+const signedCharge = (value) => {
+    const type = form.invoice_type
+
+    // Charges & tax go OUT in these cases
+    if (type === "purchase" || type === "sales_return") {
+        return (-Math.abs(Number(value || 0))).toFixed(2)
+    }
+
+    return Math.abs(Number(value || 0)).toFixed(2)
+}
 
 onMounted(async () => {
 
