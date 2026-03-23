@@ -19,7 +19,9 @@
 
                             <th>Source Type</th>
                             <th>Source Code</th>
-                            <th>Amount </th>
+                            <th>Order Amount </th>
+                            <th>Credit Amount </th>
+                            <th>Paid Amount </th>
 
                             <th>Gateway</th>
                             <th>Gateway Order ID</th>
@@ -48,7 +50,16 @@
                             <td>{{ row.source_type.split(/[\\/]/).pop() }}</td>
                             <td>{{ row.source_code }}</td>
 
-                            <td> {{ row.currency }}<br /> {{ row.amount }}</td>
+                            <td><span class="fw-bolder">{{ row.order_amount ?? 0 }} </span> <br />{{ row.currency }}
+                            </td>
+                            <td> <span :class="row.credit_amount > 0 ? 'text-warning fw-bold' : ''">{{
+                                row.credit_amount
+                                ??
+                                0
+                                    }}</span> <br />{{ row.currency }} </td>
+                            <td> <span class="fw-bolder text-success"> {{ row.amount }}</span> <br />{{ row.currency
+                                }}
+                            </td>
 
                             <td>{{ row.gateway }}</td>
                             <td>{{ row.gateway_order_id }}</td>
