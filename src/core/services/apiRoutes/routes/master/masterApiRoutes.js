@@ -360,6 +360,39 @@ const masterApiRoutes = {
   }, // Remove Picture
 
 
+  //  MstProductPrice
+
+  getMstPriceList(filters = {}) {
+    return Api.admin.get("/master/mstProductPrice", {
+      queryParams: filters,
+    });
+  }, // List
+  createMstPrice(data) {
+    return Api.admin.post("/master/mstProductPrice", { data });
+  }, // Create
+  updateMstPrice(id, data) {
+    return Api.admin.put(`/master/mstProductPrice/${id}`, { data });
+  }, // Update
+  deleteMstPrice(id) {
+    return Api.admin.delete(`/master/mstProductPrice/${id}`);
+  }, // Delete
+
+  // mstProductPriceRule
+
+  getMstProductPriceRuleList(filters = {}) {
+    return Api.admin.get("/master/mstProductPriceRule", {
+      queryParams: filters,
+    });
+  }, // List
+  createMstProductPriceRule(data) {
+    return Api.admin.post("/master/mstProductPriceRule", { data });
+  }, // Create
+  updateMstProductPriceRule(id, data) {
+    return Api.admin.put(`/master/mstProductPriceRule/${id}`, { data });
+  }, // Update
+  deleteMstProductPriceRule(id) {
+    return Api.admin.delete(`/master/mstProductPriceRule/${id}`);
+  }, // Delete
 
   //
 };

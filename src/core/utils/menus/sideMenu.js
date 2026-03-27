@@ -294,6 +294,27 @@ export const sideMenu = [
       },
 
       {
+        label: "Price",
+        icon: "fas fa-money-bill-wave",
+        match: "children",
+        children: [
+          {
+            label: "Product Prices",
+            icon: "fas fa-money-bill-wave",
+            to: { name: "mstprice" },
+            match: "exact",
+          },
+          {
+            label: "Product Price Rules",
+            icon: "fas fa-gavel",
+            to: { name: "mstproductpricerule" },
+            match: "exact",
+          },
+        ],
+
+      },
+
+      {
         label: "Geography",
         icon: "fas fa-earth-americas",
         match: "children",

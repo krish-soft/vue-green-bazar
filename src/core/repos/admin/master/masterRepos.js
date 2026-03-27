@@ -291,3 +291,33 @@ export const updateBusinessSetting = (payload) =>
 
 export const saveBusinessSettingAddress = (payload) =>
   withUI(() => apiRouteService.updateMstBusinesSettingsBillingAddress(payload));
+
+// MstProductPrice
+export const fetchPriceList = (filters = {}) =>
+  withUI(() => apiRouteService.getMstPriceList(filters), {
+    showSuccessMessage: false,
+  });
+export const createProductPrice = (payload) =>
+  withUI(() => apiRouteService.createMstPrice(payload));
+
+export const updateProductPrice = (id, payload) =>
+  withUI(() => apiRouteService.updateMstPrice(id, payload));
+
+export const deleteProductPrice = (id) =>
+  withUI(() => apiRouteService.deleteMstPrice(id));
+
+// mstProductPriceRule
+
+export const fetchProductPriceRuleList = (filters = {}) =>
+  withUI(() => apiRouteService.getMstProductPriceRuleList(filters), {
+    showSuccessMessage: false,
+  });
+
+export const createProductPriceRule = (payload) =>
+  withUI(() => apiRouteService.createMstProductPriceRule(payload));
+
+export const updateProductPriceRule = (id, payload) =>
+  withUI(() => apiRouteService.updateMstProductPriceRule(id, payload));
+
+export const deleteProductPriceRule = (id) =>
+  withUI(() => apiRouteService.deleteMstProductPriceRule(id));

@@ -333,6 +333,21 @@ const router = createRouter({
             import("@/views/master/charge/MstDeliveryChargeRuleView.vue"),
         },
 
+        // MstPrice MstPriceView
+
+        {
+          path: "price",
+          name: "mstprice",
+          component: () =>
+            import("@/views/master/price/MstProductPriceRuleView.vue"),
+        },
+        {
+          path: "price/rule",
+          name: "mstproductpricerule",
+          component: () =>
+            import("@/views/master/price/MstProductPriceRuleView.vue"),
+        },
+
         // Geography
         {
           path: "geography/zone",
