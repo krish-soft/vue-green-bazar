@@ -14,6 +14,11 @@
             <BaseInput v-model="form.payment_out_mode" label="Payment Out Mode [manual/razorpay]" required />
           </div>
 
+          <div class="col-md-3">
+            <BaseInput v-model="form.bank_verification_mode" label="Bank Verification Mode [manual/razorpay]"
+              required />
+          </div>
+
 
         </div>
 
