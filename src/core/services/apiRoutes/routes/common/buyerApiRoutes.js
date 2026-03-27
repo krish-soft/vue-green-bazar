@@ -13,6 +13,16 @@ const buyerApiRoutes = {
         return Api.admin.get(`/order/${id}`);
     },
 
+    // Demand Orders
+
+    getDemandOrdersList(filters = {}) {
+        return Api.admin.get("/demand-order", { queryParams: filters });
+    },
+
+    getDemandOrderDetails(id) {
+        return Api.admin.get(`/demand-order/${id}`);
+    },
+
 
     // payment
 

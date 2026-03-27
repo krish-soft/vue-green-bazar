@@ -43,10 +43,19 @@ export const sideMenu = [
     module: AppModuleEnum.BUYERS,
     match: "children",
     children: [
+
       {
         label: "Orders",
         icon: "fas fa-shopping-bag",
         to: { name: "orderlist" },
+        // module: AppModuleEnum.ORDERS,
+        match: "exact",
+      },
+
+      {
+        label: "Demand Orders",
+        icon: "fas fa-shopping-basket",
+        to: { name: "demandorderlist" },
         // module: AppModuleEnum.ORDERS,
         match: "exact",
       },

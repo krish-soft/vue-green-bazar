@@ -114,6 +114,21 @@ const router = createRouter({
       component: () => import("@/views/buyer/order/OrderDetailsView.vue"),
     },
 
+    // Demand Order demandorderdetails
+
+    {
+      path: "/demand/order/list",
+      name: "demandorderlist",
+      component: () => import("@/views/buyer/order/demand/DemandOrderView.vue"),
+    },
+
+    {
+      path: "/demand/order/:id",
+      name: "demandorderdetails",
+      component: () => import("@/views/buyer/order/demand/DemandOrderDetailsView.vue"),
+    },
+
+
 
     // Market Order
     {

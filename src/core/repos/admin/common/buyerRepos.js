@@ -15,6 +15,17 @@ export const fetchOrderDetails = (id) =>
         showSuccessMessage: false,
     });
 
+// Demand Orders
+
+export const fetchDemandOrdersList = (filters = {}) =>
+    withUI(() => apiRouteService.getDemandOrdersList(filters), {
+        showSuccessMessage: false,
+    });
+
+export const fetchDemandOrderDetails = (id) =>
+    withUI(() => apiRouteService.getDemandOrderDetails(id), {
+        showSuccessMessage: false,
+    });
 
 
 // payment
