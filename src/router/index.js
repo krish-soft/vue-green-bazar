@@ -374,6 +374,11 @@ const router = createRouter({
           component: () => import("@/views/master/setting/MstAppSettingView.vue"),
         },
         {
+          path: "setting/cutoff-setting",
+          name: "mstcutoffsetting",
+          component: () => import("@/views/master/setting/MstCutoffSettingView.vue"),
+        },
+        {
           path: "setting/finance-setting",
           name: "mstfinancesetting",
           component: () => import("@/views/master/setting/MstFinanceSettingView.vue"),

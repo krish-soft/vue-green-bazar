@@ -316,6 +316,18 @@ const masterApiRoutes = {
     return Api.admin.put("/master/setting/mstAppSetting", { data });
   },
 
+
+  ///////////////////
+  // MstCutoffSetting //
+  ///////////////////
+  getMstCutoffSetting() {
+    return Api.admin.get("/master/setting/mstCutoffSetting");
+  }, //
+  updateMstCutoffSetting(data) {
+    return Api.admin.put("/master/setting/mstCutoffSetting", { data });
+  },
+
+
   ///////////////////////
   // mstFinanceSetting //
   ///////////////////////

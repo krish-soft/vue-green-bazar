@@ -265,6 +265,16 @@ export const fetchAppSettings = (filters = {}) =>
 export const updateAppSetting = (payload) =>
   withUI(() => apiRouteService.updateMstAppSetting(payload));
 
+// mstCutoffSetting
+export const fetchCutoffSettings = (filters = {}) =>
+  withUI(() => apiRouteService.getMstCutoffSetting(filters), {
+    showSuccessMessage: false,
+  });
+
+export const updateCutoffSetting = (payload) =>
+  withUI(() => apiRouteService.updateMstCutoffSetting(payload));
+
+
 // mstFinanceSetting
 export const fetchFinanceSettings = (filters = {}) =>
   withUI(() => apiRouteService.getMstFinanceSetting(filters), {

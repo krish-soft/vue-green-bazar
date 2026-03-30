@@ -363,6 +363,12 @@ export const sideMenu = [
             to: { name: "mstappsetting" },
             match: "exact",
           },
+          {
+            label: "Cutoff Setting",
+            icon: "fas fa-clock",
+            to: { name: "mstcutoffsetting" },
+            match: "exact",
+          },
 
           {
             label: "Payment Setting",
