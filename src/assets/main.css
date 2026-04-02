@@ -731,3 +731,59 @@ input[type="number"] {
 .bg-unknown {
   background-color: #adb5bd !important;
 }
+
+.shipment-table td {
+  vertical-align: top;
+}
+
+/* location cards */
+
+.location-card {
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.origin {
+  background: #eef6ff;
+  border-left: 4px solid #0d6efd;
+}
+
+.destination {
+  background: #f4fff1;
+  border-left: 4px solid #28a745;
+}
+
+.loc-head {
+  font-weight: 600;
+  margin-bottom: 4px;
+  font-size: 12px;
+}
+
+.loc-item {
+  margin-bottom: 4px;
+}
+
+/* seller buyer */
+
+.user-card {
+  font-size: 12px;
+  padding: 6px;
+  border-radius: 6px;
+}
+
+.seller {
+  background: #fff4e6;
+}
+
+.buyer {
+  background: #f3e8ff;
+}
+
+/* hover */
+
+.shipment-row:hover {
+  background: #f7f7f7;
+  cursor: pointer;
+}

@@ -70,9 +70,9 @@
                             </td>
                             <td>
                                 <span class="badge" :class="{
-                                    'bg-primary': row.shipment?.shipment_type === 'pickup',
+                                    'bg-primary': row.shipment?.shipment_type === 'pickup' || row.shipment?.shipment_type === 'market_pickup',
                                     'bg-danger': row.shipment?.shipment_type === 'transfer',
-                                    'bg-warning text-dark': row.shipment?.shipment_type === 'dispatch',
+                                    'bg-warning text-dark': row.shipment?.shipment_type === 'dispatch' || row.shipment?.shipment_type === 'market_dispatch',
                                 }">
                                     {{ row.shipment?.shipment_type }}
                                 </span>
@@ -177,10 +177,12 @@
 
                 <thead class="table-dark">
                     <tr>
-                        <th>Group</th>
-                        <th>Package</th>
-                        <th>Buyer</th>
-                        <th>Seller</th>
+                        <th>Shipment Unique</th>
+                        <th>Pkg</th>
+                        <th>Pkg (Seller)</th>
+                        <th>Pkg (Buyer)</th>
+                        <th>Pkg (Market)</th>
+
                         <th>Qty</th>
                         <th>Pack</th>
                     </tr>
@@ -190,20 +192,19 @@
                     <tr v-for="g in selectedShipmentGroups" :key="g.id">
 
                         <td class="fw-semibold text-primary">
-                            {{ g.group_number }}
+                            {{ g.shipment_package_number }}
                         </td>
 
-                        <td>{{ g.shipment_package?.package_number }}</td>
+                        <td>{{ g.package_number }}</td>
+                        <td>{{ g.package_number_seller }}</td>
+                        <td>{{ g.package_number_buyer }}</td>
+                        <td>{{ g.package_number_market }}</td>
 
-                        <td>{{ g.shipment_package?.buyer?.nickname }}</td>
-
-                        <td>{{ g.shipment_package?.seller?.nickname }}</td>
-
-                        <td>{{ g.shipment_package?.qty }}</td>
+                        <td>{{ g.qty }}</td>
 
                         <td>
-                            {{ g.shipment_package?.pack_size }}
-                            {{ g.shipment_package?.pack_unit }}
+                            {{ g.pack_size }}
+                            {{ g.pack_unit }}
                         </td>
 
                     </tr>
@@ -284,7 +285,7 @@ async function loadDrivers() {
 }
 
 async function loadGroupedShipments() {
-    const res = await fetchShipmentList({ status: "grouped" });
+    const res = await fetchShipmentList({ status: "pending" });
     shipmentDropdown.value = res || [];
 }
 
@@ -329,7 +330,7 @@ async function cancelDriver(row) {
 }
 
 function openShipmentDetails(row) {
-    selectedShipmentGroups.value = row.shipment?.shipment_groups || [];
+    selectedShipmentGroups.value = row.shipment?.shipment_packages || [];
     detailModal.value.show();
 }
 
