@@ -51,6 +51,7 @@ const STATUS_GROUP = {
     active: 'success',
     approve: 'success',
     approved: 'success',
+    fulfilled: 'success',
 
     /* ---------- FINANCE ---------- */
     refunded: 'finance',

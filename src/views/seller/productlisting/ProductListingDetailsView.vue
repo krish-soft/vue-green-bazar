@@ -320,16 +320,16 @@
                             <tr>
                                 <th>#</th>
                                 <th class="text-muted fw-normal">Order Number</th>
-                                <th class="text-muted fw-normal">Shipment Package Number</th>
-                                <th class="text-muted fw-normal">Package Number</th>
-
+                                <th class="text-muted fw-normal">Shipment<br> Package Number</th>
+                                <th class="text-muted fw-normal">Package<br> Number</th>
+                                <th class="text-muted fw-normal">Package<br> Number (Seller)</th>
+                                <th class="text-muted fw-normal">Package<br> Number (Buyer)</th>
                                 <th class="text-muted fw-normal">Qty</th>
                                 <th class="text-muted fw-normal">Pack Size</th>
                                 <th class="text-muted fw-normal">Pack Unit</th>
                                 <th class="text-muted fw-normal">Pack Type Unit</th>
-                                <th class="text-muted fw-normal">Main Status</th>
-                                <th class="text-muted fw-normal">Seller Status</th>
-                                <th class="text-muted fw-normal">Buyer Status</th>
+                                <th class="text-muted fw-normal">Pack Status</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -338,18 +338,14 @@
                                 <td>{{ pack?.order?.order_number ?? pack?.market_order?.market_order_number }}</td>
                                 <td>{{ pack.shipment_package_number }}</td>
                                 <td>{{ pack.package_number }}</td>
+                                <td>{{ pack.package_number_seller }}</td>
+                                <td>{{ pack.package_number_buyer }}</td>
                                 <td class="text-end">{{ pack.qty }}</td>
                                 <td class="text-end">{{ pack.pack_size }}</td>
                                 <td>{{ pack.pack_unit }}</td>
                                 <td>{{ pack.pack_type_unit }}</td>
                                 <td>
                                     <StatusBadge :status="pack.status" />
-                                </td>
-                                <td>
-                                    <StatusBadge :status="pack.seller_status" />
-                                </td>
-                                <td>
-                                    <StatusBadge :status="pack.buyer_status" />
                                 </td>
 
                             </tr>
