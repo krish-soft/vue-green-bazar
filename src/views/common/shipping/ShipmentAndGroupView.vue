@@ -70,6 +70,7 @@
                                 </span>
                             </td>
 
+
                             <td>
                                 <div v-if="row.origin_fulfillment_location">
                                     <b>Code:</b> {{ row?.origin_fulfillment_location?.fl_code }}<br />
