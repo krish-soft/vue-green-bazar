@@ -1,26 +1,7 @@
 <template>
     <BaseContainer heading="Shipments & Package Groups">
 
-        <!-- ================= HEADER ACTIONS ================= -->
-        <template #headerActions>
-            <div class="d-flex flex-wrap gap-2 align-items-center">
 
-                <BaseButton variant="primary" icon="fas fa-truck-loading" @click="createPickupGroups">
-                    Create Pickup Groups
-                </BaseButton>
-
-                <BaseButton variant="danger" icon="fas fa-exchange-alt" @click="createTransferGroups"
-                    :disabled="!shipmentList.length">
-                    Create Transfer Groups
-                </BaseButton>
-
-                <BaseButton variant="warning" icon="fas fa-shipping-fast" @click="createDispatchGroups"
-                    :disabled="!shipmentList.length">
-                    Create Dispatch Groups
-                </BaseButton>
-
-            </div>
-        </template>
 
         <!-- ================= BODY ================= -->
         <template #body>
@@ -56,9 +37,11 @@
                             <th>Type</th>
                             <th>Origin<br />Location</th>
                             <th>Origin<br />Depot</th>
+                            <th>Origin<br />Market</th>
                             <th>Seller</th>
                             <th>Destination<br />Location</th>
                             <th>Destination<br />Depot</th>
+                            <th>Destination<br />Market</th>
                             <th>Buyer</th>
                             <th>Status</th>
                             <th class="text-center">Total Packages</th>
@@ -80,9 +63,9 @@
 
                             <td>
                                 <span class="badge" :class="{
-                                    'bg-primary': row.shipment_type === 'pickup',
+                                    'bg-primary': row.shipment_type === 'pickup' || row.shipment_type === 'market_pickup',
                                     'bg-danger': row.shipment_type === 'transfer',
-                                    'bg-warning text-dark': row.shipment_type === 'dispatch',
+                                    'bg-warning text-dark': row.shipment_type === 'dispatch' || row.shipment_type === 'market_dispatch',
                                 }">
                                     {{ row.shipment_type }}
                                 </span>
@@ -106,7 +89,12 @@
                                     <b>Name:</b> {{ row?.origin_depot?.name }}
                                 </div>
                             </td>
-
+                            <td>
+                                <div v-if="row.origin_market">
+                                    <b>Code:</b> {{ row?.origin_market?.code }}<br />
+                                    <b>Name:</b> {{ row?.origin_market?.name }}
+                                </div>
+                            </td>
                             <td>
                                 <div v-if="row.seller">
                                     <b>Code:</b> {{ row?.seller?.user_code }}<br />
@@ -131,6 +119,12 @@
                                 <div v-if="row.destination_depot">
                                     <b>Code:</b> {{ row?.destination_depot?.code }}<br />
                                     <b>Name:</b> {{ row?.destination_depot?.name }}
+                                </div>
+                            </td>
+                            <td>
+                                <div v-if="row.destination_market">
+                                    <b>Code:</b> {{ row?.destination_market?.code }}<br />
+                                    <b>Name:</b> {{ row?.destination_market?.name }}
                                 </div>
                             </td>
 
@@ -163,10 +157,10 @@
 
 
     <!-- ================= PACKAGE GROUP MODAL ================= -->
-    <BaseModal ref="packageModal" icon="fas fa-boxes" size="modal-lg">
+    <BaseModal ref="packageModal" icon="fas fa-boxes" size="modal-xl">
 
         <template #title>
-            Shipment Package Groups
+            Shipment Packages
         </template>
 
         <div class="table-responsive">
@@ -174,12 +168,20 @@
 
                 <thead class="table-dark">
                     <tr>
-                        <th>Group</th>
-                        <th>Package</th>
+                        <th>Shipment Unique</th>
+                        <th>Pkg</th>
+                        <th>Pkg-BU</th>
+                        <th>Pkg-SL</th>
+                        <th>Pkg-MK</th>
+
                         <th>Buyer</th>
                         <th>Seller</th>
+                        <th>Market</th>
+
                         <th>Status</th>
+
                         <th>Pack</th>
+
                         <th>Seller Dropoff</th>
                         <th>Buyer Pickup</th>
                         <th class="text-center">Actions</th>
@@ -189,48 +191,43 @@
                 <tbody>
                     <tr v-for="g in selectedShipmentGroups" :key="g.id">
 
-                        <td class="fw-semibold text-primary">
-                            {{ g.group_number }}
+                        <td class="fw-semibold text-primary smaller">
+                            {{ g.shipment_package_number }}
+                            <!-- {{ g.shipment_trace_code }}<br> -->
                         </td>
 
-                        <td>{{ g.shipment_package?.package_number }}</td>
+                        <td>{{ g.package_number }}</td>
+                        <td>{{ g.package_number_buyer }}</td>
+                        <td>{{ g.package_number_seller }}</td>
+                        <td>{{ g.package_number_market }}</td>
 
-                        <td>{{ g.shipment_package?.buyer?.nickname || '-' }}</td>
+                        <td>{{ g.buyer?.nickname || '-' }}</td>
 
-                        <td>{{ g.shipment_package?.seller?.nickname || '-' }}</td>
+                        <td>{{ g.seller?.nickname || '-' }}</td>
+                        <td>{{ g.market?.code || '-' }}</td>
 
                         <td>
 
 
-                            <StatusBadge :status="g.shipment_package?.status" />
+                            <StatusBadge :status="g.status" />
                         </td>
 
                         <td>
-                            {{ g.shipment_package?.pack_size }}
-                            {{ g.shipment_package?.pack_unit }}
+                            {{ g.pack_size }}
+                            {{ g.pack_unit }}
                         </td>
                         <td>
-                            {{ g.shipment_package?.is_seller_dropoff ? 'Yes' : '' }}
+                            {{ g.is_seller_dropoff ? 'Yes' : '' }}
                         </td>
                         <td>
-                            {{ g.shipment_package?.is_buyer_pickup ? 'Yes' : '' }}
+                            {{ g.is_buyer_pickup ? 'Yes' : '' }}
                         </td>
 
                         <!-- ✅ INLINE ADMIN ACTIONS -->
                         <td class="text-center">
                             <div v-if="isPackageActionEnabled">
 
-                                <button class="btn btn-sm btn-outline-warning me-1" @click.stop="splitSingle(g)">
-                                    Split
-                                </button>
 
-                                <button class="btn btn-sm btn-outline-primary me-1" @click.stop="startMove(g)">
-                                    Move
-                                </button>
-
-                                <!-- <button class="btn btn-sm btn-outline-danger" @click.stop="startMerge(g)">
-                                Merge
-                            </button> -->
                             </div>
 
 
@@ -285,7 +282,6 @@ import BaseModal from "@/components/common/modal/BaseModal.vue";
 
 import {
     fetchShipmentList,
-    generateShipmentAndPackageGroups,
     splitGroup,
     movePackage,
     mergeGroups
@@ -333,92 +329,20 @@ async function loadList() {
 
 
 function openPackages(shipment) {
-    selectedShipmentGroups.value = shipment.shipment_groups || [];
+    selectedShipmentGroups.value = shipment.shipment_packages || [];
 
-    if (shipment.status === 'grouped') {
-        isPackageActionEnabled.value = true;
-    } else {
-        isPackageActionEnabled.value = false;
+    // if (shipment.status === 'grouped') {
+    //     isPackageActionEnabled.value = true;
+    // } else {
+    //     isPackageActionEnabled.value = false;
 
-    }
+    // }
 
     packageModal.value.show();
 }
 
-/* ---------------- GENERATE ---------------- */
-
-async function createPickupGroups() {
-    const ok = await showConfirmDialog("Generate Pickup Shipment Groups", "Create pickup shipment routes?");
-    if (!ok) return;
-    await generateShipmentAndPackageGroups({ shipment_type: "pickup" });
-    await loadList();
-}
-
-async function createTransferGroups() {
-    const ok = await showConfirmDialog("Generate Depot Transfer Shipment Groups", "Create transfer shipment routes?");
-    if (!ok) return;
-    await generateShipmentAndPackageGroups({ shipment_type: "transfer" });
-    await loadList();
-}
-async function createDispatchGroups() {
-    const ok = await showConfirmDialog("Generate Dispatch Shipment Groups", "Create dispatch shipment routes?");
-    if (!ok) return;
-    await generateShipmentAndPackageGroups({ shipment_type: "dispatch" });
-    await loadList();
-}
 
 
-/* ---------------- ADMIN ACTIONS ---------------- */
-
-async function splitSingle(group) {
-
-    const ok = await showConfirmDialog("Split Package", "Create new group?");
-    if (!ok) return;
-
-    await splitGroup({
-        group_number: group.group_number,
-        package_ids: [group.shipment_package_id],
-    });
-
-    await loadList();
-}
-
-function startMove(group) {
-    actionMode.value = "move";
-    selectedActionGroup.value = group;
-}
-
-function startMerge(group) {
-    actionMode.value = "merge";
-    selectedActionGroup.value = group;
-}
-
-function cancelAction() {
-    actionMode.value = null;
-    targetGroupNumber.value = "";
-}
-
-async function confirmMove() {
-
-    await movePackage({
-        package_id: selectedActionGroup.value.shipment_package_id,
-        group_number: targetGroupNumber.value,
-    });
-
-    cancelAction();
-    await loadList();
-}
-
-async function confirmMerge() {
-
-    await mergeGroups({
-        from_group: selectedActionGroup.value.group_number,
-        to_group: targetGroupNumber.value,
-    });
-
-    cancelAction();
-    await loadList();
-}
 
 
 </script>
