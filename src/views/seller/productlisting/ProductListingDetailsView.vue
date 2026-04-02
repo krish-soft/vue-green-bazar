@@ -261,7 +261,9 @@
                                             <th>Pkg Price</th>
                                             <th>Qty</th>
                                             <th>Sold Qty</th>
-                                            <th>Reverse Qty</th>
+                                            <th>Demand Sold Qty</th>
+
+                                            <!-- <th>Reverse Qty</th> -->
 
                                             <th>Status</th>
                                             <!-- <th>Action</th> -->
@@ -278,7 +280,8 @@
                                             <td class="fw-bolder">{{ pkg.pack_price }}</td>
                                             <td class="text-end fw-bolder text-success">{{ pkg.qty }}</td>
                                             <td class="text-end fw-bolder text-primary">{{ pkg.sold_qty }}</td>
-                                            <td class="text-end fw-bolder text-danger">{{ pkg.reverse_qty }}</td>
+                                            <td class="text-end fw-bolder text-primary">{{ pkg.demand_sold_qty }}</td>
+                                            <!-- <td class="text-end fw-bolder text-danger">{{ pkg.reverse_qty }}</td> -->
                                             <td class="text-center"><span class="badge"
                                                     :class="pkg.is_locked ? 'bg-danger' : pkg.is_sold ? 'bg-success' : 'bg-warning'">
                                                     {{ pkg.is_locked ? 'Locked' : (pkg.is_sold
@@ -321,9 +324,10 @@
                                 <th>#</th>
                                 <th class="text-muted fw-normal">Order Number</th>
                                 <th class="text-muted fw-normal">Shipment<br> Package Number</th>
-                                <th class="text-muted fw-normal">Package<br> Number</th>
-                                <th class="text-muted fw-normal">Package<br> Number (Seller)</th>
-                                <th class="text-muted fw-normal">Package<br> Number (Buyer)</th>
+                                <th class="text-muted fw-normal">Pack<br> Number</th>
+                                <th class="text-muted fw-normal">Pack<br> Number (Seller)</th>
+                                <th class="text-muted fw-normal">Pack<br> Number (Buyer)</th>
+                                <th class="text-muted fw-normal">Pack<br> Number (Market)</th>
                                 <th class="text-muted fw-normal">Qty</th>
                                 <th class="text-muted fw-normal">Pack Size</th>
                                 <th class="text-muted fw-normal">Pack Unit</th>
@@ -340,6 +344,7 @@
                                 <td>{{ pack.package_number }}</td>
                                 <td>{{ pack.package_number_seller }}</td>
                                 <td>{{ pack.package_number_buyer }}</td>
+                                <td>{{ pack.package_number_market }}</td>
                                 <td class="text-end">{{ pack.qty }}</td>
                                 <td class="text-end">{{ pack.pack_size }}</td>
                                 <td>{{ pack.pack_unit }}</td>

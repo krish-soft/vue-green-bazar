@@ -435,9 +435,10 @@
                             <tr>
                                 <th>#</th>
                                 <th class="text-muted fw-normal">Shipment Package Number</th>
-                                <th class="text-muted fw-normal">Package<br> Number</th>
-                                <th class="text-muted fw-normal">Package<br> Number (Seller)</th>
-                                <th class="text-muted fw-normal">Package<br> Number (Buyer)</th>
+                                <th class="text-muted fw-normal">Pack<br> Number</th>
+                                <th class="text-muted fw-normal">Pack<br> Number (Seller)</th>
+                                <th class="text-muted fw-normal">Pack<br> Number (Buyer)</th>
+                                <th class="text-muted fw-normal">Pack<br> Number (Market)</th>
                                 <th class="text-muted fw-normal">Qty</th>
                                 <th class="text-muted fw-normal">Pack Size</th>
                                 <th class="text-muted fw-normal">Pack Unit</th>
@@ -453,6 +454,7 @@
                                 <td>{{ pack.package_number }}</td>
                                 <td>{{ pack.package_number_seller }}</td>
                                 <td>{{ pack.package_number_buyer }}</td>
+                                <td>{{ pack.package_number_market }}</td>
                                 <td class="text-end">{{ pack.qty }}</td>
                                 <td class="text-end">{{ pack.pack_size }}</td>
                                 <td>{{ pack.pack_unit }}</td>
