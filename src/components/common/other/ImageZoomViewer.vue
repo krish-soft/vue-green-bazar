@@ -62,13 +62,14 @@ const onWheel = (e) => {
 
 /* Overlay */
 .zoom-overlay {
-    position: fixed;
+    /* position: fixed; */
+    position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.85);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1055;
+    z-index: 1000;
 }
 
 /* BASE VIEW SIZE */

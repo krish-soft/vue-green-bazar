@@ -42,6 +42,7 @@
                         <tr>
                             <th>#</th>
                             <th>ID</th>
+                            <th>Image</th>
                             <th>Shipment</th>
                             <th>Shipment Type</th>
                             <th>Driver</th>
@@ -63,6 +64,10 @@
 
                             <td class="fw-bold text-warning">
                                 {{ row.id }}
+                            </td>
+                            <td>
+                                <img :src="row?.proof_image_url" alt="Proof Image" class="img-thumbnail"
+                                    style="width: 80px; height: 80px; object-fit: cover;" />
                             </td>
 
                             <td class="fw-bold text-primary">
@@ -172,6 +177,11 @@
 
         <template #title>Shipment Packages</template>
 
+        <div class="col-md-6 mb-4">
+            <ImageZoomViewer :src="selectedShipmentImage" :thumbWidth="90" />
+
+        </div>
+
         <div class="table-responsive">
             <table class="table table-bordered table-sm">
 
@@ -226,6 +236,7 @@ import BaseButton from "@/components/common/buttons/BaseButton.vue";
 import BaseInput from "@/components/common/inputs/BaseInput.vue";
 import BaseModal from "@/components/common/modal/BaseModal.vue";
 import BaseAutoCompleteSelect from "@/components/common/inputs/BaseAutoCompleteSelect.vue";
+import ImageZoomViewer from "@/components/common/other/ImageZoomViewer.vue";
 
 import {
     fetchDriverList,
@@ -247,6 +258,7 @@ const assignModal = ref(null);
 const changeModal = ref(null);
 const detailModal = ref(null);
 
+const selectedShipmentImage = ref("");
 const selectedShipmentGroups = ref([]);
 const selectedDriverShipment = ref(null);
 
@@ -330,6 +342,7 @@ async function cancelDriver(row) {
 }
 
 function openShipmentDetails(row) {
+    selectedShipmentImage.value = row?.proof_image_url || "";
     selectedShipmentGroups.value = row.shipment?.shipment_packages || [];
     detailModal.value.show();
 }
