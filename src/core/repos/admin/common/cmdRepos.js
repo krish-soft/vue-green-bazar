@@ -5,7 +5,13 @@ import apiRouteService from "@/core/services/apiRoutes/apiRouteService.js";
 
 // Cutoff
 export const cmdCutoffProductListing = (data) =>
-    withUI(() => apiRouteService.cmdCutoffProductListing(data),);
+    withUI(() => apiRouteService.cmdCutoffProductListing(data));
+
+export const cmdCutoffSeller = (data) =>
+    withUI(() => apiRouteService.cmdCutoffSeller(data));
+
+export const cmdCutoffBuyer = (data) =>
+    withUI(() => apiRouteService.cmdCutoffBuyer(data));
 
 // Accounting
 export const cmdAccountingOrder = (data) =>

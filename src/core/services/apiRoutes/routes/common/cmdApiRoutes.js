@@ -8,6 +8,15 @@ const cmdApiRoutes = {
         return Api.admin.post('/cmd/cutoff/product-listing', { data });
     },
 
+    cmdCutoffSeller(data) {
+        return Api.admin.post('/cmd/cutoff/seller', { data });
+    },
+
+    cmdCutoffBuyer(data) {
+        return Api.admin.post('/cmd/cutoff/buyer', { data });
+    },
+
+
     // Accounting
     cmdAccountingOrder(data) {
         return Api.admin.post('/cmd/accounting/order', { data });

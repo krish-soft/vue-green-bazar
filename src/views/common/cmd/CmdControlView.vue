@@ -37,32 +37,45 @@
             <div class="border rounded-3 p-3 mb-4">
                 <h5 class="fw-semibold mb-3">
                     1. Cutoff Commands
-                    <small class="text-muted">(Allowed 7 AM – 10 AM)</small>
                 </h5>
 
-                <BaseButton variant="danger" :disabled="!isSection1Allowed || isRunning"
+
+                <BaseButton variant="warning" @click="runCmd(cmdCutoffSeller, 'Cutoff Seller', isSection1Allowed)"
+                    :disabled="!isSection1Allowed || isRunning">
+                    1. Cutoff <b>SELLER</b>
+                </BaseButton>
+
+                <BaseButton class="ms-2" variant="danger"
+                    @click="runCmd(cmdCutoffBuyer, 'Cutoff Buyer', isSection1Allowed)"
+                    :disabled="!isSection1Allowed || isRunning">
+                    2. Cutoff <b>BUYER</b>
+                </BaseButton>
+
+                <!-- <BaseButton variant="danger" 
                     @click="runCmd(cmdCutoffProductListing, 'Cutoff Product Listing', isSection1Allowed)">
                     Cutoff Product Listing
-                </BaseButton>
+                </BaseButton> -->
             </div>
 
             <!-- ================= SECTION 2 ================= -->
             <div class="border rounded-3 p-3 mb-4">
                 <h5 class="fw-semibold mb-3">
                     2. Accounting Commands
-                    <small class="text-muted">(Allowed 1 PM – 4 PM)</small>
+                    <!-- <small class="text-muted">(Allowed 1 PM – 4 PM)</small> -->
                 </h5>
 
                 <div class="d-flex gap-2 flex-wrap">
 
 
-                    <BaseButton variant="primary" :disabled="!isSection2Allowed || isRunning"
-                        @click="runCmd(cmdAccountingOrder, 'Accounting Order', isSection2Allowed)">
+                    <BaseButton variant="primary"
+                        @click="runCmd(cmdAccountingOrder, 'Accounting Order', isSection2Allowed)"
+                        :disabled="!isSection2Allowed || isRunning">
                         1. Accounting Order
                     </BaseButton>
 
-                    <BaseButton variant="primary" :disabled="!isSection2Allowed || isRunning"
-                        @click="runCmd(cmdAccountingMarketOrder, 'Accounting Market Order', isSection2Allowed)">
+                    <BaseButton variant="primary"
+                        @click="runCmd(cmdAccountingMarketOrder, 'Accounting Market Order', isSection2Allowed)"
+                        :disabled="!isSection2Allowed || isRunning">
                         2. Accounting Market Order
                     </BaseButton>
 
@@ -73,18 +86,20 @@
             <div class="border rounded-3 p-3">
                 <h5 class="fw-semibold mb-3">
                     3. Invoicing Data Generation Commands
-                    <small class="text-info">(Allowed 3 PM – 4 PM)</small>
+                    <!-- <small class="text-info">(Allowed 3 PM – 4 PM)</small> -->
                 </h5>
 
                 <div class="d-flex gap-2 flex-wrap">
 
-                    <BaseButton variant="warning" :disabled="!isSection3Allowed || isRunning"
-                        @click="runCmd(cmdInvoiceGenerateBuyerOrder, 'Generate Buyer Orders Invoice', isSection3Allowed)">
+                    <BaseButton variant="warning"
+                        @click="runCmd(cmdInvoiceGenerateBuyerOrder, 'Generate Buyer Orders Invoice', isSection3Allowed)"
+                        :disabled="!isSection3Allowed || isRunning">
                         1. Generate Order Invoices [For Buyers]
                     </BaseButton>
 
-                    <BaseButton variant="warning" :disabled="!isSection3Allowed || isRunning"
-                        @click="runCmd(cmdInvoiceGenerateProductListing, 'Generate Product Listings Invoice', isSection3Allowed)">
+                    <BaseButton variant="warning"
+                        @click="runCmd(cmdInvoiceGenerateProductListing, 'Generate Product Listings Invoice', isSection3Allowed)"
+                        :disabled="!isSection3Allowed || isRunning">
                         2. Generate Product Listings Invoices [For Sellers]
                     </BaseButton>
 
@@ -93,14 +108,15 @@
 
             <div class="border rounded-3 p-3 mb-4">
                 <h5 class="fw-semibold mb-3">
-                    4. Accounting For Remains
-                    <small class="text-muted">(Allowed 4 PM – 6 PM)</small>
+                    4. Accounting For Invoices
+                    <!-- <small class="text-muted">(Allowed 4 PM – 6 PM)</small> -->
                 </h5>
 
                 <div class="d-flex gap-2 flex-wrap">
 
-                    <BaseButton variant="secondary" :disabled="!isSection3Allowed || isRunning"
-                        @click="runCmd(cmdAccountingInvoice, 'Accounting Invoice', isSection3Allowed)">
+                    <BaseButton variant="secondary"
+                        @click="runCmd(cmdAccountingInvoice, 'Accounting Invoice', isSection4Allowed)"
+                        :disabled="!isSection4Allowed || isRunning">
                         1. Accounting Invoice
                     </BaseButton>
 
@@ -119,12 +135,16 @@ import BaseInput from "@/components/common/inputs/BaseInput.vue";
 
 import {
     cmdCutoffProductListing,
+    cmdCutoffSeller,
+    cmdCutoffBuyer,
+
     cmdAccountingOrder,
     cmdAccountingMarketOrder,
     cmdAccountingProductListing,
     cmdInvoiceGenerateBuyerOrder,
     cmdInvoiceGenerateProductListing,
     cmdAccountingInvoice
+
 } from "@/core/repos/admin/common/cmdRepos";
 
 import Swal from "sweetalert2";
@@ -159,10 +179,10 @@ function isWithinRange(startHour, endHour) {
     return hour >= startHour && hour < endHour;
 }
 
-const isSection1Allowed = computed(() => true);// isWithinRange(7, 10));
+const isSection1Allowed = computed(() => false);// isWithinRange(7, 10));
 const isSection2Allowed = computed(() => true);// isWithinRange(13, 16));
 const isSection3Allowed = computed(() => true);// isWithinRange(15, 18));
-
+const isSection4Allowed = computed(() => true);// isWithinRange(16, 18));
 
 // ================= PROFESSIONAL CONFIRM MODAL =================
 async function confirmExecution(title) {
