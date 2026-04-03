@@ -115,7 +115,26 @@ async function loadSetting() {
 
 /* ---------------- SAVE ---------------- */
 async function submitForm() {
-  await updateCutoffSetting(form.value);
+  const payload = {
+    ...form.value,
+    seller_start_time: formatTime(form.value.seller_start_time),
+    seller_end_time: formatTime(form.value.seller_end_time),
+    buyer_start_time: formatTime(form.value.buyer_start_time),
+    buyer_end_time: formatTime(form.value.buyer_end_time),
+  };
+
+  await updateCutoffSetting(payload);
+
   loadSetting();
 }
+
+function formatTime(value) {
+  if (!value) return value;
+
+  // if already has seconds, return
+  if (value.length === 8) return value;
+
+  return value + ":00";
+}
+
 </script>
