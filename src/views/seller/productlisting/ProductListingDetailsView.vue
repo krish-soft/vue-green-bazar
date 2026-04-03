@@ -322,7 +322,6 @@
                         <thead class="table-info">
                             <tr>
                                 <th>#</th>
-                                <th class="text-muted fw-normal">Order Number</th>
                                 <th class="text-muted fw-normal">Shipment<br> Package Number</th>
                                 <th class="text-muted fw-normal">Pack<br> Number</th>
                                 <th class="text-muted fw-normal">Pack<br> Number (Seller)</th>
@@ -339,7 +338,6 @@
                         <tbody>
                             <tr v-for="(pack, index) in listingDetails?.shipment_packages" :key="pack.id">
                                 <td>{{ index + 1 }}</td>
-                                <td>{{ pack?.order?.order_number ?? pack?.market_order?.market_order_number }}</td>
                                 <td>{{ pack.shipment_package_number }}</td>
                                 <td>{{ pack.package_number }}</td>
                                 <td>{{ pack.package_number_seller }}</td>
