@@ -435,6 +435,7 @@
                             <tr>
                                 <th>#</th>
                                 <th class="text-muted fw-normal">Shipment Package Number</th>
+                                <th class="text-muted fw-normal">Shipment Type</th>
                                 <th class="text-muted fw-normal">Pack<br> Number</th>
                                 <th class="text-muted fw-normal">Pack<br> Number (Seller)</th>
                                 <th class="text-muted fw-normal">Pack<br> Number (Buyer)</th>
@@ -451,6 +452,7 @@
                             <tr v-for="(pack, index) in orderDetails.shipment_packages" :key="pack.id">
                                 <td>{{ index + 1 }}</td>
                                 <td>{{ pack.shipment_package_number }}</td>
+                                <td>{{ pack?.shipment?.shipment_type }}</td>
                                 <td>{{ pack.package_number }}</td>
                                 <td>{{ pack.package_number_seller }}</td>
                                 <td>{{ pack.package_number_buyer }}</td>
