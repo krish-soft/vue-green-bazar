@@ -339,7 +339,7 @@ const router = createRouter({
           path: "price",
           name: "mstprice",
           component: () =>
-            import("@/views/master/price/MstProductPriceRuleView.vue"),
+            import("@/views/master/price/MstProductPriceView.vue"),
         },
         {
           path: "price/rule",
