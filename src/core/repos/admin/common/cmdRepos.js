@@ -16,6 +16,8 @@ export const cmdCutoffBuyer = (data) =>
 // Accounting
 export const cmdAccountingOrder = (data) =>
     withUI(() => apiRouteService.cmdAccountingOrder(data));
+export const cmdAccountingDemandOrder = (data) =>
+    withUI(() => apiRouteService.cmdAccountingDemandOrder(data));
 
 export const cmdAccountingMarketOrder = (data) =>
     withUI(() => apiRouteService.cmdAccountingMarketOrder(data));

@@ -369,7 +369,7 @@
                             </tr>
                             <!-- TOTAL ROW -->
                             <tr class="fw-bold">
-                                <td colspan="11" class="text-end">Total</td>
+                                <td colspan="12" class="text-end">Total</td>
                                 <td class="text-end">{{ orderItemsTotals.taxable }}</td>
                                 <td class="text-end">{{ orderItemsTotals.tax }}</td>
                                 <td class="text-end">{{ orderItemsTotals.total }}</td>

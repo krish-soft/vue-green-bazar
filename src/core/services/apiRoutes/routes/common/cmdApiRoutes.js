@@ -22,6 +22,11 @@ const cmdApiRoutes = {
         return Api.admin.post('/cmd/accounting/order', { data });
     },
 
+    cmdAccountingDemandOrder(data) {
+        return Api.admin.post('/cmd/accounting/demand-order', { data });
+    },
+
+
     cmdAccountingMarketOrder(data) {
         return Api.admin.post('/cmd/accounting/market-order', { data });
     },

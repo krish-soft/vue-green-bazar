@@ -74,9 +74,16 @@
                     </BaseButton>
 
                     <BaseButton variant="primary"
+                        @click="runCmd(cmdAccountingDemandOrder, 'Accounting Demand Order', isSection2Allowed)"
+                        :disabled="!isSection2Allowed || isRunning">
+                        2. Accounting Demand Order
+                    </BaseButton>
+
+
+                    <BaseButton variant="primary"
                         @click="runCmd(cmdAccountingMarketOrder, 'Accounting Market Order', isSection2Allowed)"
                         :disabled="!isSection2Allowed || isRunning">
-                        2. Accounting Market Order
+                        3. Accounting Market Order
                     </BaseButton>
 
                 </div>
@@ -139,7 +146,9 @@ import {
     cmdCutoffBuyer,
 
     cmdAccountingOrder,
+    cmdAccountingDemandOrder,
     cmdAccountingMarketOrder,
+
     cmdAccountingProductListing,
     cmdInvoiceGenerateBuyerOrder,
     cmdInvoiceGenerateProductListing,
