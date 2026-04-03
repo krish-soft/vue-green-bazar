@@ -66,8 +66,7 @@
                                 {{ row.id }}
                             </td>
                             <td>
-                                <img :src="row?.proof_image_url" alt="Proof Image" class="img-thumbnail"
-                                    style="width: 80px; height: 80px; object-fit: cover;" />
+                                <img :src="row?.proof_image_url" alt="Proof Image" class="img-thumbnail" width="60" />
                             </td>
 
                             <td class="fw-bold text-primary">
@@ -172,55 +171,83 @@
 
     </BaseModal>
 
-    <!-- ================= SHIPMENT DETAILS ================= -->
-    <BaseModal ref="detailModal" icon="fas fa-boxes" size="modal-lg">
+    <BaseModal ref="detailModal" icon="fas fa-boxes" size="modal-xl">
 
         <template #title>Shipment Packages</template>
 
-        <div class="col-md-6 mb-4">
-            <ImageZoomViewer :src="selectedShipmentImage" :thumbWidth="90" />
+        <!-- Tabs -->
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#packagesTab">
+                    Packages
+                </button>
+            </li>
 
-        </div>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#imageTab">
+                    Proof Image
+                </button>
+            </li>
+        </ul>
 
-        <div class="table-responsive">
-            <table class="table table-bordered table-sm">
+        <!-- Tab Content -->
+        <div class="tab-content">
 
-                <thead class="table-dark">
-                    <tr>
-                        <th>Shipment Unique</th>
-                        <th>Pkg</th>
-                        <th>Pkg (Seller)</th>
-                        <th>Pkg (Buyer)</th>
-                        <th>Pkg (Market)</th>
+            <!-- TAB 1 : TABLE -->
+            <div class="tab-pane fade show active" id="packagesTab">
 
-                        <th>Qty</th>
-                        <th>Pack</th>
-                    </tr>
-                </thead>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm">
 
-                <tbody>
-                    <tr v-for="g in selectedShipmentGroups" :key="g.id">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Shipment Unique</th>
+                                <th>Pkg</th>
+                                <th>Pkg (Seller)</th>
+                                <th>Pkg (Buyer)</th>
+                                <th>Pkg (Market)</th>
+                                <th>Qty</th>
+                                <th>Pack</th>
+                            </tr>
+                        </thead>
 
-                        <td class="fw-semibold text-primary">
-                            {{ g.shipment_package_number }}
-                        </td>
+                        <tbody>
+                            <tr v-for="g in selectedShipmentGroups" :key="g.id">
 
-                        <td>{{ g.package_number }}</td>
-                        <td>{{ g.package_number_seller }}</td>
-                        <td>{{ g.package_number_buyer }}</td>
-                        <td>{{ g.package_number_market }}</td>
+                                <td class="fw-semibold text-primary">
+                                    {{ g.shipment_package_number }}
+                                </td>
 
-                        <td>{{ g.qty }}</td>
+                                <td>{{ g.package_number }}</td>
+                                <td>{{ g.package_number_seller }}</td>
+                                <td>{{ g.package_number_buyer }}</td>
+                                <td>{{ g.package_number_market }}</td>
 
-                        <td>
-                            {{ g.pack_size }}
-                            {{ g.pack_unit }}
-                        </td>
+                                <td>{{ g.qty }}</td>
 
-                    </tr>
-                </tbody>
+                                <td>
+                                    {{ g.pack_size }}
+                                    {{ g.pack_unit }}
+                                </td>
 
-            </table>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- TAB 2 : IMAGE -->
+            <div class="tab-pane fade text-center" id="imageTab">
+
+                <div class="mt-3">
+                    <img :src="selectedShipmentImage" alt="Proof Image" class="img-thumbnail" width="750" />
+
+                </div>
+
+            </div>
+
         </div>
 
     </BaseModal>
@@ -236,7 +263,7 @@ import BaseButton from "@/components/common/buttons/BaseButton.vue";
 import BaseInput from "@/components/common/inputs/BaseInput.vue";
 import BaseModal from "@/components/common/modal/BaseModal.vue";
 import BaseAutoCompleteSelect from "@/components/common/inputs/BaseAutoCompleteSelect.vue";
-import ImageZoomViewer from "@/components/common/other/ImageZoomViewer.vue";
+// import ImageZoomViewer from "@/components/common/other/ImageZoomViewer.vue";
 
 import {
     fetchDriverList,
