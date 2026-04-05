@@ -447,53 +447,7 @@
 
 
                 <!-- Shipment Packages -->
-                <div class="mb-4">
-                    <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2">
-                        <h6 class="fw-semibold text-muted mb-0">Order Shipment Packages Information</h6>
-                    </div>
-                    <table class="table table-sm table-bordered table-striped align-middle mb-0">
-                        <thead class="table-info">
-                            <tr>
-                                <th>#</th>
-
-                                <th class="text-muted fw-normal">Shipment Pkg. Number</th>
-
-                                <th class="text-muted fw-normal">Pack<br> Number</th>
-                                <th class="text-muted fw-normal">Pack<br> Number (Seller)</th>
-                                <th class="text-muted fw-normal">Pack<br> Number (Buyer)</th>
-                                <th class="text-muted fw-normal">Pack<br> Number (Market)</th>
-
-                                <th class="text-muted fw-normal">Qty</th>
-                                <th class="text-muted fw-normal">Pack Size</th>
-                                <th class="text-muted fw-normal">Pack Unit</th>
-                                <th class="text-muted fw-normal">Pack Type Unit</th>
-                                <th class="text-muted fw-normal">Pack Status</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(pack, index) in orderDetails.shipment_packages" :key="pack.id">
-                                <td>{{ index + 1 }}</td>
-
-                                <td>{{ pack.shipment_package_number }}</td>
-                                <td>{{ pack.package_number }}</td>
-                                <td>{{ pack.package_number_seller }}</td>
-                                <td>{{ pack.package_number_buyer }}</td>
-                                <td>{{ pack.package_number_market }}</td>
-                                <td class="text-end">{{ pack.qty }}</td>
-                                <td class="text-end">{{ pack.pack_size }}</td>
-                                <td>{{ pack.pack_unit }}</td>
-                                <td>{{ pack.pack_type_unit }}</td>
-                                <td>
-                                    <StatusBadge :status="pack.status" />
-                                </td>
-
-                            </tr>
-
-
-                        </tbody>
-                    </table>
-                </div>
+                <ShipmentPackagesListView :packages="orderDetails?.shipment_packages" />
 
             </div>
         </template>
@@ -524,6 +478,7 @@ import {
     uploadMarketOrderDocument,
     deleteMarketOrderDocument
 } from "@/core/repos/admin/common/marketOrderRepos";
+import ShipmentPackagesListView from "../../components/common/ShipmentPackagesListView.vue";
 
 
 

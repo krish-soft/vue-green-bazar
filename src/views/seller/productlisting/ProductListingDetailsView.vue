@@ -312,9 +312,10 @@
                 </div>
 
 
+                <ShipmentPackagesListView :packages="listingDetails?.shipment_packages" />
 
                 <!-- Shipment Packages -->
-                <div class="mb-4">
+                <!-- <div class="mb-4">
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2">
                         <h6 class="fw-semibold text-muted mb-0">Shipment Packages Information</h6>
                     </div>
@@ -322,7 +323,10 @@
                         <thead class="table-info">
                             <tr>
                                 <th>#</th>
-                                <th class="text-muted fw-normal">Shipment<br> Package Number</th>
+                                <th class="text-muted fw-normal">Shipment<br>Number</th>
+                                <th class="text-muted fw-normal">Shipment<br>Type</th>
+                                <th class="text-muted fw-normal">Shipment<br>Status</th>
+                                <th class="text-muted fw-normal">Shipment<br>Package Number</th>
                                 <th class="text-muted fw-normal">Pack<br> Number</th>
                                 <th class="text-muted fw-normal">Pack<br> Number (Seller)</th>
                                 <th class="text-muted fw-normal">Pack<br> Number (Buyer)</th>
@@ -338,6 +342,10 @@
                         <tbody>
                             <tr v-for="(pack, index) in listingDetails?.shipment_packages" :key="pack.id">
                                 <td>{{ index + 1 }}</td>
+                                <td>{{ pack?.shipment?.shipment_number }}</td>
+                                <td>{{ pack?.shipment?.shipment_type }}</td>
+                                <td>{{ pack?.shipment?.status }}</td>
+
                                 <td>{{ pack.shipment_package_number }}</td>
                                 <td>{{ pack.package_number }}</td>
                                 <td>{{ pack.package_number_seller }}</td>
@@ -357,7 +365,7 @@
 
                         </tbody>
                     </table>
-                </div>
+                </div> -->
 
 
 
@@ -459,6 +467,7 @@ import BaseButton from "@/components/common/buttons/BaseButton.vue";
 import BaseInput from "@/components/common/inputs/BaseInput.vue";
 import BaseModal from "@/components/common/modal/BaseModal.vue";
 import StatusBadge from "@/components/common/badge/StatusBadge.vue";
+import ShipmentPackagesListView from "../../../components/common/ShipmentPackagesListView.vue";
 
 /* ---------------- STATE ---------------- */
 const uiStore = useUIStore();

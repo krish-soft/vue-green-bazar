@@ -426,7 +426,9 @@
                 </div>
 
                 <!-- Shipment Packages -->
-                <div class="mb-4">
+                <ShipmentPackagesListView :packages="orderDetails?.shipment_packages" />
+
+                <!-- <div class="mb-4">
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2">
                         <h6 class="fw-semibold text-muted mb-0">Order Shipment Packages Information</h6>
                     </div>
@@ -470,7 +472,7 @@
 
                         </tbody>
                     </table>
-                </div>
+                </div> -->
 
 
             </div>
@@ -494,6 +496,7 @@ import BaseModal from "@/components/common/modal/BaseModal.vue";
 import StatusBadge from "@/components/common/badge/StatusBadge.vue";
 
 import { fetchOrderDetails } from "@/core/repos/admin/common/buyerRepos";
+import ShipmentPackagesListView from "../../../components/common/ShipmentPackagesListView.vue";
 
 
 

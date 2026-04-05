@@ -27,6 +27,7 @@ const STATUS_GROUP = {
     requested: 'queue',
     assigned: 'queue',
     ready_for_pickup: 'queue',
+    market_pickup: 'queue',
     pickup: 'queue',
 
     /* ---------- PROGRESS FLOW ---------- */
@@ -36,6 +37,7 @@ const STATUS_GROUP = {
     dispatched: 'progress',
     dispatched_from_depot: 'progress',
     dispatch: 'progress',
+    market_dispatch: 'progress',
     shipped: 'progress',
     processing: 'progress',
 
