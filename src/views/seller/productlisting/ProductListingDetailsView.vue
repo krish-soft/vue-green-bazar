@@ -261,7 +261,8 @@
                                             <th>Pkg Price</th>
                                             <th>Qty</th>
                                             <th>Sold Qty</th>
-                                            <th>Demand Sold Qty</th>
+                                            <th>Sold Qty Demand</th>
+                                            <th>Ship Qty</th>
 
                                             <!-- <th>Reverse Qty</th> -->
 
@@ -278,9 +279,10 @@
                                             <td>{{ pkg.pack_unit }}</td>
                                             <td>{{ pkg.pack_type_unit }}</td>
                                             <td class="fw-bolder">{{ pkg.pack_price }}</td>
-                                            <td class="text-end fw-bolder text-success">{{ pkg.qty }}</td>
-                                            <td class="text-end fw-bolder text-primary">{{ pkg.sold_qty }}</td>
-                                            <td class="text-end fw-bolder text-primary">{{ pkg.demand_sold_qty }}</td>
+                                            <td class="text-end fw-bolder text-primary">{{ pkg.qty }}</td>
+                                            <td class="text-end fw-bolder text-success">{{ pkg.sold_qty }}</td>
+                                            <td class="text-end fw-bolder text-success">{{ pkg.demand_sold_qty }}</td>
+                                            <td class="text-end fw-bolder text-info">{{ pkg.ship_qty }}</td>
                                             <!-- <td class="text-end fw-bolder text-danger">{{ pkg.reverse_qty }}</td> -->
                                             <td class="text-center"><span class="badge"
                                                     :class="pkg.is_locked ? 'bg-danger' : pkg.is_sold ? 'bg-success' : 'bg-warning'">
@@ -456,7 +458,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import { useUIStore } from "@/core/utils/stores/uiStore";
 import { fetchProductListingDetails, cancelProductListing, updateListingPackage } from "@/core/repos/admin/common/sellerRepos";
 import { useRoute } from "vue-router";
@@ -491,6 +493,13 @@ async function loadDetails() {
     if (!data) {
         return;
     }
+    // ensure all items expanded
+    if (data.listing_items?.length) {
+        data.listing_items.forEach(item => {
+            item.expanded = true
+        })
+    }
+
     listingDetails.value = data;
 }
 
