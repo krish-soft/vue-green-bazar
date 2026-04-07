@@ -9,7 +9,8 @@
                     <th>Shipment Number</th>
                     <th>Shipment Type</th>
                     <th>Shipment Status</th>
-                    <th>Shipment Package Number</th>
+                    <!-- <th>Shipment Package Number</th> -->
+                    <th>Package Type</th>
                     <th>Pack Number</th>
                     <th>Pack Number (Seller)</th>
                     <th>Pack Number (Buyer)</th>
@@ -51,7 +52,8 @@
 
                     </td>
 
-                    <td>{{ pack.shipment_package_number ?? '-' }}</td>
+                    <!-- <td>{{ pack.shipment_package_number ?? '-' }}</td> -->
+                    <td>{{ pack.package_type ?? '-' }}</td>
 
                     <td>{{ pack.package_number ?? '-' }}</td>
 

@@ -62,8 +62,8 @@
                                 <BaseButton iconOnly variant="success me-2" icon="fas fa-edit"
                                     @click="editByItemId(invoice.id)" />
 
-                                <BaseButton iconOnly variant="sky me-2" icon="fas fa-eye"
-                                    @click="showItemById(invoice.id)" />
+                                <!-- <BaseButton iconOnly variant="sky me-2" icon="fas fa-eye"
+                                    @click="showItemById(invoice.id)" /> -->
                             </td>
                         </tr>
                     </tbody>

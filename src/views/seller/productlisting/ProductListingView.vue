@@ -42,6 +42,7 @@
                             <th>Cutoff</th>
                             <th>Locked</th>
                             <th>Expired</th>
+                            <th>Flags</th>
 
 
                             <th>Action</th>
@@ -88,6 +89,21 @@
                             <td>
                                 <i class="fas fa-hourglass-end text-danger" v-if="row.is_expired"></i>
                                 <i class="fas fa-hourglass-start text-success" v-else></i>
+                            </td>
+
+                            <td>
+                                <div v-if="row.flags && row.flags.length > 0">
+                                    <i class="fas fa-flag text-danger"></i>
+                                    <ol>
+                                        <li v-for="(flag, i) in row.flags" :key="i">
+                                            {{ flag }}
+                                        </li>
+                                    </ol>
+
+                                </div>
+                                <div v-else>
+                                    <i class="fas fa-flag text-success"></i>
+                                </div>
                             </td>
 
                             <td>
