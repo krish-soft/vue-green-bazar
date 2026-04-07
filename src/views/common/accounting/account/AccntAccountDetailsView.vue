@@ -63,6 +63,7 @@
                                 <th class="text-muted fw-normal w-25">Inactive Reason</th>
                                 <td class="fw-semibold">{{ accountDetails.inactive_reason || "N/A" }}</td>
                             </tr>
+                            <hr>
                             <tr>
                                 <th class="text-muted fw-normal w-25">Available Balance</th>
                                 <td class="fw-semibold text-success">{{ accountDetails.available_balance }}</td>
@@ -72,6 +73,12 @@
                                 <td class="fw-semibold text-info">{{ accountDetails.hold_balance }}</td>
                             </tr>
                             <tr>
+                                <th class="text-muted fw-normal w-25">Credit Limit</th>
+                                <td class="fw-semibold text-danger">{{ accountDetails.credit_limit }}</td>
+                            </tr>
+
+                            <hr>
+                            <tr>
                                 <th class="text-muted fw-normal w-25">Total Credit</th>
                                 <td class="fw-semibold text-primary ">{{ accountDetails.total_credit }}</td>
                             </tr>
@@ -79,6 +86,7 @@
                                 <th class="text-muted fw-normal w-25">Total Debit</th>
                                 <td class="fw-semibold text-danger">{{ accountDetails.total_debit }}</td>
                             </tr>
+                            <hr>
                             <tr>
                                 <th class="text-muted fw-normal w-25">Remarks</th>
                                 <td class="fw-semibold">{{ accountDetails.remarks || "N/A" }}</td>

@@ -1,8 +1,66 @@
 <template>
 
-    <BaseContainer heading="Accounts List">
+    <BaseContainer heading="Platform Accounts List">
         <template #body>
 
+            <!-- Platform Accounts -->
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Account Code</th>
+                            <th>Account Name</th>
+                            <th>Accnt Type</th>
+                            <th>Owner Type</th>
+                            <th>Owner</th>
+                            <th>Currency</th>
+                            <th>Available Balance</th>
+                            <th>Hold Balance</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(row, i) in platformAccountData" :key="row.id">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ row.accnt_code }}</td>
+                            <td>{{ row.name }}</td>
+                            <td>{{ row.type }}</td>
+                            <td>{{ row.owner_type }}</td>
+                            <td>
+                                <b>Code:</b>{{ row?.user?.user_code }} <br />
+                                <b>Nick.:</b>{{ row?.user?.nickname }}
+
+                            </td>
+
+                            <td>{{ row.currency }}</td>
+                            <td>{{ row.available_balance }}</td>
+                            <td>{{ row.hold_balance }}</td>
+                            <td>
+                                <span class="badge" :class="{
+                                    'bg-success': row.is_active,
+                                    'bg-danger': !row.is_active,
+                                }">
+                                    {{ row.is_active ? 'Active' : 'Inactive' }}
+                                </span>
+                            </td>
+                            <td>
+                                <BaseButton iconOnly variant="sky me-2" icon="fas fa-eye"
+                                    @click="showItemById(row.id)" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </template>
+
+    </BaseContainer>
+
+    <BaseContainer heading="User Accounts List" class="mt-4">
+        <template #body>
+            <!-- User Accounts  -->
             <div class="table-responsive">
                 <table class="table table-bordered table-striped table-hover" id="datatable">
                     <thead class="table-dark">
@@ -75,6 +133,7 @@ import router from "@/router";
 const uiStore = useUIStore();
 
 const listData = ref([]);
+const platformAccountData = ref([]);
 
 /* ---------------- INIT ---------------- */
 onMounted(loadList);
@@ -87,7 +146,8 @@ async function loadList() {
         return;
     }
 
-    listData.value = data;
+    listData.value = data.user_accounts || [];
+    platformAccountData.value = data.platform_accounts || [];
 
 }
 
