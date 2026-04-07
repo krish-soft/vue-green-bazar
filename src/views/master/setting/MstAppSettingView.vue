@@ -32,13 +32,14 @@
             <BaseInput v-model="form.fallback_locale" label="Fallback Locale" readonly />
           </div>
 
-          <div class="col-md-2">
+          <!-- <div class="col-md-2">
             <BaseInput v-model="form.date_format" label="Date Format" />
           </div>
 
           <div class="col-md-2">
             <BaseInput v-model="form.time_format" label="Time Format" />
-          </div>
+          </div> -->
+
         </div>
 
         <!-- ================= MAINTENANCE ================= -->
@@ -109,6 +110,43 @@
           </div>
         </div>
 
+        <!-- ================= MOBILE APP DRIVER ================= -->
+        <h6 class="mb-3 text-primary">Mobile App Driver</h6>
+
+        <!-- ANDROID -->
+        <div class="row g-3 mb-3 align-items-center">
+          <div class="col-md-4">
+            <BaseInput v-model="form.driver_mobile_app_android_version" label="Android App Version" />
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-check form-switch mt-4">
+              <input class="form-check-input" type="checkbox" v-model="form.is_force_driver_app_android_update"
+                id="forceDriverAndroid" />
+              <label class="form-check-label" for="forceDriverAndroid">
+                Force Android Update
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- IOS -->
+        <div class="row g-3 mb-4 align-items-center">
+          <div class="col-md-4">
+            <BaseInput v-model="form.driver_mobile_app_ios_version" label="iOS App Version" />
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-check form-switch mt-4">
+              <input class="form-check-input" type="checkbox" v-model="form.is_force_driver_app_ios_update"
+                id="forceDriverIos" />
+              <label class="form-check-label" for="forceDriverIos">
+                Force iOS Update
+              </label>
+            </div>
+          </div>
+        </div>
+
       </form>
 
       <!-- ================= ACTION ================= -->
@@ -160,8 +198,17 @@ const form = ref({
   mobile_app_android_version: "",
   is_force_app_android_update: false,
 
+  driver_mobile_app_android_version: "",
+  is_force_driver_app_android_update: false,
+
   mobile_app_ios_version: "",
   is_force_app_ios_update: false,
+
+  driver_mobile_app_ios_version: "",
+  is_force_driver_app_ios_update: false,
+
+
+
 });
 
 /* ---------------- INIT ---------------- */
