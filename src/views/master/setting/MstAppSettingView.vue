@@ -43,7 +43,7 @@
         </div>
 
         <!-- ================= MAINTENANCE ================= -->
-        <!-- <h6 class="mb-3 text-primary">Maintenance</h6>
+        <h6 class="mb-3 text-primary">Maintenance For End User (Not for admin)</h6>
         <div class="row g-3 mb-4 align-items-center">
           <div class="col-md-3">
             <div class="form-check form-switch mt-4">
@@ -58,7 +58,7 @@
             <BaseInput v-model="form.maintenance_message" label="Maintenance Message"
               :readonly="!form.is_maintenance_mode" />
           </div>
-        </div> -->
+        </div>
 
         <!-- ================= REGISTRATION ================= -->
         <h6 class="mb-3 text-primary">Registration</h6>
