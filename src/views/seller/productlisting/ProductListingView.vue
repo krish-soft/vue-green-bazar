@@ -38,9 +38,9 @@
                             <th>Pickup Location</th>
                             <th>Sell To Market</th>
                             <th>Seller Deliver</th>
-                            <th>Sold</th>
-                            <!-- <th>Partial</th>
-                            <th>Locked</th> -->
+
+                            <th>Cutoff</th>
+                            <th>Locked</th>
                             <th>Expired</th>
 
 
@@ -76,20 +76,15 @@
                                     row.is_seller_dropoff ? "Yes" : "No" }}
                                 </span>
                             </td>
+
                             <td>
-                                <i class="fas fa-shopping-cart text-success" v-if="row.is_sold"></i>
-                                <i class="fas fa-cart-plus text-danger" v-else></i>
+                                <i class="fas fa-check text-success" v-if="row.is_cutoff"></i>
+                                <i class="fas fa-times text-danger" v-else></i>
                             </td>
-
-                            <!-- <td>
-                                <i class="fas fa-percent text-warning" v-if="row.is_partial"></i>
-                                <i class="fas fa-minus-circle text-danger" v-else></i>
-                            </td>
-
                             <td>
                                 <i class="fas fa-shield-alt text-success" v-if="row.is_locked"></i>
                                 <i class="fas fa-lock-open text-danger" v-else></i>
-                            </td> -->
+                            </td>
                             <td>
                                 <i class="fas fa-hourglass-end text-danger" v-if="row.is_expired"></i>
                                 <i class="fas fa-hourglass-start text-success" v-else></i>
@@ -98,7 +93,6 @@
                             <td>
                                 <BaseButton iconOnly variant="sky me-2" icon="fas fa-eye "
                                     @click="showItemById(row.id)" />
-
                             </td>
 
                         </tr>
