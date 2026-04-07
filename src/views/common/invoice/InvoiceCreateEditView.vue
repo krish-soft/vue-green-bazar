@@ -3,267 +3,277 @@
     <BaseContainer :heading="isEdit ? 'Edit Invoice' : 'Create Invoice'">
 
         <template #headerActions>
-            <BaseButton variant="primary" @click="submitInvoice">
+
+            <div v-if="isLocked">
+                <i class="fas fa-lock text-danger"></i>
+                <span class="text-danger fw-semibold ms-1">This invoice is locked and cannot be edited.</span>
+            </div>
+
+            <BaseButton variant="primary" @click="submitInvoice" :disabled="isLocked">
                 {{ isEdit ? "Update Invoice" : "Create Invoice" }}
             </BaseButton>
         </template>
 
         <template #body>
 
-            <div class="row">
-                <div class="col-md-5">
-                    <CustomerSearchComponent v-model="selectedCustomer" required />
-                </div>
-            </div>
+            <!-- Fieldset to disable form inputs when invoice is locked -->
+            <fieldset :disabled="isLocked">
 
-            <div class="row g-3 mb-4">
 
-                <div class="col-md-2">
-                    <BaseInput v-model="form.user_id" label="User ID" type="number" readonly :required="!isEdit"
-                        :disabled="isEdit" />
+                <div class="row">
+                    <div class="col-md-5">
+                        <CustomerSearchComponent v-model="selectedCustomer" required />
+                    </div>
                 </div>
 
-                <div class="col-md-2">
-                    <BaseInput v-model="form.invoice_date" label="Invoice Date" type="date" required />
-                </div>
+                <div class="row g-3 mb-4">
 
-                <div class="col-md-2">
-                    <label class="form-label">Invoice Type</label>
-                    <select class="form-control" v-model="form.invoice_type" :disabled="isEdit" required>
+                    <div class="col-md-2">
+                        <BaseInput v-model="form.user_id" label="User ID" type="number" readonly :required="!isEdit"
+                            :disabled="isEdit" />
+                    </div>
 
-                        <option value="sales" v-if="isEdit && form.invoice_type === 'sales'">Sales</option>
-                        <option value="sales_return">Sales Return</option>
-                        <option value="purchase">Purchase</option>
-                        <option value="purchase_return">Purchase Return</option>
+                    <div class="col-md-2">
+                        <BaseInput v-model="form.invoice_date" label="Invoice Date" type="date" required />
+                    </div>
 
-                    </select>
-                </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Invoice Type</label>
+                        <select class="form-control" v-model="form.invoice_type" :disabled="isEdit" required>
 
-                <div class="col-md-2">
-                    <BaseInput v-if="isEdit" v-model="form.invoice_number" label="Invoice Number" type="text"
-                        disabled />
-                </div>
+                            <option value="sales" v-if="isEdit && form.invoice_type === 'sales'">Sales</option>
+                            <option value="sales_return">Sales Return</option>
+                            <option value="purchase">Purchase</option>
+                            <option value="purchase_return">Purchase Return</option>
 
-            </div>
+                        </select>
+                    </div>
 
-            <hr>
-
-            <h5 class="mb-3">Invoice Items</h5>
-
-            <table class="table table-bordered">
-
-                <thead class="table-dark">
-                    <tr>
-
-                        <th>Item Name</th>
-
-                        <th width="120">Order Qty</th>
-                        <th width="150">Unit Price</th>
-
-                        <th width="120">Ship Qty *</th>
-                        <th width="150">Ship Price *</th>
-
-                        <th width="150">Taxable</th>
-                        <th width="150">Tax</th>
-                        <th width="150">Total</th>
-
-                        <th width="60"></th>
-
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    <tr v-for="(item, index) in form.items" :key="index">
-
-                        <td>
-                            <input class="form-control" v-model="item.item_name" />
-                        </td>
-
-                        <td>
-                            <input class="form-control order-field" type="number" step="0.01"
-                                v-model.number="item.order_qty" />
-                        </td>
-
-                        <td>
-                            <input class="form-control order-field" type="number" step="0.01"
-                                v-model.number="item.unit_price" />
-                        </td>
-
-                        <td>
-                            <input class="form-control ship-field" type="number" step="0.01"
-                                v-model.number="item.ship_qty" @input="recalcItem(index)" />
-                        </td>
-
-                        <td>
-                            <input class="form-control ship-field" type="number" step="0.01"
-                                v-model.number="item.ship_unit_price" @input="recalcItem(index)" />
-                        </td>
-
-                        <td class="text-end">
-                            {{ Number(item.taxable_amount || 0).toFixed(2) }}
-                        </td>
-
-                        <td>
-                            <input class="form-control" type="number" step="0.01" v-model.number="item.tax_amount"
-                                @input="recalcItem(index)" />
-                        </td>
-
-                        <td class="text-end">
-                            {{ Number(item.total_amount || 0).toFixed(2) }}
-                        </td>
-
-                        <td>
-                            <button class="btn btn-danger btn-sm" @click="removeItem(index)">✕</button>
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-            <BaseButton variant="info" class="mt-2" @click="addItem">
-                + Add Item
-            </BaseButton>
-
-            <hr class="my-4">
-
-            <h5 class="mb-3">Charges</h5>
-            <span class="text-primary fw-semibold mb-4">
-                [ This value will be added to Platform accounts ]
-            </span>
-
-            <table class="table table-bordered">
-
-                <thead class="table-dark">
-                    <tr>
-
-                        <th>Charge Name</th>
-                        <th width="120">Qty</th>
-                        <th width="150">Taxable</th>
-                        <th width="150">Tax</th>
-                        <th width="150">Total</th>
-                        <th width="60"></th>
-
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    <tr v-for="(charge, index) in form.charges" :key="index">
-
-                        <td>
-                            <input class="form-control" v-model="charge.charge_name" />
-                        </td>
-
-                        <td>
-                            <input class="form-control" type="number" v-model.number="charge.qty" />
-                        </td>
-
-                        <td>
-                            <input class="form-control" type="number" v-model.number="charge.taxable_amount"
-                                @input="recalcCharge(index)" />
-                        </td>
-
-                        <td>
-                            <input class="form-control" type="number" v-model.number="charge.tax_amount"
-                                @input="recalcCharge(index)" />
-                        </td>
-
-                        <td class="text-end">
-                            {{ Number(charge.total_amount || 0).toFixed(2) }}
-                        </td>
-
-                        <td>
-                            <button class="btn btn-danger btn-sm" @click="removeCharge(index)">✕</button>
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-            <BaseButton variant="info" class="mt-2" @click="addCharge">
-                + Add Charge
-            </BaseButton>
-
-            <hr class="my-4">
-
-            <div class="row">
-
-                <div class="col-md-6">
-
-                    <label class="form-label">Remarks</label>
-
-                    <textarea class="form-control" rows="5" maxlength="255" v-model="form.remarks"
-                        placeholder="Add notes or remarks" />
+                    <div class="col-md-2">
+                        <BaseInput v-if="isEdit" v-model="form.invoice_number" label="Invoice Number" type="text"
+                            disabled />
+                    </div>
 
                 </div>
 
-                <div class="col-md-2"></div>
+                <hr>
 
-                <div class="col-md-4">
+                <h5 class="mb-3">Invoice Items</h5>
 
-                    <table class="table table-bordered">
+                <table class="table table-bordered">
 
+                    <thead class="table-dark">
                         <tr>
-                            <th>Base Amount</th>
-                            <td class="text-end">{{ Number(totals.base).toFixed(2) }}</td>
+
+                            <th>Item Name</th>
+
+                            <th width="120">Order Qty</th>
+                            <th width="150">Unit Price</th>
+
+                            <th width="120">Ship Qty *</th>
+                            <th width="150">Ship Price *</th>
+
+                            <th width="150">Taxable</th>
+                            <th width="150">Tax</th>
+                            <th width="150">Total</th>
+
+                            <th width="60"></th>
+
                         </tr>
+                    </thead>
 
-                        <tr>
-                            <th>Charges</th>
-                            <td class="text-end">{{ signedCharge(totals.chargeTaxable) }}</td>
-                        </tr>
+                    <tbody>
 
-                        <tr>
-                            <th>Subtotal</th>
-                            <td class="text-end">
-                                {{
-                                    (
-                                        Number(totals.base) +
-                                        parseFloat(signedCharge(totals.chargeTaxable))
-                                    ).toFixed(2)
-                                }}
+                        <tr v-for="(item, index) in form.items" :key="index">
+
+                            <td>
+                                <input class="form-control" v-model="item.item_name" />
                             </td>
-                        </tr>
 
-                        <tr>
-                            <th>Tax</th>
-                            <td class="text-end">{{ signedCharge(totals.tax) }}</td>
-                        </tr>
+                            <td>
+                                <input class="form-control order-field" type="number" step="0.01"
+                                    v-model.number="item.order_qty" />
+                            </td>
 
-                        <tr class="table-success">
+                            <td>
+                                <input class="form-control order-field" type="number" step="0.01"
+                                    v-model.number="item.unit_price" />
+                            </td>
 
-                            <th>Total</th>
+                            <td>
+                                <input class="form-control ship-field" type="number" step="0.01"
+                                    v-model.number="item.ship_qty" @input="recalcItem(index)" />
+                            </td>
+
+                            <td>
+                                <input class="form-control ship-field" type="number" step="0.01"
+                                    v-model.number="item.ship_unit_price" @input="recalcItem(index)" />
+                            </td>
 
                             <td class="text-end">
+                                {{ Number(item.taxable_amount || 0).toFixed(2) }}
+                            </td>
 
-                                <div>
-                                    ₹ {{
+                            <td>
+                                <input class="form-control" type="number" step="0.01" v-model.number="item.tax_amount"
+                                    @input="recalcItem(index)" />
+                            </td>
+
+                            <td class="text-end">
+                                {{ Number(item.total_amount || 0).toFixed(2) }}
+                            </td>
+
+                            <td>
+                                <button class="btn btn-danger btn-sm" @click="removeItem(index)">✕</button>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+                <BaseButton variant="info" class="mt-2" @click="addItem">
+                    + Add Item
+                </BaseButton>
+
+                <hr class="my-4">
+
+                <h5 class="mb-3">Charges</h5>
+                <span class="text-primary fw-semibold mb-4">
+                    [ This value will be added to Platform accounts ]
+                </span>
+
+                <table class="table table-bordered">
+
+                    <thead class="table-dark">
+                        <tr>
+
+                            <th>Charge Name</th>
+                            <th width="120">Qty</th>
+                            <th width="150">Taxable</th>
+                            <th width="150">Tax</th>
+                            <th width="150">Total</th>
+                            <th width="60"></th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr v-for="(charge, index) in form.charges" :key="index">
+
+                            <td>
+                                <input class="form-control" v-model="charge.charge_name" />
+                            </td>
+
+                            <td>
+                                <input class="form-control" type="number" v-model.number="charge.qty" />
+                            </td>
+
+                            <td>
+                                <input class="form-control" type="number" v-model.number="charge.taxable_amount"
+                                    @input="recalcCharge(index)" />
+                            </td>
+
+                            <td>
+                                <input class="form-control" type="number" v-model.number="charge.tax_amount"
+                                    @input="recalcCharge(index)" />
+                            </td>
+
+                            <td class="text-end">
+                                {{ Number(charge.total_amount || 0).toFixed(2) }}
+                            </td>
+
+                            <td>
+                                <button class="btn btn-danger btn-sm" @click="removeCharge(index)">✕</button>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+                <BaseButton variant="info" class="mt-2" @click="addCharge">
+                    + Add Charge
+                </BaseButton>
+
+                <hr class="my-4">
+
+                <div class="row">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">Remarks</label>
+
+                        <textarea class="form-control" rows="5" maxlength="255" v-model="form.remarks"
+                            placeholder="Add notes or remarks" />
+
+                    </div>
+
+                    <div class="col-md-2"></div>
+
+                    <div class="col-md-4">
+
+                        <table class="table table-bordered">
+
+                            <tr>
+                                <th>Base Amount</th>
+                                <td class="text-end">{{ Number(totals.base).toFixed(2) }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Charges</th>
+                                <td class="text-end">{{ signedCharge(totals.chargeTaxable) }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Subtotal</th>
+                                <td class="text-end">
+                                    {{
                                         (
                                             Number(totals.base) +
-                                            parseFloat(signedCharge(totals.chargeTaxable)) +
-                                            parseFloat(signedCharge(totals.tax))
+                                            parseFloat(signedCharge(totals.chargeTaxable))
                                         ).toFixed(2)
                                     }}
-                                </div>
+                                </td>
+                            </tr>
 
-                                <div class="small fw-semibold" :class="totalClass">
-                                    {{ totalLabel }}
-                                </div>
+                            <tr>
+                                <th>Tax</th>
+                                <td class="text-end">{{ signedCharge(totals.tax) }}</td>
+                            </tr>
 
-                            </td>
+                            <tr class="table-success">
 
-                        </tr>
+                                <th>Total</th>
 
-                    </table>
+                                <td class="text-end">
 
-                </div>
+                                    <div>
+                                        ₹ {{
+                                            (
+                                                Number(totals.base) +
+                                                parseFloat(signedCharge(totals.chargeTaxable)) +
+                                                parseFloat(signedCharge(totals.tax))
+                                            ).toFixed(2)
+                                        }}
+                                    </div>
 
-                <!-- <div class="mt-4 p-4 rounded border bg-light">
+                                    <div class="small fw-semibold" :class="totalClass">
+                                        {{ totalLabel }}
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                    <!-- <div class="mt-4 p-4 rounded border bg-light">
 
                     <div class="fw-bold text-primary mb-2 fs-5">
                         Amount Explanation
@@ -274,7 +284,10 @@
 
                 </div> -->
 
-            </div>
+                </div>
+
+            </fieldset>
+
 
         </template>
 
@@ -306,6 +319,7 @@ const route = useRoute()
 const invoiceId = route.params.id
 const isEdit = !!invoiceId
 const selectedCustomer = ref(null)
+const isLocked = computed(() => form.is_locked)
 
 const form = reactive({
 
@@ -553,6 +567,8 @@ onMounted(async () => {
     form.invoice_type = data.invoice_type
     form.remarks = data.remarks || ""
     form.invoice_number = data.invoice_number
+
+    form.is_locked = data.is_locked ?? false
 
     form.items = (data.invoice_items || []).map(i => ({
 

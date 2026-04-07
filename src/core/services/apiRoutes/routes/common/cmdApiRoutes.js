@@ -44,6 +44,10 @@ const cmdApiRoutes = {
         return Api.admin.post('/cmd/invoice/buyer-order', { data });
     },
 
+    cmdInvoiceGenerateBuyerDemandOrder(data) {
+        return Api.admin.post('/cmd/invoice/buyer-demand-order', { data });
+    },
+
     cmdInvoiceGenerateProductListing(data) {
         return Api.admin.post('/cmd/invoice/product-listing', { data });
     }

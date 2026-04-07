@@ -98,16 +98,22 @@
 
                 <div class="d-flex gap-2 flex-wrap">
 
-                    <BaseButton variant="warning"
+                    <BaseButton variant="danger"
                         @click="runCmd(cmdInvoiceGenerateBuyerOrder, 'Generate Buyer Orders Invoice', isSection3Allowed)"
                         :disabled="!isSection3Allowed || isRunning">
                         1. Generate Order Invoices [For Buyers]
                     </BaseButton>
 
+                    <BaseButton variant="danger"
+                        @click="runCmd(cmdInvoiceGenerateBuyerDemandOrder, 'Generate Buyer Demand Orders Invoice', isSection3Allowed)"
+                        :disabled="!isSection3Allowed || isRunning">
+                        2. Generate Demand Order Invoices [For Buyers]
+                    </BaseButton>
+
                     <BaseButton variant="warning"
                         @click="runCmd(cmdInvoiceGenerateProductListing, 'Generate Product Listings Invoice', isSection3Allowed)"
                         :disabled="!isSection3Allowed || isRunning">
-                        2. Generate Product Listings Invoices [For Sellers]
+                        3. Generate Product Listings Invoices [For Sellers]
                     </BaseButton>
 
                 </div>
@@ -151,7 +157,9 @@ import {
 
     cmdAccountingProductListing,
     cmdInvoiceGenerateBuyerOrder,
+    cmdInvoiceGenerateBuyerDemandOrder,
     cmdInvoiceGenerateProductListing,
+
     cmdAccountingInvoice
 
 } from "@/core/repos/admin/common/cmdRepos";

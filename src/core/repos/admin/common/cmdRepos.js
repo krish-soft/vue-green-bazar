@@ -32,5 +32,8 @@ export const cmdAccountingInvoice = (data) =>
 export const cmdInvoiceGenerateBuyerOrder = (data) =>
     withUI(() => apiRouteService.cmdInvoiceGenerateBuyerOrder(data));
 
+export const cmdInvoiceGenerateBuyerDemandOrder = (data) =>
+    withUI(() => apiRouteService.cmdInvoiceGenerateBuyerDemandOrder(data));
+
 export const cmdInvoiceGenerateProductListing = (data) =>
     withUI(() => apiRouteService.cmdInvoiceGenerateProductListing(data));
