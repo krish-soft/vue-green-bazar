@@ -2,9 +2,14 @@
 
     <BaseContainer heading="Account Details">
 
+        <template #headerActions>
+            <!-- Future action buttons can be placed here -->
+            <BaseButton size="sm" variant="primary" @click="openAccountingModal()">
+                Edit Account Details
+            </BaseButton>
+        </template>
 
         <template #body>
-
             <div v-if="accountDetails" class="container-fluid px-0">
 
                 <!-- ================= BASIC INFO ================= -->
@@ -72,20 +77,34 @@
                                 <th class="text-muted fw-normal w-25">Hold Balance</th>
                                 <td class="fw-semibold text-info">{{ accountDetails.hold_balance }}</td>
                             </tr>
-                            <tr>
-                                <th class="text-muted fw-normal w-25">Credit Limit</th>
-                                <td class="fw-semibold text-danger">{{ accountDetails.credit_limit }}</td>
-                            </tr>
 
-                            <hr>
+
                             <tr>
-                                <th class="text-muted fw-normal w-25">Total Credit</th>
+                                <th class="text-muted fw-normal w-25">Total Credit Entry Amt.</th>
                                 <td class="fw-semibold text-primary ">{{ accountDetails.total_credit }}</td>
                             </tr>
                             <tr>
-                                <th class="text-muted fw-normal w-25">Total Debit</th>
+                                <th class="text-muted fw-normal w-25">Total Debit Entry Amt.</th>
                                 <td class="fw-semibold text-danger">{{ accountDetails.total_debit }}</td>
                             </tr>
+
+                            <hr>
+
+                            <tr>
+                                <th class="text-muted fw-normal w-25">Credit Enabled</th>
+                                <td>
+                                    <span class="badge"
+                                        :class="accountDetails.is_credit_enabled ? 'bg-success' : 'bg-danger'">
+                                        {{ accountDetails.is_credit_enabled ? 'Enabled' : 'Disabled' }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="text-muted fw-normal w-25">Credit Limit</th>
+                                <td class="fw-semibold text-success">{{ accountDetails.credit_limit }}</td>
+                            </tr>
+
+
                             <hr>
                             <tr>
                                 <th class="text-muted fw-normal w-25">Remarks</th>
@@ -192,6 +211,7 @@
 
     </BaseContainer>
 
+    <!-- Ledger Modal -->
     <BaseModal ref="ledgerModal" icon="fas fa-book" size="modal-lg" scrollable>
         <template #title>
             Add Manual Entry
@@ -217,13 +237,11 @@
                         :label-key="'label'" :value-key="'value'" required />
                 </div> -->
 
+
+
                 <div class="col-md-6">
-
-
                     <!-- Tax -->
-                    <div class=" border rounded-3 p-3 bg-light">
-                        <!-- <label class="form-label fw-semibold mb-2">Tax</label> -->
-
+                    <!-- <div class=" border rounded-3 p-3 bg-light">
                         <div class="d-flex align-items-center justify-content-between">
                             <span class="text-muted">
                                 Is Tax Entry
@@ -232,13 +250,12 @@
                                 </b>
                             </span>
 
-                            <!-- TOGGLE -->
                             <div class="status-toggle" :class="{ active: ledgerForm.is_tax }"
                                 @click="ledgerForm.is_tax = !ledgerForm.is_tax">
                                 <span class="toggle-knob"></span>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="col-md-6">
@@ -336,6 +353,57 @@
         </template>
     </BaseModal>
 
+    <!-- Accounting Modal -->
+    <BaseModal ref="accountingModal" icon="fas fa-calculator" size="modal-lg" scrollable>
+        <template #title>
+            Edit Account Details
+        </template>
+
+        <form id="accountingForm" @submit.prevent="submitAccountingForm">
+            <div class="row g-3">
+
+                <!-- Row 1 -->
+                <div class="col-md-12">
+                    <div class=" border rounded-3 p-3 bg-light">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span class="text-muted">
+                                Is Tax Entry
+                                <b :class="accountingForm.is_credit_enabled ? 'text-success' : 'text-danger'">
+                                    {{ accountingForm.is_credit_enabled ? "Enabled" : "Disabled" }}
+                                </b>
+                            </span>
+
+                            <div class="status-toggle" :class="{ active: accountingForm.is_credit_enabled }"
+                                @click="accountingForm.is_credit_enabled = !accountingForm.is_credit_enabled">
+                                <span class="toggle-knob"></span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <BaseInput label="Credit Limit" type="number" v-model="accountingForm.credit_limit"
+                                    :disabled="!accountingForm.is_credit_enabled" />
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        </form>
+
+        <template #footer>
+            <BaseButton variant="secondary" @click="closeAccountingModal">
+                Cancel
+            </BaseButton>
+            <BaseButton variant="primary" type="submit" form="accountingForm" :loading="uiStore.isLoading">
+                Save
+            </BaseButton>
+        </template>
+    </BaseModal>
+
 </template>
 
 <script setup>
@@ -343,7 +411,7 @@
 
 import { ref, onMounted, watch } from "vue";
 import { useUIStore } from "@/core/utils/stores/uiStore";
-import { fetchAccountDetails, createLedger, reverseLedger, markLedgerSettled } from "@/core/repos/admin/common/accountingRepos";
+import { fetchAccountDetails, updateAccount, createLedger, reverseLedger, markLedgerSettled } from "@/core/repos/admin/common/accountingRepos";
 import { fetchAllEnums } from "@/core/repos/utils/utilsRepos";
 
 import BaseContainer from "@/components/common/cards/BaseContainer.vue";
@@ -367,6 +435,9 @@ const entryTypes = ref([]);
 const isCreditEdit = ref(true);
 const isDebitEdit = ref(true);
 
+const accountingModal = ref(null);
+
+
 import { showConfirmDialog } from "@/core/utils/uiHelpers/swalUtils.js";
 
 
@@ -379,7 +450,9 @@ async function loadDetails() {
     if (!data) {
         return;
     }
+
     accountDetails.value = data;
+
 }
 
 // Form 
@@ -427,6 +500,23 @@ const statusOptions = [
     { label: 'Available', value: 'available' },
     // { label: 'Settled', value: 'settled' },
 ];
+
+
+const accountingForm = ref({
+    id: null,
+    credit_limit: 0,
+    is_credit_enabled: false
+
+});
+
+const accountingFormReset = ref({
+    id: null,
+    credit_limit: 0,
+    is_credit_enabled: false
+
+});
+
+
 
 /* STATUS → BOOLEAN (SOURCE OF TRUTH = STATUS) */
 watch(
@@ -506,6 +596,44 @@ function closeLedgerModal() {
     // Reset form data to default values
     ledgerForm.value = { ...resetLedgerForm.value };
 }
+
+/* ---------------- ACCOUNTING MODAL ---------------- */
+async function openAccountingModal() {
+    accountingForm.value = { ...accountingFormReset.value };
+    accountingForm.value.id = accountId.value;
+
+    accountingForm.value.is_credit_enabled = accountDetails.value.is_credit_enabled;
+    accountingForm.value.credit_limit = accountDetails.value.credit_limit;
+
+
+
+    accountingModal.value.show();
+}
+
+function closeAccountingModal() {
+    accountingModal.value.hide();
+    // Reset form data to default values
+    accountingForm.value = { ...accountingFormReset.value };
+}
+
+const submitAccountingForm = async () => {
+    // Implement form submission logic here
+    // You can access form data from the accountingForm ref
+    // After successful submission, close the modal and reset the form
+
+
+    const payload = { ...accountingForm.value };
+    const response = await updateAccount(accountingForm.value.id, payload);
+
+    if (!response) {
+        // Refresh account details to show the new ledger entry
+        return;
+    }
+
+    await loadDetails();
+    closeAccountingModal();
+}
+
 
 const submitLedgerForm = async () => {
     // Implement form submission logic here

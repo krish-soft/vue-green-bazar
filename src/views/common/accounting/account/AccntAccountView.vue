@@ -84,7 +84,7 @@
                             <td>{{ row.accnt_code }}</td>
                             <td>{{ row.name }}</td>
                             <td>{{ row.type }}</td>
-                            <td>{{ row.owner_type }}</td>
+                            <td><span :class="`role-${row?.owner_type.toLowerCase()}`">{{ row.owner_type }}</span></td>
                             <td>
                                 <b>Code:</b>{{ row?.user?.user_code }} <br />
                                 <b>Nick.:</b>{{ row?.user?.nickname }}
