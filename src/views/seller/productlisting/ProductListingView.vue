@@ -36,6 +36,7 @@
 
                             <th>Seller</th>
                             <th>Pickup Location</th>
+                            <th>Status</th>
                             <th>Sell To Market</th>
                             <th>Seller Deliver</th>
 
@@ -67,6 +68,7 @@
                                 <b> Code:</b> {{ row?.fulfillment_location?.fl_code }}
                                 <br /> <b> Type:</b> {{ row?.fulfillment_location?.type }}
                             </td>
+                            <td>{{ row?.status }}</td>
 
                             <td> <span class="badge" :class="row.is_sell_to_market ? 'bg-success' : 'bg-danger'">{{
                                 row.is_sell_to_market ? "Yes" : "No" }}

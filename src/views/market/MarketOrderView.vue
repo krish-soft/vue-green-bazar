@@ -36,9 +36,10 @@
                             <th>Order Number</th>
                             <th>Order Status</th>
                             <th>Delivery Status</th>
-                            <th>Payment Status</th>
+                            <!-- <th>Payment Status</th> -->
                             <th>Market</th>
                             <th>Ship To</th>
+                            <th>Flags</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -59,9 +60,9 @@
                             <td>
                                 <StatusBadge :status="order.delivery_status" />
                             </td>
-                            <td>
+                            <!-- <td>
                                 <StatusBadge :status="order.payment_status" />
-                            </td>
+                            </td> -->
                             <td>
                                 <b>Code:</b> {{ order?.market?.code }}
                                 <br /> <b>Nick.:</b> {{ order?.market?.name }}
@@ -70,6 +71,20 @@
                                 <b>Village:</b> {{ order?.shipping_fulfillment_location?.address?.village }}
                                 <br /> <b>City:</b> {{ order?.shipping_fulfillment_location?.address?.city }}
                                 <br /> <b>State:</b> {{ order?.shipping_fulfillment_location?.address?.state }}
+                            </td>
+                            <td>
+                                <div v-if="order.flags && order.flags.length > 0">
+                                    <i class="fas fa-flag text-danger"></i>
+                                    <ol>
+                                        <li v-for="(flag, i) in order.flags" :key="i">
+                                            {{ flag }}
+                                        </li>
+                                    </ol>
+
+                                </div>
+                                <div v-else>
+                                    <i class="fas fa-flag text-success"></i>
+                                </div>
                             </td>
                             <td>
                                 <BaseButton iconOnly variant="sky me-2" icon="fas fa-eye "

@@ -11,9 +11,9 @@
                             <th>#</th>
                             <th>Account Code</th>
                             <th>Account Name</th>
-                            <th>Accnt Type</th>
+                            <!-- <th>Accnt Type</th> -->
                             <th>Owner Type</th>
-                            <th>Owner</th>
+                            <!-- <th>Owner</th> -->
                             <th>Currency</th>
                             <th>Available Balance</th>
                             <th>Hold Balance</th>
@@ -26,13 +26,12 @@
                             <td>{{ i + 1 }}</td>
                             <td>{{ row.accnt_code }}</td>
                             <td>{{ row.name }}</td>
-                            <td>{{ row.type }}</td>
+                            <!-- <td>{{ row.type }}</td> -->
                             <td>{{ row.owner_type }}</td>
-                            <td>
+                            <!-- <td>
                                 <b>Code:</b>{{ row?.user?.user_code }} <br />
                                 <b>Nick.:</b>{{ row?.user?.nickname }}
-
-                            </td>
+                            </td> -->
 
                             <td>{{ row.currency }}</td>
                             <td>{{ row.available_balance }}</td>
@@ -68,10 +67,12 @@
                             <th>#</th>
                             <th>Account Code</th>
                             <th>Account Name</th>
-                            <th>Accnt Type</th>
+                            <!-- <th>Accnt Type</th> -->
                             <th>Owner Type</th>
                             <th>Owner</th>
                             <th>Currency</th>
+                            <th>Credit Status</th>
+                            <th>Credit Limit</th>
                             <th>Available Balance</th>
                             <th>Hold Balance</th>
                             <th>Status</th>
@@ -83,7 +84,7 @@
                             <td>{{ i + 1 }}</td>
                             <td>{{ row.accnt_code }}</td>
                             <td>{{ row.name }}</td>
-                            <td>{{ row.type }}</td>
+                            <!-- <td>{{ row.type }}</td> -->
                             <td><span :class="`role-${row?.owner_type.toLowerCase()}`">{{ row.owner_type }}</span></td>
                             <td>
                                 <b>Code:</b>{{ row?.user?.user_code }} <br />
@@ -92,6 +93,20 @@
                             </td>
 
                             <td>{{ row.currency }}</td>
+                            <td>
+                                <span class="badge" :class="{
+                                    'bg-success': row.is_credit_enabled,
+                                    'bg-danger': !row.is_credit_enabled,
+                                }">
+                                    {{ row.is_credit_enabled ? 'Enabled' : 'Disabled' }}
+                                </span>
+
+                            </td>
+                            <td>
+
+                                {{ row.credit_limit }}
+                            </td>
+
                             <td>{{ row.available_balance }}</td>
                             <td>{{ row.hold_balance }}</td>
                             <td>
@@ -102,6 +117,7 @@
                                     {{ row.is_active ? 'Active' : 'Inactive' }}
                                 </span>
                             </td>
+
                             <td>
                                 <BaseButton iconOnly variant="sky me-2" icon="fas fa-eye"
                                     @click="showItemById(row.id)" />

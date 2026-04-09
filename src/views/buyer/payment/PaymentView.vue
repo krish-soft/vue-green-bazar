@@ -52,7 +52,7 @@
 
                             <td><span class="fw-bolder">{{ row.order_amount ?? 0 }} </span> <br />{{ row.currency }}
                             </td>
-                            <td> <span :class="row.credit_amount > 0 ? 'text-warning fw-bold' : ''">{{
+                            <td> <span :class="row.credit_amount > 0 ? 'text-primary fw-bold' : ''">{{
                                 row.credit_amount
                                 ??
                                 0

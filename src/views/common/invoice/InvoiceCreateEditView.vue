@@ -37,7 +37,7 @@
                         <BaseInput v-model="form.invoice_date" label="Invoice Date" type="date" required />
                     </div>
 
-                    <div class="col-md-2">
+                    <!-- <div class="col-md-2">
                         <label class="form-label">Invoice Type</label>
                         <select class="form-control" v-model="form.invoice_type" :disabled="isEdit" required>
 
@@ -45,6 +45,18 @@
                             <option value="sales_return">Sales Return</option>
                             <option value="purchase">Purchase</option>
                             <option value="purchase_return">Purchase Return</option>
+
+                        </select>
+                    </div> -->
+
+                    <div class="col-md-2">
+                        <label class="form-label">Invoice Type</label>
+
+                        <select class="form-control" v-model="form.invoice_type" :disabled="isEdit" required>
+
+                            <option v-for="type in invoiceTypes" :key="type.value" :value="type.value">
+                                {{ type.label }}
+                            </option>
 
                         </select>
                     </div>
@@ -139,65 +151,67 @@
 
                 <hr class="my-4">
 
-                <h5 class="mb-3">Charges</h5>
-                <span class="text-primary fw-semibold mb-4">
-                    [ This value will be added to Platform accounts ]
-                </span>
+                <fieldset :disabled="form.invoice_type !== 'purchase' && form.invoice_type !== 'sales'">
+                    <h5 class="mb-3">Charges</h5>
+                    <span class="text-primary fw-semibold mb-4">
+                        [ This value will be added to Platform accounts ]
+                    </span>
 
-                <table class="table table-bordered">
+                    <table class="table table-bordered">
 
-                    <thead class="table-dark">
-                        <tr>
+                        <thead class="table-warning">
+                            <tr>
 
-                            <th>Charge Name</th>
-                            <th width="120">Qty</th>
-                            <th width="150">Taxable</th>
-                            <th width="150">Tax</th>
-                            <th width="150">Total</th>
-                            <th width="60"></th>
+                                <th>Charge Name</th>
+                                <th width="120">Qty</th>
+                                <th width="150">Taxable</th>
+                                <th width="150">Tax</th>
+                                <th width="150">Total</th>
+                                <th width="60"></th>
 
-                        </tr>
-                    </thead>
+                            </tr>
+                        </thead>
 
-                    <tbody>
+                        <tbody>
 
-                        <tr v-for="(charge, index) in form.charges" :key="index">
+                            <tr v-for="(charge, index) in form.charges" :key="index">
 
-                            <td>
-                                <input class="form-control" v-model="charge.charge_name" />
-                            </td>
+                                <td>
+                                    <input class="form-control" v-model="charge.charge_name" />
+                                </td>
 
-                            <td>
-                                <input class="form-control" type="number" v-model.number="charge.qty" />
-                            </td>
+                                <td>
+                                    <input class="form-control" type="number" v-model.number="charge.qty" />
+                                </td>
 
-                            <td>
-                                <input class="form-control" type="number" v-model.number="charge.taxable_amount"
-                                    @input="recalcCharge(index)" />
-                            </td>
+                                <td>
+                                    <input class="form-control" type="number" v-model.number="charge.taxable_amount"
+                                        @input="recalcCharge(index)" />
+                                </td>
 
-                            <td>
-                                <input class="form-control" type="number" v-model.number="charge.tax_amount"
-                                    @input="recalcCharge(index)" />
-                            </td>
+                                <td>
+                                    <input class="form-control" type="number" v-model.number="charge.tax_amount"
+                                        @input="recalcCharge(index)" />
+                                </td>
 
-                            <td class="text-end">
-                                {{ Number(charge.total_amount || 0).toFixed(2) }}
-                            </td>
+                                <td class="text-end">
+                                    {{ Number(charge.total_amount || 0).toFixed(2) }}
+                                </td>
 
-                            <td>
-                                <button class="btn btn-danger btn-sm" @click="removeCharge(index)">✕</button>
-                            </td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm" @click="removeCharge(index)">✕</button>
+                                </td>
 
-                        </tr>
+                            </tr>
 
-                    </tbody>
+                        </tbody>
 
-                </table>
+                    </table>
 
-                <BaseButton variant="info" class="mt-2" @click="addCharge">
-                    + Add Charge
-                </BaseButton>
+                    <BaseButton variant="warning" class="mt-2" @click="addCharge">
+                        + Add Charge
+                    </BaseButton>
+                </fieldset>
 
                 <hr class="my-4">
 
@@ -358,6 +372,31 @@ function removeItem(i) {
     form.items.splice(i, 1)
 }
 
+const invoiceTypes = computed(() => {
+
+    if (isEdit) {
+        return [
+            { value: "sales", label: "Sales" },
+            { value: "sales_return", label: "Sales Return" },
+            { value: "purchase", label: "Purchase" },
+            { value: "purchase_return", label: "Purchase Return" }
+        ]
+    }
+
+    if (!selectedCustomer.value) return []
+
+    if (selectedCustomer.value.is_buyer) {
+        return [
+            { value: "sales", label: "Sales" },
+            { value: "sales_return", label: "Sales Return" }
+        ]
+    }
+
+    return [
+        { value: "purchase", label: "Purchase" },
+        { value: "purchase_return", label: "Purchase Return" }
+    ]
+})
 
 watch(() => selectedCustomer.value, (newVal) => {
 
@@ -379,6 +418,7 @@ watch(() => selectedCustomer.value, (newVal) => {
 
     } else {
         form.user_id = ""
+        form.invoice_type = ""
     }
 
 })
