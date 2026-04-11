@@ -28,3 +28,9 @@ export const fetchShippingReportByBuyer = (filters = {}) =>
     withUI(() => apiRouteService.getShippingReportByBuyer(filters), {
         showSuccessMessage: false,
     });
+
+
+export const fetchShippingReportByShipment = (filters = {}) =>
+    withUI(() => apiRouteService.getShippingReportByShipment(filters), {
+        showSuccessMessage: false,
+    });

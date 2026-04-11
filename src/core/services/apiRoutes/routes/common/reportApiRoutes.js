@@ -22,6 +22,10 @@ const reportApiRoutes = {
         return Api.admin.get("/report/shipping/buyer", { queryParams: filters });
     },
 
+    getShippingReportByShipment(filters = {}) {
+        return Api.admin.get("/report/shipping/shipment", { queryParams: filters });
+    },
+
 
 
 

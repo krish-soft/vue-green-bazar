@@ -143,6 +143,12 @@ export const sideMenu = [
             to: { name: "reportshippingbuyer" },
             match: "exact",
           },
+          {
+            label: "Shipment-wise",
+            icon: "fas fa-shipping-fast",
+            to: { name: "reportshippingshipment" },
+            match: "exact",
+          },
         ],
       }
 
