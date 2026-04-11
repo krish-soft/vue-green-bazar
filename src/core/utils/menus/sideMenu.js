@@ -123,6 +123,12 @@ export const sideMenu = [
             to: { name: "reportshippingseller" },
             match: "exact",
           },
+          {
+            label: "Buyer-wise",
+            icon: "fas fa-user",
+            to: { name: "reportshippingbuyer" },
+            match: "exact",
+          },
         ],
       }
 

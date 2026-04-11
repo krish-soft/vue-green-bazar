@@ -194,6 +194,11 @@ const router = createRouter({
               name: "reportshippingseller",
               component: () => import("@/views/common/report/shipping/ReportShippingSellerView.vue"),
             },
+            {
+              path: "Buyer",
+              name: "reportshippingbuyer",
+              component: () => import("@/views/common/report/shipping/ReportShippingBuyerView.vue"),
+            },
           ],
         }
       ],
