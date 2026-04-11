@@ -113,6 +113,20 @@ export const sideMenu = [
     match: "children",
     children: [
       {
+        label: "Sales",
+        icon: "fas fa-chart-line",
+        match: "children",
+        children: [
+          {
+            label: "Sales Order",
+            icon: "fas fa-store",
+            to: { name: "reportsalesorder" },
+            match: "exact",
+          },
+
+        ],
+      },
+      {
         label: "Shipping",
         icon: "fas fa-truck",
         match: "children",

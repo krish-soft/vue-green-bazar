@@ -60,7 +60,7 @@
 
 
 
-    <!-- BUYER DETAILS -->
+    <!-- BUYER REPORT -->
 
     <div v-if="activeTab === 'buyer'" class="card shadow-sm">
 
@@ -78,7 +78,7 @@
 
                                 <th>Buyer</th>
                                 <th>Source</th>
-                                <th>Order No</th>
+                                <th>Order</th>
 
                                 <th>Product Code</th>
                                 <th>Product</th>
@@ -86,6 +86,8 @@
                                 <th>Pack</th>
                                 <th>Type</th>
                                 <th>Unit</th>
+
+                                <th class="text-end">Rate</th>
 
                                 <th class="text-end">Qty</th>
                                 <th class="text-end text-success">Shipped</th>
@@ -96,6 +98,7 @@
                             </tr>
 
                         </thead>
+
 
                         <tbody>
 
@@ -127,6 +130,10 @@
 
                                     <td>{{ item.pack_unit }}</td>
 
+                                    <td class="text-end">
+                                        {{ num(item.rate) }}
+                                    </td>
+
                                     <td class="text-end fw-bold">
                                         {{ num(item.qty) }}
                                     </td>
@@ -146,6 +153,7 @@
                                 </tr>
 
 
+
                                 <tr v-for="t in buyer.total" :key="'t' + buyer.buyer.id"
                                     class="table-secondary fw-bold">
 
@@ -159,6 +167,8 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <td></td>
+
                                     <td></td>
 
                                     <td class="text-end">
@@ -229,9 +239,7 @@
                             <tr v-for="p in report.product_summary" :key="p.product.product_code">
 
                                 <td>{{ p.product.product_code }}</td>
-
                                 <td>{{ p.product.name }}</td>
-
                                 <td>{{ p.pack_unit }}</td>
 
                                 <td class="text-end fw-bold">
@@ -282,10 +290,8 @@
                             <tr>
 
                                 <th>Unit</th>
-
                                 <th>Qty</th>
                                 <th class="text-success">Shipped</th>
-
                                 <th>Weight</th>
                                 <th>Amount</th>
 
@@ -322,7 +328,6 @@
 
     </div>
 
-
 </template>
 
 
@@ -332,12 +337,15 @@
 import { ref, onMounted } from "vue"
 import BaseContainer from "@/components/common/cards/BaseContainer.vue"
 import BaseButton from "@/components/common/buttons/BaseButton.vue"
+
 import { fetchShippingReportByBuyer } from "@/core/repos/admin/common/reportRepos"
+
 
 
 const today = new Date()
 const yesterday = new Date()
 yesterday.setDate(today.getDate() - 1)
+
 
 const filters = ref({
     start_date: yesterday.toISOString().slice(0, 10),
@@ -345,11 +353,13 @@ const filters = ref({
     is_pdf_export: 0
 })
 
+
 const report = ref({
     product_summary: [],
     buyer_reports: [],
     grand_totals: []
 })
+
 
 const activeTab = ref("buyer")
 
@@ -362,6 +372,7 @@ const loadReport = async () => {
 
     if (!data) return
 
+
     if (payload.is_pdf_export) {
 
         window.open(data, "_blank")
@@ -373,7 +384,9 @@ const loadReport = async () => {
 
 }
 
+
 const num = (v) => Number(v || 0).toLocaleString()
+
 
 onMounted(() => {
     loadReport()

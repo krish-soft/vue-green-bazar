@@ -8,6 +8,10 @@ const reportApiRoutes = {
     },
 
 
+    getSalesReport(filters = {}) {
+        return Api.admin.get("/report/sales", { queryParams: filters });
+    },
+
     // Shipping report
 
     getShippingReportBySeller(filters = {}) {

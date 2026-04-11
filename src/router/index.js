@@ -187,6 +187,17 @@ const router = createRouter({
       meta: { requiresAuth: true },
       children: [
         {
+          path: "/sales",
+          children: [
+            {
+              path: "SalesOrder",
+              name: "reportsalesorder",
+              component: () => import("@/views/common/report/sales/ReportSalesView.vue"),
+            },
+
+          ],
+        },
+        {
           path: "/shipping",
           children: [
             {
