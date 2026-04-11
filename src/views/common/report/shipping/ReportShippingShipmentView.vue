@@ -62,6 +62,18 @@
             </button>
         </li>
 
+        <li class="nav-item">
+            <button class="nav-link" :class="{ active: activeTab === 'pickup' }" @click="activeTab = 'pickup'">
+                Pickup Summary
+            </button>
+        </li>
+
+        <li class="nav-item">
+            <button class="nav-link" :class="{ active: activeTab === 'delivery' }" @click="activeTab = 'delivery'">
+                Delivery Summary
+            </button>
+        </li>
+
     </ul>
 
 
@@ -100,17 +112,6 @@
                             <td class="text-end">{{ num(s.packages) }}</td>
                             <td class="text-end">{{ num(s.qty) }}</td>
                             <td class="text-end">{{ num(s.weight) }}</td>
-
-                        </tr>
-
-                        <tr class="table-secondary fw-bold">
-
-                            <td colspan="2">TOTAL</td>
-
-                            <td class="text-end">{{ sum(report.shipment_summary, 'shipments') }}</td>
-                            <td class="text-end">{{ sum(report.shipment_summary, 'packages') }}</td>
-                            <td class="text-end">{{ sum(report.shipment_summary, 'qty') }}</td>
-                            <td class="text-end">{{ sum(report.shipment_summary, 'weight') }}</td>
 
                         </tr>
 
@@ -154,25 +155,15 @@
 
                         <tbody>
 
-                            <tr v-for="p in group.products" :key="(p.product?.product_code || 'x') + p.pack_size">
+                            <tr v-for="p in group.products" :key="p.product?.product_code + p.pack_size">
 
-                                <td>{{ p.product?.name || 'N/A' }}</td>
+                                <td>{{ p.product?.name }}</td>
                                 <td>{{ p.pack_size }}</td>
                                 <td>{{ p.pack_unit }}</td>
 
                                 <td class="text-end">{{ num(p.packages) }}</td>
-                                <td class="text-end fw-bold">{{ num(p.qty) }}</td>
+                                <td class="text-end">{{ num(p.qty) }}</td>
                                 <td class="text-end">{{ num(p.weight) }}</td>
-
-                            </tr>
-
-                            <tr class="table-secondary fw-bold">
-
-                                <td colspan="3">TOTAL</td>
-
-                                <td class="text-end">{{ sum(group.products, 'packages') }}</td>
-                                <td class="text-end">{{ sum(group.products, 'qty') }}</td>
-                                <td class="text-end">{{ sum(group.products, 'weight') }}</td>
 
                             </tr>
 
@@ -246,14 +237,16 @@
                 <div v-for="flow in report.flow_details" :key="flow.from?.addr_name + flow.to?.addr_name" class="mb-4">
 
                     <h6 class="fw-bold">
-                        {{ flow.from?.addr_name }} → {{ flow.to?.addr_name }}
+                        <span class="text-primary fw-bolder"> {{ flow.from?.addr_name }}</span> → <span
+                            class="text-danger fw-bolder">{{
+                                flow.to?.addr_name }} </span>
                     </h6>
 
                     <div v-for="s in flow.shipments" :key="s.shipment_number" class="mb-3">
 
                         <div class="fw-bold mb-1">
-                            {{ s.shipment_number }} |
-                            {{ s.shipment_date }} |
+                            <span class="text-danger"> {{ s.shipment_number }} </span>|
+                            <span class="text-secondary"> {{ s.shipment_date }} </span> |
                             <StatusBadge :status="s.status" />
                         </div>
 
@@ -271,9 +264,9 @@
 
                             <tbody>
 
-                                <tr v-for="i in s.items" :key="(i.product?.product_code || 'x') + i.pack_size">
+                                <tr v-for="i in s.items" :key="i.product?.product_code + i.pack_size">
 
-                                    <td>{{ i.product?.name || 'N/A' }}</td>
+                                    <td>{{ i.product?.name }}</td>
                                     <td>{{ i.pack_size }}</td>
                                     <td>{{ i.pack_unit }}</td>
 
@@ -304,6 +297,106 @@
 
     </div>
 
+
+
+    <!-- PICKUP SUMMARY -->
+
+    <div v-if="activeTab === 'pickup'" class="card shadow-sm">
+
+        <BaseContainer heading="Pickup Summary (From Location)">
+
+            <template #body>
+
+                <div v-for="loc in report.from_location_summary" :key="loc.location" class="mb-4">
+
+                    <h6 class="fw-bold">{{ loc.location }}</h6>
+
+                    <table class="table table-sm table-bordered">
+
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Product</th>
+                                <th>Pack</th>
+                                <th>Unit</th>
+                                <th class="text-end">Qty</th>
+                                <th class="text-end">Weight</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr v-for="p in loc.products" :key="p.product?.product_code + p.pack_size">
+
+                                <td>{{ p.product?.name }}</td>
+                                <td>{{ p.pack_size }}</td>
+                                <td>{{ p.pack_unit }}</td>
+
+                                <td class="text-end">{{ num(p.qty) }}</td>
+                                <td class="text-end">{{ num(p.weight) }}</td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </template>
+        </BaseContainer>
+
+    </div>
+
+
+
+    <!-- DELIVERY SUMMARY -->
+
+    <div v-if="activeTab === 'delivery'" class="card shadow-sm">
+
+        <BaseContainer heading="Delivery Summary (To Location)">
+
+            <template #body>
+
+                <div v-for="loc in report.to_location_summary" :key="loc.location" class="mb-4">
+
+                    <h6 class="fw-bold">{{ loc.location }}</h6>
+
+                    <table class="table table-sm table-bordered">
+
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Product</th>
+                                <th>Pack</th>
+                                <th>Unit</th>
+                                <th class="text-end">Qty</th>
+                                <th class="text-end">Weight</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr v-for="p in loc.products" :key="p.product?.product_code + p.pack_size">
+
+                                <td>{{ p.product?.name }}</td>
+                                <td>{{ p.pack_size }}</td>
+                                <td>{{ p.pack_unit }}</td>
+
+                                <td class="text-end">{{ num(p.qty) }}</td>
+                                <td class="text-end">{{ num(p.weight) }}</td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </template>
+        </BaseContainer>
+
+    </div>
+
 </template>
 
 
@@ -313,36 +406,31 @@
 import { ref, onMounted } from "vue"
 import BaseContainer from "@/components/common/cards/BaseContainer.vue"
 import BaseButton from "@/components/common/buttons/BaseButton.vue"
+import StatusBadge from "@/components/common/badge/StatusBadge.vue"
+
 import { fetchShippingReportByShipment } from "@/core/repos/admin/common/reportRepos"
 
-import StatusBadge from "@/components/common/badge/StatusBadge.vue";
 
 const today = new Date()
 const yesterday = new Date()
-
 yesterday.setDate(today.getDate() - 1)
 
 const filters = ref({
-
     start_date: yesterday.toISOString().slice(0, 10),
     end_date: today.toISOString().slice(0, 10),
     is_pdf_export: 0
-
 })
 
-
 const report = ref({
-
     shipment_summary: [],
     product_summary: [],
     flow_summary: [],
-    flow_details: []
-
+    flow_details: [],
+    from_location_summary: [],
+    to_location_summary: []
 })
 
-
 const activeTab = ref("summary")
-
 
 const loadReport = async () => {
 
@@ -361,16 +449,8 @@ const loadReport = async () => {
 
 }
 
-
 const num = (v) => Number(v || 0).toLocaleString()
 
-const sum = (rows, key) => rows.reduce((t, r) => t + (Number(r[key]) || 0), 0)
-
-
-onMounted(() => {
-
-    loadReport()
-
-})
+onMounted(() => loadReport())
 
 </script>
