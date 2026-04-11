@@ -105,6 +105,32 @@ export const sideMenu = [
     ],
   },
 
+  // Reports menu
+  {
+    label: "Reports",
+    icon: "fas fa-chart-bar",
+    module: AppModuleEnum.REPORTS,
+    match: "children",
+    children: [
+      {
+        label: "Shipping",
+        icon: "fas fa-truck",
+        match: "children",
+        children: [
+          {
+            label: "Seller-wise",
+            icon: "fas fa-store",
+            to: { name: "reportshippingseller" },
+            match: "exact",
+          },
+        ],
+      }
+
+
+    ],
+  },
+
+
   {
     label: "Customer",
     icon: "fas fa-user",

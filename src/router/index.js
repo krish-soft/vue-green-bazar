@@ -182,6 +182,22 @@ const router = createRouter({
 
       ],
     },
+    {
+      path: "/report",
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: "/shipping",
+          children: [
+            {
+              path: "Seller",
+              name: "reportshippingseller",
+              component: () => import("@/views/common/report/shipping/ReportShippingSellerView.vue"),
+            },
+          ],
+        }
+      ],
+    },
 
 
     {
