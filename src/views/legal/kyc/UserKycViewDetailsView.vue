@@ -1,466 +1,570 @@
 <template>
-    <BaseContainer :heading="'User KYC Details : ' + kycDetails?.kyc_code">
+  <BaseContainer :heading="'User KYC Details : ' + kycDetails?.kyc_code">
+    <template #headerActions> </template>
 
-        <template #headerActions>
-        </template>
+    <template #body>
+      <div v-if="kycDetails" class="container-fluid px-0">
+        <!-- ================= BASIC INFO ================= -->
+        <div class="mb-4">
+          <div class="border-bottom pb-1 mb-2">
+            <h6 class="fw-semibold text-muted mb-0">Basic Information</h6>
+          </div>
 
-        <template #body>
+          <table class="table table-sm table-borderless align-middle mb-0">
+            <tbody>
+              <tr>
+                <th class="text-muted fw-normal w-25">User</th>
+                <td class="fw-semibold">
+                  <b>Customer Code:</b> {{ kycDetails?.user_code }} <br /><b
+                    >Name:</b
+                  >
+                  {{ kycDetails?.user?.name }} <br />
+                  <span :class="`role-${kycDetails?.user?.role}`">
+                    {{ kycDetails?.user?.role }}
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <th class="text-muted fw-normal w-25">KYC Code</th>
+                <td class="fw-semibold">{{ kycDetails.kyc_code }}</td>
+              </tr>
+              <tr>
+                <th class="text-muted fw-normal w-25">Legal Name</th>
+                <td class="fw-semibold">{{ kycDetails.legal_name }}</td>
+              </tr>
+              <tr>
+                <th class="text-muted fw-normal w-25">Father Name</th>
+                <td class="fw-semibold">{{ kycDetails.father_name }}</td>
+              </tr>
+              <tr>
+                <th class="text-muted fw-normal w-25">Mother Name</th>
+                <td class="fw-semibold">{{ kycDetails.mother_name }}</td>
+              </tr>
+              <tr>
+                <th class="text-muted fw-normal w-25">Aadhaar Last 4</th>
+                <td class="fw-semibold">{{ kycDetails.aadhaar_last4 }}</td>
+              </tr>
+              <tr>
+                <th class="text-muted fw-normal w-25">Date of Birth</th>
+                <td class="fw-semibold">
+                  <span :class="kycDetails.dob ? 'masked-value' : ''">
+                    {{ kycDetails.dob }}
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <th class="text-muted fw-normal w-25">Gender</th>
+                <td class="fw-semibold">
+                  <span :class="kycDetails.gender ? 'masked-value' : ''">{{
+                    kycDetails.gender
+                  }}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- ================= ADDRESS ================= -->
+        <div class="mb-4">
+          <div
+            class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2"
+          >
+            <h6 class="fw-semibold text-muted mb-0">
+              User Address Details [Not KYC]
+            </h6>
+          </div>
 
-            <div v-if="kycDetails" class="container-fluid px-0">
+          <table
+            v-if="kycDetails.address"
+            class="table table-sm table-borderless align-middle mb-0"
+          >
+            <tbody>
+              <!-- Address Name / Type -->
+              <tr v-if="kycDetails.address.addr_name">
+                <th class="text-muted fw-normal w-25">Address Name</th>
+                <td>{{ kycDetails.address.addr_name }}</td>
+              </tr>
 
-                <!-- ================= BASIC INFO ================= -->
-                <div class="mb-4">
-                    <div class="border-bottom pb-1 mb-2">
-                        <h6 class="fw-semibold text-muted mb-0">Basic Information</h6>
-                    </div>
+              <!-- Address Lines -->
+              <tr>
+                <th class="text-muted fw-normal">Address Line 1</th>
+                <td>{{ kycDetails.address.address_line1 || "N/A" }}</td>
+              </tr>
 
-                    <table class="table table-sm table-borderless align-middle mb-0">
-                        <tbody>
-                            <tr>
-                                <th class="text-muted fw-normal w-25">User</th>
-                                <td class="fw-semibold">
-                                    <b>Customer Code:</b> {{ kycDetails?.user_code }}
-                                    <br /><b>Name:</b> {{ kycDetails?.user?.name }}
-                                    <br /> <span :class="`role-${kycDetails?.user?.role}`">
-                                        {{ kycDetails?.user?.role }}
-                                    </span>
+              <tr v-if="kycDetails.address.address_line2">
+                <th class="text-muted fw-normal">Address Line 2</th>
+                <td>{{ kycDetails.address.address_line2 }}</td>
+              </tr>
 
-                                </td>
-                            </tr>
-                            <tr>
-                                <th class="text-muted fw-normal w-25">KYC Code</th>
-                                <td class="fw-semibold">{{ kycDetails.kyc_code }}</td>
-                            </tr>
-                            <tr>
-                                <th class="text-muted fw-normal w-25">Legal Name</th>
-                                <td class="fw-semibold">{{ kycDetails.legal_name }}</td>
-                            </tr>
-                            <tr>
-                                <th class="text-muted fw-normal w-25">Father Name</th>
-                                <td class="fw-semibold">{{ kycDetails.father_name }}</td>
-                            </tr>
-                            <tr>
-                                <th class="text-muted fw-normal w-25">Mother Name</th>
-                                <td class="fw-semibold">{{ kycDetails.mother_name }}</td>
-                            </tr>
-                            <tr>
-                                <th class="text-muted fw-normal w-25">Aadhaar Last 4</th>
-                                <td class="fw-semibold">{{ kycDetails.aadhaar_last4 }}</td>
-                            </tr>
-                            <tr>
-                                <th class="text-muted fw-normal w-25">Date of Birth</th>
-                                <td class="fw-semibold "> <span :class="kycDetails.dob ? 'masked-value' : ''">
-                                        {{ kycDetails.dob }}
-                                    </span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th class="text-muted fw-normal w-25">Gender</th>
-                                <td class="fw-semibold "> <span :class="kycDetails.gender ? 'masked-value' : ''">{{
-                                    kycDetails.gender }}</span></td>
-                            </tr>
+              <!-- Locality -->
+              <tr v-if="kycDetails.address.landmark">
+                <th class="text-muted fw-normal">Landmark</th>
+                <td>{{ kycDetails.address.landmark }}</td>
+              </tr>
 
-                        </tbody>
-                    </table>
-                </div>
-                <!-- ================= ADDRESS ================= -->
-                <div class="mb-4">
-                    <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2">
-                        <h6 class="fw-semibold text-muted mb-0">User Address Details [Not KYC]</h6>
-                    </div>
+              <tr v-if="kycDetails.address.village">
+                <th class="text-muted fw-normal">Village</th>
+                <td>{{ kycDetails.address.village }}</td>
+              </tr>
 
-                    <table v-if="kycDetails.address" class="table table-sm table-borderless align-middle mb-0">
-                        <tbody>
-                            <!-- Address Name / Type -->
-                            <tr v-if="kycDetails.address.addr_name">
-                                <th class="text-muted fw-normal w-25">Address Name</th>
-                                <td>{{ kycDetails.address.addr_name }}</td>
-                            </tr>
+              <tr v-if="kycDetails.address.taluka">
+                <th class="text-muted fw-normal">Taluka</th>
+                <td>{{ kycDetails.address.taluka }}</td>
+              </tr>
 
-                            <!-- Address Lines -->
-                            <tr>
-                                <th class="text-muted fw-normal">Address Line 1</th>
-                                <td>{{ kycDetails.address.address_line1 || "N/A" }}</td>
-                            </tr>
+              <tr v-if="kycDetails.address.district">
+                <th class="text-muted fw-normal">District</th>
+                <td>{{ kycDetails.address.district }}</td>
+              </tr>
 
-                            <tr v-if="kycDetails.address.address_line2">
-                                <th class="text-muted fw-normal">Address Line 2</th>
-                                <td>{{ kycDetails.address.address_line2 }}</td>
-                            </tr>
+              <!-- City / State -->
+              <tr>
+                <th class="text-muted fw-normal">City</th>
+                <td>{{ kycDetails.address.city || "N/A" }}</td>
+              </tr>
 
-                            <!-- Locality -->
-                            <tr v-if="kycDetails.address.landmark">
-                                <th class="text-muted fw-normal">Landmark</th>
-                                <td>{{ kycDetails.address.landmark }}</td>
-                            </tr>
+              <tr>
+                <th class="text-muted fw-normal">State</th>
+                <td>
+                  {{ kycDetails.address.state || "N/A" }}
+                  <span v-if="kycDetails.address.state_iso" class="text-muted">
+                    ({{ kycDetails.address.state_iso }})
+                  </span>
+                </td>
+              </tr>
 
-                            <tr v-if="kycDetails.address.village">
-                                <th class="text-muted fw-normal">Village</th>
-                                <td>{{ kycDetails.address.village }}</td>
-                            </tr>
+              <tr>
+                <th class="text-muted fw-normal">Postal Code</th>
+                <td>{{ kycDetails.address.postal_code || "N/A" }}</td>
+              </tr>
 
-                            <tr v-if="kycDetails.address.taluka">
-                                <th class="text-muted fw-normal">Taluka</th>
-                                <td>{{ kycDetails.address.taluka }}</td>
-                            </tr>
+              <!-- Country -->
+              <tr v-if="kycDetails.address.country">
+                <th class="text-muted fw-normal">Country</th>
+                <td>
+                  {{ kycDetails.address.country }}
+                  <span
+                    v-if="kycDetails.address.country_iso"
+                    class="text-muted"
+                  >
+                    ({{ kycDetails.address.country_iso }})
+                  </span>
+                </td>
+              </tr>
 
-                            <tr v-if="kycDetails.address.district">
-                                <th class="text-muted fw-normal">District</th>
-                                <td>{{ kycDetails.address.district }}</td>
-                            </tr>
+              <!-- Contact -->
+              <tr v-if="kycDetails.address.contact_name">
+                <th class="text-muted fw-normal">Contact Name</th>
+                <td>{{ kycDetails.address.contact_name }}</td>
+              </tr>
 
-                            <!-- City / State -->
-                            <tr>
-                                <th class="text-muted fw-normal">City</th>
-                                <td>{{ kycDetails.address.city || "N/A" }}</td>
-                            </tr>
+              <tr v-if="kycDetails.address.phone_number">
+                <th class="text-muted fw-normal">Phone</th>
+                <td>
+                  <span v-if="kycDetails.address.dial_code">
+                    +{{ kycDetails.address.dial_code }}
+                  </span>
+                  <span class="masked-value">
+                    {{ kycDetails.address.phone_number }}</span
+                  >
+                </td>
+              </tr>
 
-                            <tr>
-                                <th class="text-muted fw-normal">State</th>
-                                <td>
-                                    {{ kycDetails.address.state || "N/A" }}
-                                    <span v-if="kycDetails.address.state_iso" class="text-muted">
-                                        ({{ kycDetails.address.state_iso }})
-                                    </span>
-                                </td>
-                            </tr>
+              <tr v-if="kycDetails.address.email">
+                <th class="text-muted fw-normal">Email</th>
+                <td class="text-break">
+                  <span class="masked-value">{{
+                    kycDetails.address.email
+                  }}</span>
+                </td>
+              </tr>
 
-                            <tr>
-                                <th class="text-muted fw-normal">Postal Code</th>
-                                <td>{{ kycDetails.address.postal_code || "N/A" }}</td>
-                            </tr>
+              <!-- Geo -->
+              <tr
+                v-if="
+                  kycDetails.address.latitude && kycDetails.address.longitude
+                "
+              >
+                <th class="text-muted fw-normal">Coordinates</th>
+                <td>
+                  {{ kycDetails.address.latitude }},
+                  {{ kycDetails.address.longitude }}
+                </td>
+              </tr>
 
-                            <!-- Country -->
-                            <tr v-if="kycDetails.address.country">
-                                <th class="text-muted fw-normal">Country</th>
-                                <td>
-                                    {{ kycDetails.address.country }}
-                                    <span v-if="kycDetails.address.country_iso" class="text-muted">
-                                        ({{ kycDetails.address.country_iso }})
-                                    </span>
-                                </td>
-                            </tr>
+              <!-- Status -->
+              <tr>
+                <th class="text-muted fw-normal">Status</th>
+                <td>
+                  <span
+                    class="badge"
+                    :class="
+                      kycDetails.address.is_active ? 'bg-success' : 'bg-danger'
+                    "
+                  >
+                    {{ kycDetails.address.is_active ? "Active" : "Inactive" }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
-                            <!-- Contact -->
-                            <tr v-if="kycDetails.address.contact_name">
-                                <th class="text-muted fw-normal">Contact Name</th>
-                                <td>{{ kycDetails.address.contact_name }}</td>
-                            </tr>
+          <div v-else class="text-muted small">
+            No address information available.
+          </div>
+        </div>
 
-                            <tr v-if="kycDetails.address.phone_number">
-                                <th class="text-muted fw-normal">Phone</th>
-                                <td>
-                                    <span v-if="kycDetails.address.dial_code">
-                                        +{{ kycDetails.address.dial_code }}
-                                    </span>
-                                    <span class="masked-value"> {{ kycDetails.address.phone_number }}</span>
-                                </td>
-                            </tr>
+        <!-- ================= VERIFICATIONS ================= -->
+        <div class="mb-4">
+          <div
+            class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2"
+          >
+            <h6 class="fw-semibold text-muted mb-0">Verifications</h6>
 
-                            <tr v-if="kycDetails.address.email">
-                                <th class="text-muted fw-normal">Email</th>
-                                <td class="text-break"><span class="masked-value">{{ kycDetails.address.email }}</span>
-                                </td>
-                            </tr>
+            <BaseButton
+              size="sm"
+              variant="primary"
+              @click="openKycModal()"
+              :disabled="!hasDepots || !canKycStatusUpdate"
+            >
+              Update KYC Status
+            </BaseButton>
+          </div>
 
-                            <!-- Geo -->
-                            <tr v-if="kycDetails.address.latitude && kycDetails.address.longitude">
-                                <th class="text-muted fw-normal">Coordinates</th>
-                                <td>
-                                    {{ kycDetails.address.latitude }},
-                                    {{ kycDetails.address.longitude }}
-                                </td>
-                            </tr>
+          <table class="table table-sm table-borderless align-middle mb-0">
+            <tbody>
+              <tr>
+                <th class="text-muted fw-normal w-25">KYC Status</th>
+                <td class="fw-semibold">
+                  <span
+                    class="badge"
+                    :class="{
+                      'bg-secondary': kycDetails.status === 'pending',
+                      'bg-success': kycDetails.status === 'approved',
+                      'bg-danger': kycDetails.status === 'rejected',
+                      'bg-info': kycDetails.status === 'under_review',
+                    }"
+                  >
+                    {{ kycDetails.status }}
+                  </span>
+                </td>
+              </tr>
 
-                            <!-- Status -->
-                            <tr>
-                                <th class="text-muted fw-normal">Status</th>
-                                <td>
-                                    <span class="badge"
-                                        :class="kycDetails.address.is_active ? 'bg-success' : 'bg-danger'">
-                                        {{ kycDetails.address.is_active ? "Active" : "Inactive" }}
-                                    </span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+              <tr>
+                <th class="text-muted fw-normal w-25">Verification Mode</th>
+                <td class="fw-semibold">{{ kycDetails.verification_mode }}</td>
+              </tr>
 
-                    <div v-else class="text-muted small">
-                        No address information available.
-                    </div>
+              <tr>
+                <th class="text-muted fw-normal w-25">Verified At</th>
+                <td class="fw-semibold">{{ kycDetails.verified_at }}</td>
+              </tr>
 
-                </div>
+              <tr>
+                <th class="text-muted fw-normal w-25">Verified By</th>
+                <td class="fw-semibold">{{ kycDetails.verified_by }}</td>
+              </tr>
+              <tr>
+                <th class="text-muted fw-normal w-25">Review Comment</th>
+                <td class="fw-semibold">{{ kycDetails.review_comment }}</td>
+              </tr>
 
-                <!-- ================= VERIFICATIONS ================= -->
-                <div class="mb-4">
-                    <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2">
-                        <h6 class="fw-semibold text-muted mb-0">Verifications</h6>
+              <tr>
+                <th class="text-muted fw-normal w-25">Is Expired</th>
+                <td
+                  class="fw-semibold"
+                  :class="
+                    kycDetails.is_expired ? 'text-danger' : 'text-success'
+                  "
+                >
+                  {{ kycDetails.is_expired ? "Yes" : "No" }}
+                </td>
+              </tr>
 
-                        <BaseButton size="sm" variant="primary" @click="openKycModal()"
-                            :disabled="!hasDepots || !canKycStatusUpdate">
-                            Update KYC Status
-                        </BaseButton>
-                    </div>
+              <tr>
+                <th class="text-muted fw-normal w-25">Expired At</th>
+                <td class="fw-semibold">{{ kycDetails.expired_at }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-                    <table class="table table-sm table-borderless align-middle mb-0">
-                        <tbody>
-                            <tr>
-                                <th class="text-muted fw-normal w-25">KYC Status</th>
-                                <td class="fw-semibold ">
-                                    <span class="badge" :class="{
-                                        'bg-secondary': kycDetails.status === 'pending',
-                                        'bg-success': kycDetails.status === 'approved',
-                                        'bg-danger': kycDetails.status === 'rejected',
-                                        'bg-info': kycDetails.status === 'under_review',
-                                    }">
-                                        {{ kycDetails.status }}
-                                    </span>
+        <!-- ================= DOCUMENTS =================-->
+        <div class="mb-4">
+          <div class="border-bottom pb-1 mb-2">
+            <h6 class="fw-semibold text-muted mb-0">Documents</h6>
+          </div>
 
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th class=" text-muted fw-normal w-25">Verification Mode</th>
-                                <td class="fw-semibold">{{ kycDetails.verification_mode }}</td>
-                            </tr>
-
-                            <tr>
-                                <th class="text-muted fw-normal w-25">Verified At</th>
-                                <td class="fw-semibold">{{ kycDetails.verified_at }}</td>
-                            </tr>
-
-                            <tr>
-                                <th class="text-muted fw-normal w-25">Verified By</th>
-                                <td class="fw-semibold">{{ kycDetails.verified_by }}</td>
-                            </tr>
-                            <tr>
-                                <th class="text-muted fw-normal w-25">Review Comment</th>
-                                <td class="fw-semibold">{{ kycDetails.review_comment }}</td>
-                            </tr>
-
-                            <tr>
-                                <th class="text-muted fw-normal w-25">Is Expired</th>
-                                <td class="fw-semibold" :class="kycDetails.is_expired ? 'text-danger' : 'text-success'">
-                                    {{ kycDetails.is_expired ? 'Yes' : 'No' }}</td>
-                            </tr>
-
-                            <tr>
-                                <th class="text-muted fw-normal w-25">Expired At</th>
-                                <td class="fw-semibold">{{ kycDetails.expired_at }}</td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- ================= DOCUMENTS =================-->
-                <div class="mb-4">
-                    <div class="border-bottom pb-1 mb-2">
-                        <h6 class="fw-semibold text-muted mb-0">Documents</h6>
-                    </div>
-
-                    <table class="table table-sm table-bordered align-middle mb-0">
-                        <thead>
-                            <tr>
-                                <th class="text-muted fw-normal">#</th>
-                                <th class="text-muted fw-normal">Document Code</th>
-                                <th class="text-muted fw-normal">Document Type</th>
-                                <th class="text-muted fw-normal">Document Number Last 4 Digits</th>
-                                <th class="text-muted fw-normal w-25">Document Front File</th>
-                                <th class="text-muted fw-normal w-25">Document Back File</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            <tr v-for="(docFile, i) in kycDetails.legal_documents" :key="docFile.id">
-                                <td>{{ i + 1 }} </td>
-                                <td>{{ docFile.legal_doc_code }}</td>
-                                <td>{{ docFile.document_type }}</td>
-                                <td>{{ docFile.document_number_last4 }}</td>
-                                <td>
-                                    <!-- <img v-if="docFile.document_url_front" :src="docFile.document_url_front"
+          <table class="table table-sm table-bordered align-middle mb-0">
+            <thead>
+              <tr>
+                <th class="text-muted fw-normal">#</th>
+                <th class="text-muted fw-normal">Document Code</th>
+                <th class="text-muted fw-normal">Document Type</th>
+                <th class="text-muted fw-normal">
+                  Document Number Last 4 Digits
+                </th>
+                <th class="text-muted fw-normal w-25">Document Front File</th>
+                <th class="text-muted fw-normal w-25">Document Back File</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="(docFile, i) in kycDetails.legal_documents"
+                :key="docFile.id"
+              >
+                <td>{{ i + 1 }}</td>
+                <td>{{ docFile.legal_doc_code }}</td>
+                <td>{{ docFile.document_type }}</td>
+                <td>{{ docFile.document_number_last4 }}</td>
+                <td>
+                  <!-- <img v-if="docFile.document_url_front" :src="docFile.document_url_front"
                                         alt="Document Front" width="50" class="zoom-thumb"
                                         @click="openZoom(docFile.document_url_front)" /> -->
 
-                                    <ImageZoomViewer
-                                        v-if="kycDetails.status === 'pending' || kycDetails.status === 'under_review'"
-                                        :src="docFile.document_url_front" :thumbWidth="75" />
+                  <ImageZoomViewer
+                    v-if="
+                      kycDetails.status === 'pending' ||
+                      kycDetails.status === 'under_review'
+                    "
+                    :src="docFile.document_url_front"
+                    :thumbWidth="75"
+                  />
 
-                                    <span v-else class="text-muted">{{ docFile.status }}</span>
+                  <span v-else class="text-muted">{{ docFile.status }}</span>
+                </td>
+                <td>
+                  <ImageZoomViewer
+                    v-if="
+                      kycDetails.status === 'pending' ||
+                      kycDetails.status === 'under_review'
+                    "
+                    :src="docFile.document_url_back"
+                    :thumbWidth="75"
+                  />
 
+                  <span v-else class="text-muted">{{ docFile.status }}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
+        <!-- ================= DEPOTS =================-->
+        <div class="mb-4">
+          <div
+            class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2"
+          >
+            <h6 class="fw-semibold text-muted mb-0">Depot Details</h6>
 
-                                </td>
-                                <td>
-                                    <ImageZoomViewer
-                                        v-if="kycDetails.status === 'pending' || kycDetails.status === 'under_review'"
-                                        :src="docFile.document_url_back" :thumbWidth="75" />
-
-                                    <span v-else class="text-muted">{{ docFile.status }}</span>
-
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- ================= DEPOTS =================-->
-                <div class="mb-4">
-                    <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2">
-                        <h6 class="fw-semibold text-muted mb-0">Depot Details</h6>
-
-                        <BaseButton size="sm" variant="secondary" @click="openDepotModal()">
-                            Add New Depot
-                        </BaseButton>
-                    </div>
-
-                    <table class="table table-sm table-bordered align-middle mb-0">
-                        <thead>
-                            <tr>
-                                <th class="text-muted fw-normal">#</th>
-                                <th class="text-muted fw-normal">Primary</th>
-                                <th class="text-muted fw-normal">User Details</th>
-                                <th class="text-muted fw-normal">Depot Details</th>
-                                <th class="text-muted fw-normal">Action</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            <tr v-for="(depot, i) in kycDetails.depots" :key="depot.id">
-                                <td>{{ i + 1 }} </td>
-                                <td><span :class="['badge', depot.is_primary ? 'bg-success' : 'bg-secondary']"> {{
-                                    depot.is_primary ? "Yes" : "No" }} </span></td>
-                                <td>
-                                    {{ depot?.user?.user_code }}
-                                    <br>{{ depot?.user?.name }}
-                                </td>
-                                <td>
-                                    {{ depot?.depot?.code }}
-                                    <br>{{ depot?.depot?.name }}
-                                </td>
-                                <td>
-                                    <BaseButton iconOnly icon="fas fa-trash" variant="danger"
-                                        @click="removeDepotAction(depot.id)" />
-
-                                </td>
-
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-
-
-            </div>
-
-        </template>
-    </BaseContainer>
-
-    <!-- KYC Modal -->
-    <BaseModal ref="kycModal" icon="fas fa-id-card">
-        <template #title>
-            KYC Verification
-        </template>
-
-        <form id="kycForm" @submit.prevent="submitKycStatusForm">
-
-            <div class="col-md-12">
-                <BaseInput label="User KYC ID" v-model="userKycForm.kyc_id" readonly />
-
-                <BaseAutoCompleteSelect label="Status" v-model="userKycForm.status" :options="kycStatusList"
-                    label-key="label" value-key="value" placeholder="Select status" required />
-
-
-                <BaseInput label="Review Comment" v-model="userKycForm.review_comment"
-                    placeholder="Enter Review Comment" required />
-            </div>
-
-
-            <div class="mt-2 d-flex align-items-center gap-2">
-                <label class="form-label mb-0">
-                    Confirm:
-                    <strong>{{ a }} + {{ b }}</strong> =
-                </label>
-
-                <BaseInput v-model="confirmAnswer" type="number" class="w-50 mt-2" placeholder="?" required />
-            </div>
-
-
-        </form>
-
-        <template #footer>
-            <BaseButton variant="secondary" @click="closeKycModal()">
-                Cancel
+            <BaseButton size="sm" variant="secondary" @click="openDepotModal()">
+              Add New Depot
             </BaseButton>
-            <BaseButton variant="primary" type="submit" form="kycForm" :loading="uiStore.isLoading">
-                Save
-            </BaseButton>
-        </template>
-    </BaseModal>
+          </div>
 
-    <!-- User Depot -->
-    <BaseModal ref="userDepotModal" icon="fas fa-map-marker-alt">
-        <template #title>
-            Assign New Depot
-        </template>
+          <table class="table table-sm table-bordered align-middle mb-0">
+            <thead>
+              <tr>
+                <th class="text-muted fw-normal">#</th>
+                <th class="text-muted fw-normal">Primary</th>
+                <th class="text-muted fw-normal">User Details</th>
+                <th class="text-muted fw-normal">Depot Details</th>
+                <th class="text-muted fw-normal">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(depot, i) in kycDetails.depots" :key="depot.id">
+                <td>{{ i + 1 }}</td>
+                <td>
+                  <span
+                    :class="[
+                      'badge',
+                      depot.is_primary ? 'bg-success' : 'bg-secondary',
+                    ]"
+                  >
+                    {{ depot.is_primary ? "Yes" : "No" }}
+                  </span>
+                </td>
+                <td>
+                  {{ depot?.user?.user_code }}
+                  <br />{{ depot?.user?.name }}
+                </td>
+                <td>
+                  {{ depot?.depot?.code }}
+                  <br />{{ depot?.depot?.name }}
+                </td>
+                <td>
+                  <BaseButton
+                    iconOnly
+                    icon="fas fa-trash"
+                    variant="danger"
+                    @click="removeDepotAction(depot.id)"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </template>
+  </BaseContainer>
 
-        <form id="depotForm" @submit.prevent="submitDepotForm">
-            <div class="col-md-6">
-                <BaseInput label="User Code" v-model="kycDetails.user_code" readonly />
-                <BaseInput label="User Id" v-model="userDepotForm.user_id" readonly hidden />
-            </div>
-            <div class="col-md-12">
-                <BaseAutoCompleteSelect label="Depots" v-model="userDepotForm.depot_id" :options="depotList"
-                    :label-key="['zone.state.name', 'code', 'name', 'zone.name']" :value-key="'id'"
-                    placeholder="Select depot" required />
-            </div>
-            <div class=" border rounded-3 p-3 bg-light">
-                <label class="form-label fw-semibold mb-2">Status</label>
+  <!-- KYC Modal -->
+  <BaseModal ref="kycModal" icon="fas fa-id-card">
+    <template #title> KYC Verification </template>
 
-                <div class="d-flex align-items-center justify-content-between">
-                    <span class="text-muted">
-                        Charge Level is
-                        <b :class="userDepotForm.is_primary ? 'text-success' : 'text-danger'">
-                            {{ userDepotForm.is_primary ? "Primary" : "Not" }}
-                        </b>
-                    </span>
+    <form id="kycForm" @submit.prevent="submitKycStatusForm">
+      <div class="col-md-12">
+        <BaseInput label="User KYC ID" v-model="userKycForm.kyc_id" readonly />
 
-                    <!-- TOGGLE -->
-                    <div class="status-toggle" :class="{ active: userDepotForm.is_primary }"
-                        @click="userDepotForm.is_primary = !userDepotForm.is_primary">
-                        <span class="toggle-knob"></span>
-                    </div>
-                </div>
-            </div>
-        </form>
+        <BaseAutoCompleteSelect
+          label="Status"
+          v-model="userKycForm.status"
+          :options="kycStatusList"
+          label-key="label"
+          value-key="value"
+          placeholder="Select status"
+          required
+        />
 
-        <template #footer>
-            <BaseButton variant="secondary" @click="closeDepotModal()">
-                Cancel
-            </BaseButton>
-            <BaseButton variant="primary" type="submit" form="depotForm" :loading="uiStore.isLoading">
-                Save
-            </BaseButton>
-        </template>
-    </BaseModal>
+        <BaseInput
+          label="Review Comment"
+          v-model="userKycForm.review_comment"
+          placeholder="Enter Review Comment"
+          required
+        />
 
+        <div
+          class="d-flex align-items-center justify-content-between"
+          v-if="userKycForm.status === 'rejected'"
+        >
+          <span class="text-muted">
+            Re-KYC is
+            <b :class="userKycForm.is_re_kyc ? 'text-warning' : 'text-success'">
+              {{ userKycForm.is_re_kyc ? "Re-KYC" : "Not" }}
+            </b>
+          </span>
 
+          <!-- TOGGLE -->
+          <div
+            class="status-toggle"
+            :class="{ active: userKycForm.is_re_kyc }"
+            @click="userKycForm.is_re_kyc = !userKycForm.is_re_kyc"
+          >
+            <span class="toggle-knob"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-2 d-flex align-items-center gap-2">
+        <label class="form-label mb-0">
+          Confirm:
+          <strong>{{ a }} + {{ b }}</strong> =
+        </label>
+
+        <BaseInput
+          v-model="confirmAnswer"
+          type="number"
+          class="w-50 mt-2"
+          placeholder="?"
+          required
+        />
+      </div>
+    </form>
+
+    <template #footer>
+      <BaseButton variant="secondary" @click="closeKycModal()">
+        Cancel
+      </BaseButton>
+      <BaseButton
+        variant="primary"
+        type="submit"
+        form="kycForm"
+        :loading="uiStore.isLoading"
+      >
+        Save
+      </BaseButton>
+    </template>
+  </BaseModal>
+
+  <!-- User Depot -->
+  <BaseModal ref="userDepotModal" icon="fas fa-map-marker-alt">
+    <template #title> Assign New Depot </template>
+
+    <form id="depotForm" @submit.prevent="submitDepotForm">
+      <div class="col-md-6">
+        <BaseInput label="User Code" v-model="kycDetails.user_code" readonly />
+        <BaseInput
+          label="User Id"
+          v-model="userDepotForm.user_id"
+          readonly
+          hidden
+        />
+      </div>
+      <div class="col-md-12">
+        <BaseAutoCompleteSelect
+          label="Depots"
+          v-model="userDepotForm.depot_id"
+          :options="depotList"
+          :label-key="['zone.state.name', 'code', 'name', 'zone.name']"
+          :value-key="'id'"
+          placeholder="Select depot"
+          required
+        />
+      </div>
+      <div class="border rounded-3 p-3 bg-light">
+        <label class="form-label fw-semibold mb-2">Status</label>
+
+        <div class="d-flex align-items-center justify-content-between">
+          <span class="text-muted">
+            Charge Level is
+            <b
+              :class="userDepotForm.is_primary ? 'text-success' : 'text-danger'"
+            >
+              {{ userDepotForm.is_primary ? "Primary" : "Not" }}
+            </b>
+          </span>
+
+          <!-- TOGGLE -->
+          <div
+            class="status-toggle"
+            :class="{ active: userDepotForm.is_primary }"
+            @click="userDepotForm.is_primary = !userDepotForm.is_primary"
+          >
+            <span class="toggle-knob"></span>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <template #footer>
+      <BaseButton variant="secondary" @click="closeDepotModal()">
+        Cancel
+      </BaseButton>
+      <BaseButton
+        variant="primary"
+        type="submit"
+        form="depotForm"
+        :loading="uiStore.isLoading"
+      >
+        Save
+      </BaseButton>
+    </template>
+  </BaseModal>
 </template>
 
 <script setup>
 import { ref, onMounted, computed, watch } from "vue";
 import { useUIStore } from "@/core/utils/stores/uiStore";
 import {
-    fetchKycDetails,
-    updateKycStatus,
-
+  fetchKycDetails,
+  updateKycStatus,
 } from "@/core/repos/admin/legal/legalRepos";
 import { fetchDepots } from "@/core/repos/admin/master/masterRepos";
-import { addCustomerDepot, removeCustomerDepot } from "@/core/repos/admin/customer/customerRepos";
+import {
+  addCustomerDepot,
+  removeCustomerDepot,
+} from "@/core/repos/admin/customer/customerRepos";
 import { fetchAllEnums } from "@/core/repos/utils/utilsRepos";
-
 
 import { useRoute } from "vue-router";
 
@@ -478,17 +582,14 @@ const b = ref(0);
 const confirmAnswer = ref("");
 
 const generateCaptcha = () => {
-    a.value = Math.floor(Math.random() * 9) + 1; // 1–9
-    b.value = Math.floor(Math.random() * 9) + 1; // 1–9
-    confirmAnswer.value = "";
+  a.value = Math.floor(Math.random() * 9) + 1; // 1–9
+  b.value = Math.floor(Math.random() * 9) + 1; // 1–9
+  confirmAnswer.value = "";
 };
 
-
-const isConfirmValid = computed(() =>
-    Number(confirmAnswer.value) === a.value + b.value
+const isConfirmValid = computed(
+  () => Number(confirmAnswer.value) === a.value + b.value,
 );
-
-
 
 /* ---------------- STATE ---------------- */
 const uiStore = useUIStore();
@@ -502,147 +603,151 @@ const kycStatusList = ref([]);
 const userDepotModal = ref(null);
 const kycModal = ref(null);
 
-
-
 const userDepotForm = ref({
-    id: null,
-    user_id: null,
-    depot_id: null,
-    is_primary: false,
+  id: null,
+  user_id: null,
+  depot_id: null,
+  is_primary: false,
 });
 
 const resetUserDepotForm = ref({
-    id: null,
-    user_id: null,
-    depot_id: null,
-    is_primary: false,
+  id: null,
+  user_id: null,
+  depot_id: null,
+  is_primary: false,
 });
 
-
 const userKycForm = ref({
-    id: null,
-    kyc_id: "",
-    status: null,
-    review_comment: "",
+  id: null,
+  kyc_id: "",
+  status: null,
+  is_re_kyc: false,
+  review_comment: "",
 });
 
 const resetUserKycForm = ref({
-    id: null,
-    kyc_id: "",
-    status: "",
-    review_comment: "",
+  id: null,
+  kyc_id: "",
+  status: "",
+  is_re_kyc: false,
+  review_comment: "",
 });
 
 /* ---------------- INIT ---------------- */
 onMounted(() => {
-    loadKycDetails(kycId.value);
-    generateCaptcha();
+  loadKycDetails(kycId.value);
+  generateCaptcha();
 });
 
 /* ---------------- LOAD ---------------- */
 async function loadKycDetails(id) {
-    const data = await fetchKycDetails(id);
-    if (!data) {
-        return;
-    }
-    kycDetails.value = data;
+  const data = await fetchKycDetails(id);
+  if (!data) {
+    return;
+  }
+  kycDetails.value = data;
 }
 
 /* ---------------- DEPOT MODAL ---------------- */
 
 async function openDepotModal() {
-    depotList.value = await fetchDepots({ is_active: true });
-    userDepotForm.value = {
-        user_id: kycDetails.value.user_id,
-    };
-    userDepotModal.value.show();
+  depotList.value = await fetchDepots({ is_active: true });
+  userDepotForm.value = {
+    user_id: kycDetails.value.user_id,
+  };
+  userDepotModal.value.show();
 }
 
 function closeDepotModal() {
-    userDepotModal.value.hide();
-    resetUserDepotForm.value = { ...resetUserDepotForm.value };
+  userDepotModal.value.hide();
+  resetUserDepotForm.value = { ...resetUserDepotForm.value };
 }
 
 const submitDepotForm = async () => {
-    await addCustomerDepot(userDepotForm.value);
-    closeDepotModal();
-    // kycDetails.value = [];
-    await loadKycDetails(kycId.value);
+  await addCustomerDepot(userDepotForm.value);
+  closeDepotModal();
+  // kycDetails.value = [];
+  await loadKycDetails(kycId.value);
 };
 
 const removeDepotAction = async (id) => {
-    const confirmed = await showConfirmDialog(
-        "Remove Depot",
-        "Are you sure you want to remove this depot?"
-    );
-    if (!confirmed) return;
-    await removeCustomerDepot(id);
-    kycDetails.value = [];
-    await loadKycDetails(kycId.value);
-}
-
+  const confirmed = await showConfirmDialog(
+    "Remove Depot",
+    "Are you sure you want to remove this depot?",
+  );
+  if (!confirmed) return;
+  await removeCustomerDepot(id);
+  kycDetails.value = [];
+  await loadKycDetails(kycId.value);
+};
 
 /* ---------------- KYC MODAL ---------------- */
 
 // true false is depot exist or not so can sue for multiplue places
 
 const hasDepots = computed(() => {
-    return Array.isArray(kycDetails.value?.depots) &&
-        kycDetails.value.depots.length > 0;
+  return (
+    Array.isArray(kycDetails.value?.depots) &&
+    kycDetails.value.depots.length > 0
+  );
 });
 
 const canKycStatusUpdate = computed(() => {
-    return uiStore.isSuperAdminGroup() || kycDetails.value.status === 'under_review';
+  return (
+    uiStore.isSuperAdminGroup() || kycDetails.value.status === "under_review"
+  );
 });
 
 async function openKycModal() {
-    // Check deptos exist or not of users
-    if (!hasDepots.value) {
-        uiStore.errorMessages = ["Please assign at least one depot to the user before verifying KYC.", "warning"];
-        return;
-    }
-    // Get all enums for kyc status
-    var data = await fetchAllEnums();
+  // Check deptos exist or not of users
+  if (!hasDepots.value) {
+    uiStore.errorMessages = [
+      "Please assign at least one depot to the user before verifying KYC.",
+      "warning",
+    ];
+    return;
+  }
+  // Get all enums for kyc status
+  var data = await fetchAllEnums();
 
-    if (!data) {
-        return;
-    }
-    // console.log("KYC Statuses:", data);
-    generateCaptcha();
+  if (!data) {
+    return;
+  }
+  // console.log("KYC Statuses:", data);
+  generateCaptcha();
 
-    resetUserKycForm.value = { ...resetUserKycForm.value };
+  resetUserKycForm.value = { ...resetUserKycForm.value };
 
-    kycStatusList.value = data.kyc_statuses;
-    userKycForm.value.kyc_id = kycId || kycDetails.value.id; // assign kyc id to form
-    userKycForm.value.status = kycDetails.value.status;
-    userKycForm.value.review_comment = kycDetails.value.review_comment;
+  kycStatusList.value = data.kyc_statuses;
+  userKycForm.value.kyc_id = kycId || kycDetails.value.id; // assign kyc id to form
+  userKycForm.value.status = kycDetails.value.status;
+  userKycForm.value.review_comment = kycDetails.value.review_comment;
 
-    // Remove the status which currenly set to avoid reselecting same status
-    kycStatusList.value = kycStatusList.value.filter((status => status.value !== kycDetails.value.status));
+  // Remove the status which currenly set to avoid reselecting same status
+  kycStatusList.value = kycStatusList.value.filter(
+    (status) => status.value !== kycDetails.value.status,
+  );
 
-    kycModal.value.show();
+  kycModal.value.show();
 }
 
 function closeKycModal() {
-    resetUserKycForm.value = { ...resetUserKycForm.value };
-    kycModal.value.hide();
+  resetUserKycForm.value = { ...resetUserKycForm.value };
+  kycModal.value.hide();
 }
 
 /* ---------------- SAVE KYC STATUS ---------------- */
 async function submitKycStatusForm() {
+  if (!isConfirmValid.value) {
+    uiStore.errorMessages = ["Confirmation failed. Please solve the sum."];
+    generateCaptcha();
+    return;
+  }
 
-    if (!isConfirmValid.value) {
-        uiStore.errorMessages = ["Confirmation failed. Please solve the sum."];
-        generateCaptcha();
-        return;
-    }
-
-
-    await updateKycStatus(kycId.value, userKycForm.value);
-    closeKycModal();
-    resetUserKycForm.value = { ...resetUserKycForm.value };
-    kycDetails.value = [];
-    await loadKycDetails(kycId.value);
+  await updateKycStatus(kycId.value, userKycForm.value);
+  closeKycModal();
+  resetUserKycForm.value = { ...resetUserKycForm.value };
+  kycDetails.value = [];
+  await loadKycDetails(kycId.value);
 }
-
 </script>
