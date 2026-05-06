@@ -1,5 +1,5 @@
 <template>
-  <aside v-if="hasUser" class="position-fixed start-0 vh-100 d-flex flex-column sidebar border-end"
+  <aside v-if="hasUser" class="position-fixed start-0 d-flex flex-column sidebar border-end"
     :style="sidebarStyle">
     <!-- HEADER + TOGGLE -->
     <div class="d-flex align-items-center justify-content-between px-3 py-2 border-bottom">
@@ -19,7 +19,7 @@
     </div>
 
     <!-- MENU -->
-    <div class="flex-fill overflow-auto py-2">
+    <div class="flex-fill overflow-auto py-2 menu-scroll">
       <ul class="nav nav-pills flex-column gap-1 px-2">
         <SidebarItem
     v-for="(item, i) in menu"
@@ -31,6 +31,8 @@
       </ul>
     </div>
   </aside>
+
+  
 </template>
 
 <script setup>
@@ -58,6 +60,7 @@ const userRole = computed(() => userStore.userRole || "Role");
 
 const sidebarStyle = computed(() => ({
   top: "56px",
+  height: "calc(100vh - 56px)",
   width: collapsed.value ? "72px" : "240px",
   zIndex: 1029
 }));
@@ -71,6 +74,11 @@ const toggle = () => {
 .sidebar {
   background: linear-gradient(180deg, #14532d, #064e3b);
   /* farmer green */
+}
+
+.menu-scroll {
+  padding-bottom: 1.25rem;
+  scrollbar-gutter: stable;
 }
 
 </style>
