@@ -74,106 +74,106 @@
           </div>
 
           <table
-            v-if="kycDetails.address"
+            v-if="kycDetails?.user?.address"
             class="table table-sm table-borderless align-middle mb-0"
           >
             <tbody>
               <!-- Address Name / Type -->
-              <tr v-if="kycDetails.address.addr_name">
+              <tr v-if="kycDetails?.user?.address.addr_name">
                 <th class="text-muted fw-normal w-25">Address Name</th>
-                <td>{{ kycDetails.address.addr_name }}</td>
+                <td>{{ kycDetails?.user?.address.addr_name }}</td>
               </tr>
 
               <!-- Address Lines -->
               <tr>
                 <th class="text-muted fw-normal">Address Line 1</th>
-                <td>{{ kycDetails.address.address_line1 || "N/A" }}</td>
+                <td>{{ kycDetails?.user?.address.address_line1 || "N/A" }}</td>
               </tr>
 
-              <tr v-if="kycDetails.address.address_line2">
+              <tr v-if="kycDetails?.user?.address.address_line2">
                 <th class="text-muted fw-normal">Address Line 2</th>
-                <td>{{ kycDetails.address.address_line2 }}</td>
+                <td>{{ kycDetails?.user?.address.address_line2 }}</td>
               </tr>
 
               <!-- Locality -->
-              <tr v-if="kycDetails.address.landmark">
+              <tr v-if="kycDetails?.user?.address.landmark">
                 <th class="text-muted fw-normal">Landmark</th>
-                <td>{{ kycDetails.address.landmark }}</td>
+                <td>{{ kycDetails?.user?.address.landmark }}</td>
               </tr>
 
-              <tr v-if="kycDetails.address.village">
+              <tr v-if="kycDetails?.user?.address.village">
                 <th class="text-muted fw-normal">Village</th>
-                <td>{{ kycDetails.address.village }}</td>
+                <td>{{ kycDetails?.user?.address.village }}</td>
               </tr>
 
-              <tr v-if="kycDetails.address.taluka">
+              <tr v-if="kycDetails?.user?.address.taluka">
                 <th class="text-muted fw-normal">Taluka</th>
-                <td>{{ kycDetails.address.taluka }}</td>
+                <td>{{ kycDetails?.user?.address.taluka }}</td>
               </tr>
 
-              <tr v-if="kycDetails.address.district">
+              <tr v-if="kycDetails?.user?.address.district">
                 <th class="text-muted fw-normal">District</th>
-                <td>{{ kycDetails.address.district }}</td>
+                <td>{{ kycDetails?.user?.address.district }}</td>
               </tr>
 
               <!-- City / State -->
               <tr>
                 <th class="text-muted fw-normal">City</th>
-                <td>{{ kycDetails.address.city || "N/A" }}</td>
+                <td>{{ kycDetails?.user?.address.city || "N/A" }}</td>
               </tr>
 
               <tr>
                 <th class="text-muted fw-normal">State</th>
                 <td>
-                  {{ kycDetails.address.state || "N/A" }}
-                  <span v-if="kycDetails.address.state_iso" class="text-muted">
-                    ({{ kycDetails.address.state_iso }})
+                  {{ kycDetails?.user?.address.state || "N/A" }}
+                  <span v-if="kycDetails?.user?.address.state_iso" class="text-muted">
+                    ({{ kycDetails?.user?.address.state_iso }})
                   </span>
                 </td>
               </tr>
 
               <tr>
                 <th class="text-muted fw-normal">Postal Code</th>
-                <td>{{ kycDetails.address.postal_code || "N/A" }}</td>
+                <td>{{ kycDetails?.user?.address.postal_code || "N/A" }}</td>
               </tr>
 
               <!-- Country -->
-              <tr v-if="kycDetails.address.country">
+              <tr v-if="kycDetails?.user?.address.country">
                 <th class="text-muted fw-normal">Country</th>
                 <td>
-                  {{ kycDetails.address.country }}
+                  {{ kycDetails?.user?.address.country }}
                   <span
-                    v-if="kycDetails.address.country_iso"
+                    v-if="kycDetails?.user?.address.country_iso"
                     class="text-muted"
                   >
-                    ({{ kycDetails.address.country_iso }})
+                    ({{ kycDetails?.user?.address.country_iso }})
                   </span>
                 </td>
               </tr>
 
               <!-- Contact -->
-              <tr v-if="kycDetails.address.contact_name">
+              <tr v-if="kycDetails?.user?.address.contact_name">
                 <th class="text-muted fw-normal">Contact Name</th>
-                <td>{{ kycDetails.address.contact_name }}</td>
+                <td>{{ kycDetails?.user?.address.contact_name }}</td>
               </tr>
 
-              <tr v-if="kycDetails.address.phone_number">
+              <tr v-if="kycDetails?.user?.address.phone_number">
                 <th class="text-muted fw-normal">Phone</th>
                 <td>
-                  <span v-if="kycDetails.address.dial_code">
-                    +{{ kycDetails.address.dial_code }}
+                  <span v-if="kycDetails?.user?.address.dial_code">
+                    +{{ kycDetails?.user?.address.dial_code }}
                   </span>
                   <span class="masked-value">
-                    {{ kycDetails.address.phone_number }}</span
+                    {{ kycDetails?.user?.address.phone_number }}</span
                   >
                 </td>
               </tr>
 
-              <tr v-if="kycDetails.address.email">
+              <tr v-if="kycDetails?.user?.address.email">
                 <th class="text-muted fw-normal">Email</th>
                 <td class="text-break">
                   <span class="masked-value">{{
-                    kycDetails.address.email
+                    kycDetails?.user?.address.email
                   }}</span>
                 </td>
               </tr>
@@ -181,13 +181,13 @@
               <!-- Geo -->
               <tr
                 v-if="
-                  kycDetails.address.latitude && kycDetails.address.longitude
+                  kycDetails?.user?.address.latitude && kycDetails?.user?.address.longitude
                 "
               >
                 <th class="text-muted fw-normal">Coordinates</th>
                 <td>
-                  {{ kycDetails.address.latitude }},
-                  {{ kycDetails.address.longitude }}
+                  {{ kycDetails?.user?.address.latitude }},
+                  {{ kycDetails?.user?.address.longitude }}
                 </td>
               </tr>
 
@@ -198,10 +198,10 @@
                   <span
                     class="badge"
                     :class="
-                      kycDetails.address.is_active ? 'bg-success' : 'bg-danger'
+                      kycDetails?.user?.address.is_active ? 'bg-success' : 'bg-danger'
                     "
                   >
-                    {{ kycDetails.address.is_active ? "Active" : "Inactive" }}
+                    {{ kycDetails?.user?.address.is_active ? "Active" : "Inactive" }}
                   </span>
                 </td>
               </tr>
@@ -246,6 +246,13 @@
                   >
                     {{ kycDetails.status }}
                   </span>
+                </td>
+              </tr>
+
+              <tr>
+                <th class="text-muted fw-normal w-25">Re-Kyc Status</th>
+                <td class="fw-semibold">
+                  <span class="badge" :class="kycDetails.is_re_kyc ? 'bg-danger' : 'bg-dark'"> {{ kycDetails.is_re_kyc ? "Yes" : "No" }}</span>
                 </td>
               </tr>
 
