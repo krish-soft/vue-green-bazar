@@ -15,8 +15,12 @@ export function attachAuth(config = {}, requireAuth = false) {
     ...(config.headers || {}),
     Accept: "application/json",
     "Accept-Language": "en",
-    "X-API-KEY": envConfig.apiKey,
   };
+
+  // API key header is required by backend middleware, but only send when configured.
+  if (envConfig.apiKey) {
+    config.headers["X-API-KEY"] = envConfig.apiKey;
+  }
 
   // 🔹 Attach token only if required
   if (requireAuth && token) {
@@ -30,11 +34,22 @@ export function attachAuth(config = {}, requireAuth = false) {
  | Handle Errors (GLOBAL)
  ===================================================== */
 export function handleError(error) {
-  if (error.response?.status === 401) {
+  const status = error?.response?.status;
+
+  if (status === 401) {
     const authStore = useAuthStore();
     authStore.resetAuthTokenData();
     router.push({ name: "signin" });
   }
 
-  return Promise.reject(error.response?.data || error);
+  // Normalize errors so UI layers can consume a stable shape.
+  return Promise.reject({
+    status,
+    message:
+      error?.response?.data?.message ||
+      error?.message ||
+      "Request failed",
+    data: error?.response?.data || null,
+    raw: error,
+  });
 }

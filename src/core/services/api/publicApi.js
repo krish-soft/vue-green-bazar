@@ -4,7 +4,8 @@ import { envConfig } from "@/core/config/env.js";
 
 const publicApi = axios.create({
   baseURL: envConfig.apiBaseUrl,
-  timeout: 30000,
+  // Use the shared timeout from env config for consistent behavior.
+  timeout: envConfig.requestTimeoutMs,
   // headers: {
   //   Accept: "application/json",
   //   "Content-Type": "application/json",

@@ -4,7 +4,8 @@ import { envConfig } from "@/core/config/env.js";
 
 const adminApi = axios.create({
   baseURL: envConfig.apiBaseAdminUrl,
-  timeout: 30000,
+  // Use the shared timeout from env config for consistent behavior.
+  timeout: envConfig.requestTimeoutMs,
   // headers: {
   //   Accept: "application/json",
   //   "Content-Type": "application/json",

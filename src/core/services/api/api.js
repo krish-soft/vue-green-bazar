@@ -2,12 +2,22 @@
 import adminApi from "./adminApi.js";
 import publicApi from "./publicApi.js";
 import { attachAuth, handleError } from "./helpers.js";
+import { envConfig } from "@/core/config/env.js";
 import router from "@/router/index.js";
 
 import { useAuthStore } from "@/core/utils/stores/authStore.js";
 import { useUIStore } from "@/core/utils/stores/uiStore.js";
 
-const API_DEBUG = true; // ❗ set false in production
+const API_DEBUG = envConfig.debug;
+
+// Normalize endpoint paths to prevent duplicate/trailing-slash URL variants.
+const normalizeEndpoint = (url = "") => {
+    if (!url) return "/";
+    const ensuredLeadingSlash = url.startsWith("/") ? url : `/${url}`;
+    return ensuredLeadingSlash.length > 1
+        ? ensuredLeadingSlash.replace(/\/+$/, "")
+        : ensuredLeadingSlash;
+};
 
 /* --------------------------------
  | CORE REQUEST WRAPPER
@@ -24,6 +34,8 @@ function request(
         responseType,
     } = {},
 ) {
+    const finalUrl = normalizeEndpoint(url);
+
     let config = {
         params: queryParams,
         headers,
@@ -34,7 +46,7 @@ function request(
 
     // 🔍 REQUEST DEBUG
     if (API_DEBUG) {
-        console.group(`[API REQUEST] ${method.toUpperCase()} ${url}`);
+        console.group(`[API REQUEST] ${method.toUpperCase()} ${finalUrl}`);
         console.log("Query Params:", queryParams);
         console.log("Data:", data);
         console.log("Headers:", config.headers);
@@ -50,21 +62,21 @@ function request(
     let requestCall;
 
     if (method === "get") {
-        requestCall = apiInstance.get(url, config);
+        requestCall = apiInstance.get(finalUrl, config);
     } else if (method === "delete") {
-        requestCall = apiInstance.delete(url, {
+        requestCall = apiInstance.delete(finalUrl, {
             ...config,
             data, // ✅ THIS FIXES AUTH
         });
     } else {
-        requestCall = apiInstance[method](url, data, config);
+        requestCall = apiInstance[method](finalUrl, data, config);
     }
 
     return requestCall
         .then((res) => {
             // ✅ RESPONSE DEBUG
             if (API_DEBUG) {
-                console.group(`[API RESPONSE] ${method.toUpperCase()} ${url}`);
+                console.group(`[API RESPONSE] ${method.toUpperCase()} ${finalUrl}`);
                 console.log("Status:", res.status);
                 console.log("Data:", res.data);
                 console.groupEnd();
@@ -100,7 +112,7 @@ function request(
         .catch((error) => {
             // ❌ ERROR DEBUG
             if (API_DEBUG) {
-                console.group(`[API ERROR] ${method.toUpperCase()} ${url}`);
+                console.group(`[API ERROR] ${method.toUpperCase()} ${finalUrl}`);
                 console.error("Error:", error);
                 console.error("Response:", error?.response);
                 console.error("Response Data:", error?.response?.data);
@@ -143,17 +155,18 @@ export const Api = {
     /* ---------- ADMIN (DEFAULT) ---------- */
 
     admin: {
+        // Admin endpoints are authenticated by default; allow per-call override.
         get: (url, opts = {}) =>
-            request(adminApi, "get", url, { ...opts, auth: true }),
+            request(adminApi, "get", url, { ...opts, auth: opts.auth ?? true }),
 
         post: (url, opts = {}) =>
-            request(adminApi, "post", url, { ...opts, auth: true }),
+            request(adminApi, "post", url, { ...opts, auth: opts.auth ?? true }),
 
         put: (url, opts = {}) =>
-            request(adminApi, "put", url, { ...opts, auth: true }),
+            request(adminApi, "put", url, { ...opts, auth: opts.auth ?? true }),
 
         delete: (url, opts = {}) =>
-            request(adminApi, "delete", url, { ...opts, auth: true }),
+            request(adminApi, "delete", url, { ...opts, auth: opts.auth ?? true }),
 
         upload(
             url,
