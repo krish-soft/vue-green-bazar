@@ -39,6 +39,23 @@
 
                     </div>
 
+                    <div class="env-info mt-3">
+                        <div class="env-row">
+                            <span class="env-label">Environment</span>
+                            <span class="badge env-badge text-uppercase">{{ appEnv }}</span>
+                        </div>
+
+                        <div class="env-row">
+                            <span class="env-label">Admin API</span>
+                            <span class="env-value">{{ adminApiUrl }}</span>
+                        </div>
+
+                        <div class="env-row mb-0">
+                            <span class="env-label">Public API</span>
+                            <span class="env-value">{{ publicApiUrl }}</span>
+                        </div>
+                    </div>
+
                 </template>
 
             </BaseContainer>
@@ -199,6 +216,7 @@ import { storeToRefs } from "pinia";
 import BaseContainer from "@/components/common/cards/BaseContainer.vue";
 
 import { useUserStore } from "@/core/utils/stores/userStore";
+import { envConfig } from "@/core/config/env";
 
 import { fetchDashboardData }
     from "@/core/repos/admin/common/adminUserRepos";
@@ -211,6 +229,10 @@ const { userName, userRole } = storeToRefs(userStore);
 
 /* COMPUTED ROLE CHECK */
 const isSuperAdmin = computed(() => userRole.value === "super_admin");
+
+const appEnv = computed(() => envConfig.appEnv || "unknown");
+const adminApiUrl = computed(() => envConfig.apiBaseAdminUrl || "not configured");
+const publicApiUrl = computed(() => envConfig.apiBaseUrl || "not configured");
 
 
 const dashboardData = ref(null);
@@ -254,6 +276,39 @@ onMounted(() => {
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+.env-info {
+    margin-top: 10px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.12);
+    padding-top: 10px;
+}
+
+.env-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.env-label {
+    min-width: 100px;
+    font-size: 0.85rem;
+    color: #6c757d;
+    font-weight: 600;
+}
+
+.env-value {
+    font-size: 0.85rem;
+    color: #495057;
+    word-break: break-all;
+}
+
+.env-badge {
+    background: #e7f5ff;
+    color: #0c5460;
+    border: 1px solid #bfe4f8;
+    font-size: 0.75rem;
 }
 
 /* Ripple animation */

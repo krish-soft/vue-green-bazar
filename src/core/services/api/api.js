@@ -45,14 +45,14 @@ function request(
     config = attachAuth(config, auth);
 
     // 🔍 REQUEST DEBUG
-    if (API_DEBUG) {
-        console.group(`[API REQUEST] ${method.toUpperCase()} ${finalUrl}`);
-        console.log("Query Params:", queryParams);
-        console.log("Data:", data);
-        console.log("Headers:", config.headers);
-        console.log("Auth:", auth);
-        console.groupEnd();
-    }
+    // if (API_DEBUG) {
+    //     console.group(`[API REQUEST] ${method.toUpperCase()} ${finalUrl}`);
+    //     console.log("Query Params:", queryParams);
+    //     console.log("Data:", data);
+    //     console.log("Headers:", config.headers);
+    //     console.log("Auth:", auth);
+    //     console.groupEnd();
+    // }
 
     // const requestCall =
     //   method === "get"
@@ -75,12 +75,12 @@ function request(
     return requestCall
         .then((res) => {
             // ✅ RESPONSE DEBUG
-            if (API_DEBUG) {
-                console.group(`[API RESPONSE] ${method.toUpperCase()} ${finalUrl}`);
-                console.log("Status:", res.status);
-                console.log("Data:", res.data);
-                console.groupEnd();
-            }
+            // if (API_DEBUG) {
+            //     console.group(`[API RESPONSE] ${method.toUpperCase()} ${finalUrl}`);
+            //     console.log("Status:", res.status);
+            //     console.log("Data:", res.data);
+            //     console.groupEnd();
+            // }
 
             var response = res.data;
 
@@ -111,13 +111,13 @@ function request(
         })
         .catch((error) => {
             // ❌ ERROR DEBUG
-            if (API_DEBUG) {
-                console.group(`[API ERROR] ${method.toUpperCase()} ${finalUrl}`);
-                console.error("Error:", error);
-                console.error("Response:", error?.response);
-                console.error("Response Data:", error?.response?.data);
-                console.groupEnd();
-            }
+            // if (API_DEBUG) {
+            //     console.group(`[API ERROR] ${method.toUpperCase()} ${finalUrl}`);
+            //     console.error("Error:", error);
+            //     console.error("Response:", error?.response);
+            //     console.error("Response Data:", error?.response?.data);
+            //     console.groupEnd();
+            // }
 
             return handleError(error);
         });
