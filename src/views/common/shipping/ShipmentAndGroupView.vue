@@ -223,68 +223,81 @@
       >
         <thead class="table-dark">
           <tr>
-            <th>Shipment Unique</th>
-            <th>Shipment Type</th>
-            <th>Pkg</th>
-            <th>Pkg-BU</th>
-            <th>Pkg-SL</th>
-            <th>Pkg-MK</th>
-
-            <th>Buyer</th>
-            <th>Seller</th>
-            <th>Market</th>
-
+            <th>Shipment</th>
+            <th>Package Numbers</th>
+            <th>Parties</th>
+            <th>Flags</th>
             <th>Status</th>
-
-            <th>Pack</th>
-
-            <th>Seller Dropoff</th>
-            <th>Buyer Pickup</th>
             <th class="text-center">Actions</th>
           </tr>
         </thead>
 
         <tbody>
           <tr v-for="g in selectedShipmentGroups" :key="g.id">
-            <td class="fw-semibold text-primary smaller">
-              {{ g.shipment_package_number }}
-              <!-- {{ g.shipment_trace_code }}<br> -->
+            <td>
+              <div class="fw-semibold text-primary">
+                {{ g.shipment_package_number }}
+              </div>
+              <div class="mt-1">
+                <StatusBadge :status="getShipmentTypeForPackage(g)" />
+              </div>
+              <div class="mt-1">
+                {{ g.pack_size }}
+                {{ g.pack_unit }}
+              </div>
             </td>
 
             <td>
-              <!-- {{getShipmentTypeForPackage(g)  }} -->
-
-              <StatusBadge :status="getShipmentTypeForPackage(g)" />
+              <div>
+                <span class="text-muted">Pkg:</span>
+                {{ g.package_number || "-" }}
+              </div>
+              <div>
+                <span class="text-muted">BU:</span>
+                {{ g.package_number_buyer || "-" }}
+              </div>
+              <div>
+                <span class="text-muted">SL:</span>
+                {{ g.package_number_seller || "-" }}
+              </div>
+              <div>
+                <span class="text-muted">MK:</span>
+                {{ g.package_number_market || "-" }}
+              </div>
             </td>
 
-            <td>{{ g.package_number }}</td>
-            <td>{{ g.package_number_buyer }}</td>
-            <td>{{ g.package_number_seller }}</td>
-            <td>{{ g.package_number_market }}</td>
-
-            <td>{{ g.buyer?.nickname || "-" }}</td>
-
-            <td>{{ g.seller?.nickname || "-" }}</td>
-            <td>{{ g.market?.code || "-" }}</td>
+            <td>
+              <div>
+                <span class="text-muted">Buyer:</span>
+                {{ g.buyer?.nickname || "-" }}
+              </div>
+              <div>
+                <span class="text-muted">Seller:</span>
+                {{ g.seller?.nickname || "-" }}
+              </div>
+              <div>
+                <span class="text-muted">Market:</span>
+                {{ g.market?.code || "-" }}
+              </div>
+            </td>
+            <td>
+              <div>
+                <span class="text-muted">Seller Dropoff:</span>
+                {{ g.is_seller_dropoff ? "Yes" : "No" }}
+              </div>
+              <div>
+                <span class="text-muted">Buyer Pickup:</span>
+                {{ g.is_buyer_pickup ? "Yes" : "No" }}
+              </div>
+            </td>
 
             <td>
               <StatusBadge :status="g.status" />
             </td>
 
-            <td>
-              {{ g.pack_size }}
-              {{ g.pack_unit }}
-            </td>
-            <td>
-              {{ g.is_seller_dropoff ? "Yes" : "" }}
-            </td>
-            <td>
-              {{ g.is_buyer_pickup ? "Yes" : "" }}
-            </td>
-
             <!-- ✅ INLINE ADMIN ACTIONS -->
             <td class="text-center">
-              <div v-if="isPackageActionEnabled" class="status-inline-editor">
+              <div v-if="isPackageActionEnabled" class="package-status-editor">
                 <select
                   v-model="packageStatusDrafts[g.id]"
                   class="form-select form-select-sm"
@@ -588,7 +601,19 @@ function openPackages(shipment) {
 
 .shipment-packages-table th,
 .shipment-packages-table td {
-  white-space: nowrap;
-  vertical-align: middle;
+  white-space: normal;
+  word-break: break-word;
+  vertical-align: top;
+}
+
+.shipment-packages-table {
+  table-layout: fixed;
+}
+
+.package-status-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 150px;
 }
 </style>
