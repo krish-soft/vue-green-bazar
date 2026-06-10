@@ -177,6 +177,7 @@
                   <select
                     v-model="shipmentStatusDrafts[row.id]"
                     class="form-select form-select-sm"
+                    :disabled="hasPendingPackages(row)"
                   >
                     <option value="">Select status</option>
                     <option
@@ -198,6 +199,12 @@
                     Save
                   </BaseButton>
                 </div>
+                <small
+                  v-if="hasPendingPackages(row)"
+                  class="text-danger d-block mt-1"
+                >
+                  Shipment packages still pending. Update packages first.
+                </small>
               </td>
             </tr>
           </tbody>
@@ -210,11 +217,14 @@
   <BaseModal ref="packageModal" icon="fas fa-boxes" size="modal-xl">
     <template #title> Shipment Packages </template>
 
-    <div class="table-responsive">
-      <table class="table table-bordered table-sm align-middle">
+    <div class="table-responsive package-table-wrap">
+      <table
+        class="table table-bordered table-sm align-middle shipment-packages-table"
+      >
         <thead class="table-dark">
           <tr>
             <th>Shipment Unique</th>
+            <th>Shipment Type</th>
             <th>Pkg</th>
             <th>Pkg-BU</th>
             <th>Pkg-SL</th>
@@ -241,6 +251,12 @@
               <!-- {{ g.shipment_trace_code }}<br> -->
             </td>
 
+            <td>
+              <!-- {{getShipmentTypeForPackage(g)  }} -->
+
+              <StatusBadge :status="getShipmentTypeForPackage(g)" />
+            </td>
+
             <td>{{ g.package_number }}</td>
             <td>{{ g.package_number_buyer }}</td>
             <td>{{ g.package_number_seller }}</td>
@@ -252,7 +268,7 @@
             <td>{{ g.market?.code || "-" }}</td>
 
             <td>
-                 <StatusBadge :status="g.status" />
+              <StatusBadge :status="g.status" />
             </td>
 
             <td>
@@ -272,6 +288,7 @@
                 <select
                   v-model="packageStatusDrafts[g.id]"
                   class="form-select form-select-sm"
+                  :disabled="!canEditPackageStatus(g)"
                 >
                   <option value="">Select status</option>
                   <option
@@ -293,6 +310,13 @@
                   Save
                 </BaseButton>
               </div>
+              <small
+                v-if="!canEditPackageStatus(g)"
+                class="text-danger d-block mt-1"
+              >
+                Package status can be changed only when shipment status is
+                pending.
+              </small>
             </td>
           </tr>
         </tbody>
@@ -351,7 +375,7 @@ import {
 } from "@/core/repos/admin/common/shippingRepos";
 import { fetchAllEnums } from "@/core/repos/utils/utilsRepos";
 
-import { showConfirmDialog } from "@/core/utils/uiHelpers/swalUtils.js";
+import { showMessageDialog } from "@/core/utils/uiHelpers/swalUtils.js";
 import StatusBadge from "../../../components/common/badge/StatusBadge.vue";
 
 /* ---------------- STATE ---------------- */
@@ -370,6 +394,8 @@ const shipmentStatusDrafts = ref({});
 const savingShipmentId = ref(null);
 const packageStatusDrafts = ref({});
 const savingPackageId = ref(null);
+const selectedShipmentStatus = ref(null);
+const selectedShipmentType = ref(null);
 
 const today = new Date();
 const yesterday = new Date();
@@ -417,15 +443,54 @@ function getStatusValue(status) {
   return status.value ?? status;
 }
 
+// Rule: package edit only when shipment is pending.
+function isPendingStatus(status) {
+  return String(status || "").toLowerCase() === "pending";
+}
+
+// Rule: shipment status locked if any package is pending.
+function hasPendingPackages(shipmentRow) {
+  const packages = shipmentRow?.shipment_packages || [];
+  return packages.some((pkg) => isPendingStatus(pkg?.status));
+}
+
+// Rule: package status change allowed only for pending shipment.
+function canEditPackageStatus(packageRow) {
+  const parentStatus =
+    packageRow?.shipment?.status ?? selectedShipmentStatus.value;
+  return isPendingStatus(parentStatus);
+}
+
+// Context helper for modal table column.
+function getShipmentTypeForPackage(packageRow) {
+  return (
+    packageRow?.shipment?.shipment_type ?? selectedShipmentType.value ?? "-"
+  );
+}
+
 function canSaveShipmentStatus(row) {
   return (
+    !hasPendingPackages(row) &&
     !!shipmentStatusDrafts.value[row?.id] &&
     shipmentStatusDrafts.value[row.id] !== row.status
   );
 }
 
 async function saveShipmentStatus(row) {
+  if (savingShipmentId.value === row?.id) {
+    return;
+  }
+
   const nextStatus = shipmentStatusDrafts.value[row?.id];
+
+  if (hasPendingPackages(row)) {
+    showMessageDialog(
+      "Shipment status blocked",
+      "Shipment packages are pending. Update package statuses first.",
+      "warning",
+    );
+    return;
+  }
 
   if (!nextStatus || nextStatus === row.status) {
     return;
@@ -444,13 +509,27 @@ async function saveShipmentStatus(row) {
 
 function canSavePackageStatus(row) {
   return (
+    canEditPackageStatus(row) &&
     !!packageStatusDrafts.value[row?.id] &&
     packageStatusDrafts.value[row.id] !== row.status
   );
 }
 
 async function savePackageStatus(row) {
+  if (savingPackageId.value === row?.id) {
+    return;
+  }
+
   const nextStatus = packageStatusDrafts.value[row?.id];
+
+  if (!canEditPackageStatus(row)) {
+    showMessageDialog(
+      "Package status blocked",
+      "Package status can be changed only when shipment status is pending.",
+      "warning",
+    );
+    return;
+  }
 
   if (!nextStatus || nextStatus === row.status) {
     return;
@@ -469,6 +548,8 @@ async function savePackageStatus(row) {
 
 function openPackages(shipment) {
   selectedShipmentGroups.value = shipment.shipment_packages || [];
+  selectedShipmentStatus.value = shipment?.status || null;
+  selectedShipmentType.value = shipment?.shipment_type || null;
   packageStatusDrafts.value = Object.fromEntries(
     selectedShipmentGroups.value
       .filter((row) => row?.id)
@@ -492,5 +573,22 @@ function openPackages(shipment) {
   align-items: center;
   gap: 8px;
   min-width: 220px;
+}
+
+.package-table-wrap {
+  max-height: 68vh;
+  overflow: auto;
+}
+
+.shipment-packages-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.shipment-packages-table th,
+.shipment-packages-table td {
+  white-space: nowrap;
+  vertical-align: middle;
 }
 </style>
