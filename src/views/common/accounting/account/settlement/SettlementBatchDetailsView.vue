@@ -70,6 +70,7 @@
                                     <b>Accnt. Code</b>: {{ accnt?.user_account?.accnt_code }} <br />
                                     <b>Owner Type</b>: {{ accnt?.user_account?.owner_type }} <br />
                                     <hr>
+                                    <b>User Name</b>: {{ accnt?.user_account?.user?.name }} <br />
                                     <b>User Code</b>: {{ accnt?.user_account?.user?.user_code }} <br />
                                     <b>User Nick.</b>: {{ accnt?.user_account?.user?.nickname }}
 

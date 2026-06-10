@@ -87,6 +87,7 @@
                             <!-- <td>{{ row.type }}</td> -->
                             <td><span :class="`role-${row?.owner_type.toLowerCase()}`">{{ row.owner_type }}</span></td>
                             <td>
+                                <b>Name:</b>{{ row?.user?.name }} <br />
                                 <b>Code:</b>{{ row?.user?.user_code }} <br />
                                 <b>Nick.:</b>{{ row?.user?.nickname }}
 

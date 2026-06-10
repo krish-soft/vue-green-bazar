@@ -46,9 +46,9 @@
               <tr v-if="accountDetails.user">
                 <th class="text-muted fw-normal w-25">User</th>
                 <td class="fw-semibold">
-                  <b>Code:</b> {{ accountDetails.user?.user_code }} <br /><b
-                    >Nick.:</b
-                  >
+                  <b>Name:</b> {{ accountDetails.user?.name }} <br />
+                  <b>Code:</b> {{ accountDetails.user?.user_code }} <br />
+                  <b>Nick.:</b>
                   {{ accountDetails.user?.nickname || "N/A" }}
                 </td>
               </tr>
