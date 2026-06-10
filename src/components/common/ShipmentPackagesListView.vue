@@ -44,9 +44,35 @@
                     </td>
 
                     <td>
-                        <!-- {{ getShipment(pack)?.status ?? '-' }} -->
-
-                        <StatusBadge :status="getShipment(pack)?.status ?? '-'" />
+                        <template v-if="allowStatusEdit && getShipment(pack)?.id">
+                            <div class="status-inline-editor">
+                                <StatusBadge :status="getShipment(pack)?.status ?? '-'" />
+                                <select
+                                    v-model="shipmentStatusDrafts[getShipment(pack)?.id]"
+                                    class="form-select form-select-sm status-select"
+                                    :disabled="loadingShipmentIds[getShipment(pack)?.id]"
+                                >
+                                    <option value="">Select status</option>
+                                    <option
+                                        v-for="status in shipmentStatusOptions"
+                                        :key="`shipment-${status.value ?? status}`"
+                                        :value="status.value ?? status"
+                                    >
+                                        {{ getStatusValue(status) }}
+                                    </option>
+                                </select>
+                                <BaseButton
+                                    size="xs"
+                                    variant="primary"
+                                    :loading="loadingShipmentIds[getShipment(pack)?.id]"
+                                    :disabled="!canSaveShipmentStatus(getShipment(pack))"
+                                    @click="saveShipmentStatusValue(getShipment(pack))"
+                                >
+                                    Save
+                                </BaseButton>
+                            </div>
+                        </template>
+                        <StatusBadge v-else :status="getShipment(pack)?.status ?? '-'" />
 
 
 
@@ -72,7 +98,35 @@
                     <td>{{ pack.pack_type_unit ?? '-' }}</td>
 
                     <td>
-                        <StatusBadge :status="pack.status" />
+                        <template v-if="allowStatusEdit && pack?.id">
+                            <div class="status-inline-editor">
+                                <StatusBadge :status="pack.status" />
+                                <select
+                                    v-model="packageStatusDrafts[pack.id]"
+                                    class="form-select form-select-sm status-select"
+                                    :disabled="loadingPackageIds[pack.id]"
+                                >
+                                    <option value="">Select status</option>
+                                    <option
+                                        v-for="status in shipmentStatusOptions"
+                                        :key="`package-${status.value ?? status}`"
+                                        :value="status.value ?? status"
+                                    >
+                                        {{ getStatusValue(status) }}
+                                    </option>
+                                </select>
+                                <BaseButton
+                                    size="xs"
+                                    variant="primary"
+                                    :loading="loadingPackageIds[pack.id]"
+                                    :disabled="!canSavePackageStatus(pack)"
+                                    @click="savePackageStatusValue(pack)"
+                                >
+                                    Save
+                                </BaseButton>
+                            </div>
+                        </template>
+                        <StatusBadge v-else :status="pack.status" />
                     </td>
 
                 </tr>
@@ -93,8 +147,14 @@
 
 <script setup>
 
-import { computed } from "vue"
+import { computed, onMounted, ref, watch } from "vue"
+import BaseButton from "@/components/common/buttons/BaseButton.vue";
 import StatusBadge from "@/components/common/badge/StatusBadge.vue";
+import {
+    updateShipmentPackageStatus,
+    updateShipmentStatus,
+} from "@/core/repos/admin/common/shippingRepos";
+import { fetchAllEnums } from "@/core/repos/utils/utilsRepos";
 
 const props = defineProps({
     packages: {
@@ -104,12 +164,119 @@ const props = defineProps({
     shipmentKey: {
         type: String,
         default: "shipment"
+    },
+    allowStatusEdit: {
+        type: Boolean,
+        default: false
     }
 })
+
+const shipmentStatusOptions = ref([])
+const shipmentStatusDrafts = ref({})
+const packageStatusDrafts = ref({})
+const loadingShipmentIds = ref({})
+const loadingPackageIds = ref({})
+
+onMounted(async () => {
+    if (!props.allowStatusEdit) {
+        return
+    }
+
+    const enums = await fetchAllEnums()
+    shipmentStatusOptions.value = Array.isArray(enums?.shipment_statuses)
+        ? enums.shipment_statuses
+        : []
+})
+
+watch(
+    () => props.packages,
+    (packages) => {
+        shipmentStatusDrafts.value = Object.fromEntries(
+            (packages || [])
+                .map(pack => pack?.[props.shipmentKey])
+                .filter(shipment => shipment?.id)
+                .map(shipment => [shipment.id, shipment.status ?? ""])
+        )
+
+        packageStatusDrafts.value = Object.fromEntries(
+            (packages || [])
+                .filter(pack => pack?.id)
+                .map(pack => [pack.id, pack.status ?? ""])
+        )
+    },
+    { immediate: true }
+)
 
 
 const getShipment = (pack) => {
     return pack?.[props.shipmentKey] || null
+}
+
+const getStatusValue = (status) => {
+    if (!status) {
+        return "-"
+    }
+
+    return status.value ?? status
+}
+
+const setLoadingState = (target, id, value) => {
+    target.value = {
+        ...target.value,
+        [id]: value,
+    }
+}
+
+const canSaveShipmentStatus = (shipment) => {
+    if (!shipment?.id) {
+        return false
+    }
+
+    const status = shipmentStatusDrafts.value[shipment.id]
+    return !!status && shipment.status !== status
+}
+
+const canSavePackageStatus = (pack) => {
+    if (!pack?.id) {
+        return false
+    }
+
+    const status = packageStatusDrafts.value[pack.id]
+    return !!status && pack.status !== status
+}
+
+const saveShipmentStatusValue = async (shipment) => {
+    const status = shipmentStatusDrafts.value[shipment?.id]
+
+    if (!shipment?.id || !status || shipment.status === status) {
+        return
+    }
+
+    setLoadingState(loadingShipmentIds, shipment.id, true)
+
+    try {
+        await updateShipmentStatus(shipment.id, { status })
+        shipment.status = status
+    } finally {
+        setLoadingState(loadingShipmentIds, shipment.id, false)
+    }
+}
+
+const savePackageStatusValue = async (pack) => {
+    const status = packageStatusDrafts.value[pack?.id]
+
+    if (!pack?.id || !status || pack.status === status) {
+        return
+    }
+
+    setLoadingState(loadingPackageIds, pack.id, true)
+
+    try {
+        await updateShipmentPackageStatus(pack.id, { status })
+        pack.status = status
+    } finally {
+        setLoadingState(loadingPackageIds, pack.id, false)
+    }
 }
 
 
@@ -165,6 +332,17 @@ const shipmentStyle = (shipmentNumber) => {
 
 .shipment-label {
     white-space: nowrap;
+}
+
+.status-select {
+    min-width: 160px;
+}
+
+.status-inline-editor {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
 tbody tr:hover {

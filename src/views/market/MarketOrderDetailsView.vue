@@ -447,7 +447,7 @@
 
 
                 <!-- Shipment Packages -->
-                <ShipmentPackagesListView :packages="orderDetails?.shipment_packages" />
+                <ShipmentPackagesListView :packages="orderDetails?.shipment_packages" :allow-status-edit="true" />
 
             </div>
         </template>

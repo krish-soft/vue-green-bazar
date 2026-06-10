@@ -426,7 +426,7 @@
                 </div>
 
                 <!-- Shipment Packages -->
-                <ShipmentPackagesListView :packages="orderDetails?.shipment_packages" />
+                <ShipmentPackagesListView :packages="orderDetails?.shipment_packages" :allow-status-edit="true" />
 
                 <!-- <div class="mb-4">
                     <div class="d-flex justify-content-between align-items-center border-bottom pb-1 mb-2">

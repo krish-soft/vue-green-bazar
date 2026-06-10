@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-3 position-relative">
+  <div class="autocomplete-root" :class="rootClasses">
     <label v-if="label" class="form-label">
       {{ label }}
       <span v-if="required" class="text-danger">*</span>
@@ -22,8 +22,9 @@
 
     <ul
       v-if="open && filteredOptions.length"
-      class="list-group position-absolute w-100 shadow"
-      style="max-height:220px;overflow-y:auto;z-index:1050"
+      class="list-group w-100 shadow"
+      :class="dropdownClasses"
+      :style="dropdownStyle"
     >
       <li
         v-for="item in filteredOptions"
@@ -37,8 +38,9 @@
 
     <div
       v-if="open && !filteredOptions.length"
-      class="border bg-white p-2 text-muted position-absolute w-100"
-      style="z-index:1050"
+      class="border bg-white p-2 text-muted w-100"
+      :class="emptyStateClasses"
+      :style="emptyStateStyle"
     >
       No results found
     </div>
@@ -70,6 +72,14 @@ const props = defineProps({
   required: Boolean,
   error: String,
   helpText: String,
+  staticDropdown: {
+    type: Boolean,
+    default: false,
+  },
+  compact: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -77,6 +87,33 @@ const emit = defineEmits(["update:modelValue"]);
 const open = ref(false);
 const searchText = ref("");
 const inputRef = ref(null);
+
+const rootClasses = computed(() => ({
+  "mb-3": !props.compact,
+  "position-relative": !props.staticDropdown,
+}));
+
+const dropdownClasses = computed(() => ({
+  "position-absolute": !props.staticDropdown,
+  "mt-1": props.staticDropdown,
+  "autocomplete-overlay": !props.staticDropdown,
+}));
+
+const dropdownStyle = computed(() => ({
+  maxHeight: "220px",
+  overflowY: "auto",
+  zIndex: props.staticDropdown ? undefined : 1050,
+}));
+
+const emptyStateClasses = computed(() => ({
+  "position-absolute": !props.staticDropdown,
+  "mt-1": props.staticDropdown,
+  "autocomplete-overlay": !props.staticDropdown,
+}));
+
+const emptyStateStyle = computed(() => ({
+  zIndex: props.staticDropdown ? undefined : 1050,
+}));
 
 /* 🔑 Resolve label */
 const resolveLabel = (item) => {
@@ -147,6 +184,17 @@ const handleBlur = () => {
   }, 150);
 };
 </script>
+
+<style scoped>
+.autocomplete-root {
+  width: 100%;
+}
+
+.autocomplete-overlay {
+  top: 100%;
+  left: 0;
+}
+</style>
 
 
 <!-- Usage 

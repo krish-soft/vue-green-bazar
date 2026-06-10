@@ -314,7 +314,7 @@
                 </div>
 
 
-                <ShipmentPackagesListView :packages="listingDetails?.shipment_packages" />
+                <ShipmentPackagesListView :packages="listingDetails?.shipment_packages" :allow-status-edit="true" />
 
                 <!-- Shipment Packages -->
                 <!-- <div class="mb-4">

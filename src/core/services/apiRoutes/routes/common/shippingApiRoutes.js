@@ -33,6 +33,10 @@ const shippingApiRoutes = {
         return Api.admin.post("/shipping/shipment-generate-package-groups", { data });
     },
 
+    updateShipmentStatus(shipmentId, data) {
+        return Api.admin.put(`/shipping/shipment/status/${shipmentId}`, { data });
+    },
+
 
     // 
     splitGroup(data) {

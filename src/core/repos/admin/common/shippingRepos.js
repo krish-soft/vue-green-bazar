@@ -40,6 +40,8 @@ export const fetchShipmentDetails = (id) =>
 export const generateShipmentAndPackageGroups = (payload) =>
     withUI(() => apiRouteService.generateShipmentAndPackageGroups(payload));
 
+export const updateShipmentStatus = (shipmentId, payload) =>
+    withUI(() => apiRouteService.updateShipmentStatus(shipmentId, payload));
 
 
 export const splitGroup = (payload) =>
