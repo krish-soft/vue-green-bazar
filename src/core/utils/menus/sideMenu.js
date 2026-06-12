@@ -163,6 +163,14 @@ export const sideMenu = [
     module: AppModuleEnum.CUSTOMERS,
     match: "children",
     children: [
+      
+      {
+        label: "Customer List",
+        icon: "fas fa-users",
+        to: { name: "customerlist" },
+        match: "exact",
+      },
+      
       {
         label: "Customer Details",
         icon: "fas fa-user-edit",

@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "@/core/utils/stores/authStore";
 import { useErrorStore } from "@/core/utils/stores/errorStore"; // Import Pinia store
 
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -21,6 +22,14 @@ const router = createRouter({
       path: "/customer",
       name: "customerdetails",
       component: () => import("@/views/customer/CustomerDetailsView.vue"),
+    },
+
+     //customer list
+
+    {
+      path: "/customer-list",
+      name: "customerlist",
+      component: () => import("@/views/customer/CustomerListView.vue"),
     },
 
     // New Customer
@@ -59,14 +68,15 @@ const router = createRouter({
     {
       path: "/fulfillmentlocation",
       name: "fulfillmentlocation",
-      component: () => import("@/views/common/fulfillmentLocation/FulfillmentLocationView.vue"),
+      component: () =>
+        import("@/views/common/fulfillmentLocation/FulfillmentLocationView.vue"),
     },
     {
       path: "/fulfillmentlocation/:id",
       name: "fulfillmentlocationdetails",
-      component: () => import("@/views/common/fulfillmentLocation/FulfillmentLocationDetailsView.vue"),
+      component: () =>
+        import("@/views/common/fulfillmentLocation/FulfillmentLocationDetailsView.vue"),
     },
-
 
     // invoice
     {
@@ -77,30 +87,33 @@ const router = createRouter({
     {
       path: "/invoice/create",
       name: "invoicecreate",
-      component: () => import("@/views/common/invoice/InvoiceCreateEditView.vue"),
+      component: () =>
+        import("@/views/common/invoice/InvoiceCreateEditView.vue"),
     },
 
     {
       path: "/invoice/modify/:id",
       name: "invoiceedit",
-      component: () => import("@/views/common/invoice/InvoiceCreateEditView.vue"),
+      component: () =>
+        import("@/views/common/invoice/InvoiceCreateEditView.vue"),
     },
-
-
 
     // Seller Product Listing
 
     {
       path: "/productlisting",
       name: "productlisting",
-      component: () => import("@/views/seller/productlisting/ProductListingView.vue"),
+      component: () =>
+        import("@/views/seller/productlisting/ProductListingView.vue"),
     },
     {
       path: "/productlisting/:id",
       name: "productlistingdetails",
-      component: () => import("@/views/seller/productlisting/ProductListingDetailsView.vue"),
+      component: () =>
+        import("@/views/seller/productlisting/ProductListingDetailsView.vue"),
     },
 
+   
     // Buyer
     {
       path: "/order/list",
@@ -125,10 +138,9 @@ const router = createRouter({
     {
       path: "/demand/order/:id",
       name: "demandorderdetails",
-      component: () => import("@/views/buyer/order/demand/DemandOrderDetailsView.vue"),
+      component: () =>
+        import("@/views/buyer/order/demand/DemandOrderDetailsView.vue"),
     },
-
-
 
     // Market Order
     {
@@ -142,7 +154,6 @@ const router = createRouter({
       name: "marketorderdetails",
       component: () => import("@/views/market/MarketOrderDetailsView.vue"),
     },
-
 
     {
       path: "/payment/list",
@@ -162,24 +173,24 @@ const router = createRouter({
       path: "/shipping",
       meta: { requiresAuth: true },
       children: [
-
         {
           path: "shipment-summary",
           name: "shipmentsummary",
-          component: () => import("@/views/common/shipping/ShipmentSummaryView.vue"),
+          component: () =>
+            import("@/views/common/shipping/ShipmentSummaryView.vue"),
         },
         {
           path: "shipments-and-groups",
           name: "shipmentandgroup",
-          component: () => import("@/views/common/shipping/ShipmentAndGroupView.vue"),
+          component: () =>
+            import("@/views/common/shipping/ShipmentAndGroupView.vue"),
         },
         {
           path: "driver-shipments",
           name: "drivershipment",
-          component: () => import("@/views/common/shipping/DriverShipmentView.vue"),
+          component: () =>
+            import("@/views/common/shipping/DriverShipmentView.vue"),
         },
-
-
       ],
     },
     {
@@ -192,9 +203,9 @@ const router = createRouter({
             {
               path: "SalesOrder",
               name: "reportsalesorder",
-              component: () => import("@/views/common/report/sales/ReportSalesView.vue"),
+              component: () =>
+                import("@/views/common/report/sales/ReportSalesView.vue"),
             },
-
           ],
         },
         {
@@ -203,83 +214,85 @@ const router = createRouter({
             {
               path: "Seller",
               name: "reportshippingseller",
-              component: () => import("@/views/common/report/shipping/ReportShippingSellerView.vue"),
+              component: () =>
+                import("@/views/common/report/shipping/ReportShippingSellerView.vue"),
             },
             {
               path: "Buyer",
               name: "reportshippingbuyer",
-              component: () => import("@/views/common/report/shipping/ReportShippingBuyerView.vue"),
+              component: () =>
+                import("@/views/common/report/shipping/ReportShippingBuyerView.vue"),
             },
             {
               path: "Shipment",
               name: "reportshippingshipment",
-              component: () => import("@/views/common/report/shipping/ReportShippingShipmentView.vue"),
+              component: () =>
+                import("@/views/common/report/shipping/ReportShippingShipmentView.vue"),
             },
           ],
-        }
+        },
       ],
     },
-
 
     {
       path: "/accounting",
       meta: { requiresAuth: true },
       children: [
-
         {
           path: "account/summary",
           name: "accountsummary",
-          component: () => import("@/views/common/accounting/account/AccountSummaryView.vue"),
+          component: () =>
+            import("@/views/common/accounting/account/AccountSummaryView.vue"),
         },
         {
           path: "account",
           name: "accountlist",
-          component: () => import("@/views/common/accounting/account/AccntAccountView.vue"),
+          component: () =>
+            import("@/views/common/accounting/account/AccntAccountView.vue"),
         },
 
         {
           path: "account/details/:id",
           name: "accountdetails",
-          component: () => import("@/views/common/accounting/account/AccntAccountDetailsView.vue"),
+          component: () =>
+            import("@/views/common/accounting/account/AccntAccountDetailsView.vue"),
         },
 
         // Settlement Preview
         {
           path: "account/settlement-preview",
           name: "settlementpreview",
-          component: () => import("@/views/common/accounting/account/settlement/SettlementPreviewView.vue"),
+          component: () =>
+            import("@/views/common/accounting/account/settlement/SettlementPreviewView.vue"),
         },
         {
           path: "account/settlement-batch",
           name: "settlementbatch",
-          component: () => import("@/views/common/accounting/account/settlement/SettlementBatchView.vue"),
+          component: () =>
+            import("@/views/common/accounting/account/settlement/SettlementBatchView.vue"),
         },
         {
           path: "account/settlement-batch/:id",
           name: "settlementbatchdetails",
-          component: () => import("@/views/common/accounting/account/settlement/SettlementBatchDetailsView.vue"),
+          component: () =>
+            import("@/views/common/accounting/account/settlement/SettlementBatchDetailsView.vue"),
         },
-
       ],
     },
 
-    // Admin 
+    // Admin
 
     {
       path: "/admin",
       meta: { requiresAuth: true },
       children: [
-
         {
           path: "admin-user",
           name: "adminuserlist",
           component: () => import("@/views/admin/AdminUserListView.vue"),
-        }
+        },
       ],
-
     },
-
-
 
     // Master Routes
     {
@@ -311,12 +324,14 @@ const router = createRouter({
         {
           path: "depot/details/:id",
           name: "mstdepotdetails",
-          component: () => import("@/views/master/depot/MstDepotDetailsView.vue"),
+          component: () =>
+            import("@/views/master/depot/MstDepotDetailsView.vue"),
         },
         {
           path: "depot/details/orders/:id",
           name: "mstdepotorders",
-          component: () => import("@/views/master/depot/MstDepotOrdersView.vue"),
+          component: () =>
+            import("@/views/master/depot/MstDepotOrdersView.vue"),
         },
 
         // Product Category Route
@@ -329,8 +344,7 @@ const router = createRouter({
         {
           path: "product",
           name: "mstproduct",
-          component: () =>
-            import("@/views/master/product/ProductView.vue"),
+          component: () => import("@/views/master/product/ProductView.vue"),
         },
         {
           path: "product/variant",
@@ -348,8 +362,7 @@ const router = createRouter({
         {
           path: "charge",
           name: "mstcharge",
-          component: () =>
-            import("@/views/master/charge/MstChargeView.vue"),
+          component: () => import("@/views/master/charge/MstChargeView.vue"),
         },
         {
           path: "charge/level",
@@ -397,40 +410,44 @@ const router = createRouter({
           component: () => import("@/views/master/geography/MstStateView.vue"),
         },
 
-
         // Settings
 
         {
           path: "setting/finance-year",
           name: "mstfinanceyear",
-          component: () => import("@/views/master/setting/MstFinanceYearView.vue"),
+          component: () =>
+            import("@/views/master/setting/MstFinanceYearView.vue"),
         },
         {
           path: "setting/app-setting",
           name: "mstappsetting",
-          component: () => import("@/views/master/setting/MstAppSettingView.vue"),
+          component: () =>
+            import("@/views/master/setting/MstAppSettingView.vue"),
         },
         {
           path: "setting/cutoff-setting",
           name: "mstcutoffsetting",
-          component: () => import("@/views/master/setting/MstCutoffSettingView.vue"),
+          component: () =>
+            import("@/views/master/setting/MstCutoffSettingView.vue"),
         },
         {
           path: "setting/finance-setting",
           name: "mstfinancesetting",
-          component: () => import("@/views/master/setting/MstFinanceSettingView.vue"),
+          component: () =>
+            import("@/views/master/setting/MstFinanceSettingView.vue"),
         },
         {
           path: "setting/payment-setting",
           name: "mstpaymentsetting",
-          component: () => import("@/views/master/setting/MstPaymentSetting.vue"),
+          component: () =>
+            import("@/views/master/setting/MstPaymentSetting.vue"),
         },
         {
           path: "setting/business-setting",
           name: "mstbusinesssetting",
-          component: () => import("@/views/master/setting/MstBusinessSettingView.vue"),
+          component: () =>
+            import("@/views/master/setting/MstBusinessSettingView.vue"),
         },
-
       ],
     },
   ],

@@ -9,7 +9,7 @@ const customerApiRoutes = {
     },
 
     getCustomerList(filters = {}) {
-        return Api.admin.get("/customer/customer", { queryParams: filters });
+        return Api.admin.get("/customer/list", { queryParams: filters });
     },
 
     createCustomer(data) {
