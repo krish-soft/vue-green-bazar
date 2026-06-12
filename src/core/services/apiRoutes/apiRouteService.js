@@ -1,5 +1,6 @@
 // apiRouteService.js
 
+import { Api } from "../api/api.js";
 import authApiRoutes from "./routes/authApiRoutes.js";
 import masterApiRoutes from "./routes/master/masterApiRoutes.js";
 import userLegalApiRoutes from "./routes/legal/userLegalApiRoutes.js";
@@ -15,29 +16,30 @@ import marketApiRoutes from "./routes/common/marketApiRoutes.js";
 import cmdApiRoutes from "./routes/common/cmdApiRoutes.js";
 import invoiceApiRoutes from "./routes/common/invoiceApiRoutes.js";
 import adminUserApiRoutes from "./routes/common/adminUserApiRoutes.js";
-// later add more
 
 const apiRouteService = {
-  ...utilsApiRoutes,
-  ...authApiRoutes,
-  ...masterApiRoutes,
-  ...userLegalApiRoutes,
-  ...customerApiRoutes,
+    ...utilsApiRoutes,
+    ...authApiRoutes,
+    ...masterApiRoutes,
+    ...userLegalApiRoutes,
+    ...customerApiRoutes,
+    ...fulfillmentLocationApiRoutes,
+    ...sellerApiRoutes,
+    ...buyerApiRoutes,
+    ...reportApiRoutes,
+    ...accountingApiRoutes,
+    ...shippingApiRoutes,
+    ...marketApiRoutes,
+    ...cmdApiRoutes,
+    ...invoiceApiRoutes,
+    ...adminUserApiRoutes,
 
-  ...fulfillmentLocationApiRoutes,
-  ...sellerApiRoutes,
-  ...buyerApiRoutes,
-  ...reportApiRoutes,
-
-  ...accountingApiRoutes,
-  ...shippingApiRoutes,
-  ...marketApiRoutes,
-  ...cmdApiRoutes,
-  ...invoiceApiRoutes,
-
-  ...adminUserApiRoutes,
-  // ...productApiRoutes,
-  // ...orderApiRoutes,
+    // Change Password API
+    changePassword(data) {
+    return Api.admin.put("/profile/password", {
+        data
+    });
+}
 };
 
 export default apiRouteService;
