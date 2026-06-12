@@ -354,17 +354,20 @@
                             <td>{{ flLocation.name }}</td>
                             <td>{{ flLocation.type }}</td>
                             <td>
-                                {{ flLocation.address.address_line1 }},
-                                {{ flLocation.address.address_line2 }},
-                                <br>
-                                {{ flLocation.address.village }},
-                                {{ flLocation.address.city }},
-                                {{ flLocation.address.postal_code }},
-                                {{ flLocation.address.state }}
-                                <br>
-                                C:{{ flLocation.address.contact_name }} <br>
-                                P:{{ flLocation.address.phone_number }}
-
+                                <template v-if="flLocation.address">
+                                    <span v-if="flLocation.address?.address_line1">{{ flLocation.address.address_line1 }}, </span>
+                                    <span v-if="flLocation.address?.address_line2">{{ flLocation.address.address_line2 }},</span>
+                                    <br v-if="flLocation.address?.address_line1 || flLocation.address?.address_line2" />
+                                    <span v-if="flLocation.address?.village">{{ flLocation.address.village }}, </span>
+                                    <span v-if="flLocation.address?.city">{{ flLocation.address.city }}, </span>
+                                    <span v-if="flLocation.address?.postal_code">{{ flLocation.address.postal_code }}, </span>
+                                    <span v-if="flLocation.address?.state">{{ flLocation.address.state }}</span>
+                                    <br v-if="flLocation.address?.contact_name || flLocation.address?.phone_number" />
+                                    <span v-if="flLocation.address?.contact_name">C: {{ flLocation.address.contact_name }}</span>
+                                    <br v-if="flLocation.address?.contact_name && flLocation.address?.phone_number" />
+                                    <span v-if="flLocation.address?.phone_number">P: {{ flLocation.address.phone_number }}</span>
+                                </template>
+                                <span v-else class="text-muted">-</span>
                             </td>
                             <td>
                                 <StatusBadge :status="flLocation.status" />
