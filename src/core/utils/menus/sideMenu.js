@@ -150,10 +150,19 @@ export const sideMenu = [
             match: "exact",
           },
         ],
-      }
+      },
 
+      {
+        label: "Audit Log",
+        icon: "fas fa-clipboard-list",
+        to: { name: "AuditLog" },
+        match: "exact",
+      },
 
+      
     ],
+           
+      
   },
 
 

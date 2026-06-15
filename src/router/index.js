@@ -3,7 +3,6 @@ import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "@/core/utils/stores/authStore";
 import { useErrorStore } from "@/core/utils/stores/errorStore"; // Import Pinia store
 
-
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -24,7 +23,7 @@ const router = createRouter({
       component: () => import("@/views/customer/CustomerDetailsView.vue"),
     },
 
-     //customer list
+    //customer list
 
     {
       path: "/customer-list",
@@ -113,7 +112,6 @@ const router = createRouter({
         import("@/views/seller/productlisting/ProductListingDetailsView.vue"),
     },
 
-   
     // Buyer
     {
       path: "/order/list",
@@ -193,6 +191,14 @@ const router = createRouter({
         },
       ],
     },
+
+    // auditlog
+    {
+      path: "/audit-log",
+      name: "AuditLog",
+      component: () => import("@/views/common/report/auditlog/AuditLog.vue"),
+    },
+
     {
       path: "/report",
       meta: { requiresAuth: true },

@@ -1,6 +1,9 @@
 // apiRouteService.js
 
 import { Api } from "../api/api.js";
+
+//auditlog
+// import auditLogApiRoutes from "./routes/common/auditLogApiRoutes.js";
 import authApiRoutes from "./routes/authApiRoutes.js";
 import masterApiRoutes from "./routes/master/masterApiRoutes.js";
 import userLegalApiRoutes from "./routes/legal/userLegalApiRoutes.js";
@@ -38,6 +41,15 @@ const apiRouteService = {
     changePassword(data) {
     return Api.admin.put("/profile/password", {
         data
+    });
+
+    
+    
+},
+//auditlog 
+auditLog(queryParams) {
+    return Api.admin.get("/report/audit-logs", {
+        queryParams
     });
 }
 };
