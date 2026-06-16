@@ -36,6 +36,8 @@
                         <th>#</th>
                         <th>User Code</th>
                         <th>Name</th>
+                        <th>Nickname</th>
+                        
                         <th>Email</th>
                         <th>Phone</th>
                         <th>Role</th>
