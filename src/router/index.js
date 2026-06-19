@@ -2,6 +2,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "@/core/utils/stores/authStore";
 import { useErrorStore } from "@/core/utils/stores/errorStore"; // Import Pinia store
+import DriverShipmentView from "@/views/common/shipping/DriverShipmentView.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -186,8 +187,17 @@ const router = createRouter({
         {
           path: "driver-shipments",
           name: "drivershipment",
-          component: () =>
-            import("@/views/common/shipping/DriverShipmentView.vue"),
+          component: DriverShipmentView,
+        },
+        {
+          path: "active-drivers-map",
+          name: "activedriversmap",
+          component: () => import("@/views/common/shipping/ActiveDriversMapView.vue"),
+        },
+        {
+          path: "active-delivery-tracking",
+          name: "activedeliverytracking",
+          component: () => import("@/views/common/shipping/ActiveDeliveryTrackingView.vue"),
         },
       ],
     },

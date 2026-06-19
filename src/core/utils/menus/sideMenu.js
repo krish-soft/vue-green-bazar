@@ -101,6 +101,18 @@ export const sideMenu = [
         to: { name: "drivershipment" },
         match: "exact",
       },
+      {
+        label: "Active Drivers Map",
+        icon: "fas fa-map-marker-alt",
+        to: { name: "activedriversmap" },
+        match: "exact",
+      },
+      {
+        label: "Active Delivery Tracking",
+        icon: "fas fa-route",
+        to: { name: "activedeliverytracking" },
+        match: "exact",
+      },
 
     ],
   },

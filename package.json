@@ -21,7 +21,9 @@
     "datatables.net-fixedcolumns": "^5.0.5",
     "datatables.net-fixedcolumns-bs5": "^5.0.5",
     "jquery": "^3.7.1",
+    "leaflet": "^1.9.4",
     "pinia": "^3.0.4",
+    "sweetalert2": "^11.26.25",
     "vue": "^3.5.24",
     "vue-cryptojs": "^2.4.7",
     "vue-router": "^4.6.4"
