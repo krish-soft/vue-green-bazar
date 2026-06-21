@@ -42,15 +42,6 @@ const apiRouteService = {
     return Api.admin.put("/profile/password", {
         data
     });
-
-    
-    
-},
-//auditlog 
-auditLog(queryParams) {
-    return Api.admin.get("/report/audit-logs", {
-        queryParams
-    });
 }
 };
 

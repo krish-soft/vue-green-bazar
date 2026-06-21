@@ -34,3 +34,21 @@ export const fetchShippingReportByShipment = (filters = {}) =>
     withUI(() => apiRouteService.getShippingReportByShipment(filters), {
         showSuccessMessage: false,
     });
+
+
+export const fetchAuditLogs = (filters = {}) =>
+    withUI(() => apiRouteService.getAuditLogs(filters), {
+        showSuccessMessage: false,
+    });
+
+
+export const fetchActivityLogs = (filters = {}) =>
+    withUI(() => apiRouteService.getActivityLogs(filters), {
+        showSuccessMessage: false,
+    });
+
+
+export const fetchLogsSummary = (filters = {}) =>
+    withUI(() => apiRouteService.getLogsSummary(filters), {
+        showSuccessMessage: false,
+    });

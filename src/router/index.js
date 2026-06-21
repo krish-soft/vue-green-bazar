@@ -202,11 +202,26 @@ const router = createRouter({
       ],
     },
 
-    // auditlog
     {
-      path: "/audit-log",
-      name: "AuditLog",
-      component: () => import("@/views/common/report/auditlog/AuditLog.vue"),
+      path: "/logs",
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: "audit",
+          name: "logaudit",
+          component: () => import("@/views/common/report/logs/AuditLogView.vue"),
+        },
+        {
+          path: "activity",
+          name: "logactivity",
+          component: () => import("@/views/common/report/logs/ActivityLogView.vue"),
+        },
+        {
+          path: "security-summary",
+          name: "logsecuritysummary",
+          component: () => import("@/views/common/report/logs/LogSecuritySummaryView.vue"),
+        },
+      ],
     },
 
     {

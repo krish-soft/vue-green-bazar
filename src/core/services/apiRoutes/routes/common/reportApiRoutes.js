@@ -26,6 +26,18 @@ const reportApiRoutes = {
         return Api.admin.get("/report/shipping/shipment", { queryParams: filters });
     },
 
+    getAuditLogs(filters = {}) {
+        return Api.admin.get("/report/logs/audit", { queryParams: filters });
+    },
+
+    getActivityLogs(filters = {}) {
+        return Api.admin.get("/report/logs/activity", { queryParams: filters });
+    },
+
+    getLogsSummary(filters = {}) {
+        return Api.admin.get("/report/logs/summary", { queryParams: filters });
+    },
+
 
 
 

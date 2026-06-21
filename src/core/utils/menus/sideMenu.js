@@ -177,17 +177,36 @@ export const sideMenu = [
         ],
       },
 
-      {
-        label: "Audit Log",
-        icon: "fas fa-clipboard-list",
-        to: { name: "AuditLog" },
-        match: "exact",
-      },
-
-      
     ],
            
       
+  },
+
+  {
+    label: "Logs",
+    icon: "fas fa-shield-alt",
+    module: AppModuleEnum.REPORTS,
+    match: "children",
+    children: [
+      {
+        label: "Audit Logs",
+        icon: "fas fa-clipboard-check",
+        to: { name: "logaudit" },
+        match: "exact",
+      },
+      {
+        label: "Activity Logs",
+        icon: "fas fa-stream",
+        to: { name: "logactivity" },
+        match: "exact",
+      },
+      {
+        label: "Security Summary",
+        icon: "fas fa-user-shield",
+        to: { name: "logsecuritysummary" },
+        match: "exact",
+      },
+    ],
   },
 
 
