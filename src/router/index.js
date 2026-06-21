@@ -255,6 +255,12 @@ const router = createRouter({
       meta: { requiresAuth: true },
       children: [
         {
+          path: "balance-report",
+          name: "accountbalance_report",
+          component: () =>
+            import("@/views/common/accounting/report/AccountingBalanceReportView.vue"),
+        },
+        {
           path: "account/summary",
           name: "accountsummary",
           component: () =>

@@ -163,6 +163,19 @@ export const sideMenu = [
           },
         ],
       },
+      {
+        label: "Accounting",
+        icon: "fas fa-file-invoice-dollar",
+        match: "children",
+        children: [
+          {
+            label: "Balance Report",
+            icon: "fas fa-scale-balanced",
+            to: { name: "accountbalance_report" },
+            match: "exact",
+          },
+        ],
+      },
 
       {
         label: "Audit Log",
@@ -246,6 +259,12 @@ export const sideMenu = [
     module: AppModuleEnum.ACCOUNTINGS,
     match: "children",
     children: [
+      {
+        label: "Balance Report",
+        icon: "fas fa-file-invoice-dollar",
+        to: { name: "accountbalance_report" },
+        match: "exact",
+      },
       {
         label: "Payments",
         icon: "fas fa-credit-card",
