@@ -207,19 +207,24 @@ const router = createRouter({
       meta: { requiresAuth: true },
       children: [
         {
+          path: "all",
+          name: "logsall",
+          component: () => import("@/views/common/report/log-reports/LogsView.vue"),
+        },
+        {
           path: "audit",
           name: "logaudit",
-          component: () => import("@/views/common/report/logs/AuditLogView.vue"),
+          component: () => import("@/views/common/report/log-reports/AuditLogView.vue"),
         },
         {
           path: "activity",
           name: "logactivity",
-          component: () => import("@/views/common/report/logs/ActivityLogView.vue"),
+          component: () => import("@/views/common/report/log-reports/ActivityLogView.vue"),
         },
         {
           path: "security-summary",
           name: "logsecuritysummary",
-          component: () => import("@/views/common/report/logs/LogSecuritySummaryView.vue"),
+          component: () => import("@/views/common/report/log-reports/LogSecuritySummaryView.vue"),
         },
       ],
     },
